@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name" translatable="false">Soccer News Australia</string>
+    <string name="no_network_connection" translatable="false">Not connected</string>
+    <string name="start_offline" translatable="false">You need to be online.</string>
+    <string name="socceroos_title" translatable="false">Socceroos</string>
+    <string name="aleague_title" translatable="false">A-League</string>
+    <string name="ptr_pull_text" translatable="false">Swipe down to refresh</string>
+    <string name="ptr_refreshing_text" translatable="false">Looking for new content&#8230;</string>
+    <string name="content_error_bad_connection" translatable="false">Weak or no internet connection</string>
+    <string name="content_failed_to_load" translatable="false">"Unfortunately, the content didn't load."</string>
+    <string name="action_share" translatable="false">Share</string>
+    <string name="action_browser" translatable="false">View in browser</string>
+    <string name="settings" translatable="false">Settings</string>
+    <string name="about_preference_category_key" translatable="false">aboutCategory</string>
+    <string name="about_capitalized" translatable="false">ABOUT</string>
+    <string name="open_source_licenses" translatable="false">Open Source Licenses</string>
+    <string name="open_source_licenses_description" translatable="false">Legal information about licenses</string>
+    <string name="open_source_licenses_url" translatable="false">file:///android_asset/html/licences.html</string>
+    <string name="terms_of_service" translatable="false">Terms of Service</string>
+    <string name="terms_of_service_url" translatable="false">http://www.goal.com/en-au/legal/terms-conditions?ICID=OP</string>
+    <string name="privacy_policy" translatable="false">Privacy Policy</string>
+    <string name="privacy_policy_url" translatable="false">http://www.goal.com/en-au/legal/privacy-policy?ICID=OP</string>
+    <string name="usage_policy" translatable="false">Usage Policy</string>
+    <string name="usage_policy_description" translatable="false">Soccer News Australia is for personal and non-commercial use only.</string>
+    <string name="terms_of_service_preference_key" translatable="false">termsOfService</string>
+    <string name="privacy_policy_preference_key" translatable="false">privacyPolicy</string>
+    <string name="open_source_licenses_preference_key" translatable="false">openSourceLicenses</string>
+    <string name="release" translatable="false">Version %1$s | Build %2$s</string>
+    <string name="usage_policy_preference_key" translatable="false">usagePolicy</string>
+    <string name="version_preference_key" translatable="false">about</string>
+
+</resources>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- The value of android:id should be "list_cardId" due to cardslib restriction -->
+<it.gmariotti.cardslib.library.view.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/list_cardId"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/news_card_id_padding"
+    android:paddingLeft="@dimen/news_card_id_padding"
+    android:paddingRight="@dimen/news_card_id_padding"
+    android:paddingTop="@dimen/news_card_id_padding"
+    card:card_layout_resourceID="@layout/news_card_item" />

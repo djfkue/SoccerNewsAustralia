@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- HomeActivity -->
+    <color name="home_activity_background">#ffe4e4e4</color>
+    <color name="holo_light_pressed">#33cccccc</color>
+    
+    <!-- NewsCardThumbnail -->
+    <color name="news_card_thumbnail_background">#fff4f4f4</color>
+
+    <!-- NewsCard -->
+    <color name="news_card_title_text_color">#ff333333</color>
+
+    <!-- ArticleView -->
+    <color name="article_title_text_color">#ff333333</color>
+    <color name="article_author_text_color">#ff4e4e4e</color>
+    <color name="article_text_text_color">#ff434343</color>
+
+    <!-- NavDrawerEntry -->
+    <color name="nav_drawer_background">#ffffffff</color>
+
+    <item name="nav_drawer_pressed" type="color">@color/holo_light_pressed</item>
+
+    <color name="nav_drawer_text">#ff333333</color>
+
+    <!-- NavDrawerFragment -->
+    <color name="nav_drawer_misc_background">#fff7f7f7</color>
+
+    <!-- SettingsEntry -->
+    <color name="nav_drawer_misc_divider">#ffe5e5e5</color>
+    <color name="nav_drawer_misc_text">#ff666666</color>
+
+    <!-- LoadingView -->
+    <color name="loading_view_text_color">#ffb2b2b2</color>
+
+</resources>
