@@ -9,6 +9,8 @@ import it.gmariotti.cardslib.library.view.CardListView;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshLayout;
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
 import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -59,8 +61,6 @@ public abstract class HomeFragment extends Fragment implements
 		LOAD_MORE_DOWNLOAD_FAIL
 	}
 
-	private State mState = State.NOT_INITIALIZED;
-
 	// The handler to deal with feed content request
 	private Handler mHandler = new Handler(Looper.getMainLooper()) {
 
@@ -93,6 +93,8 @@ public abstract class HomeFragment extends Fragment implements
 	private FeedManager mFeedManager = FeedManager.instance();
 	private ArrayList<Page> mPageList = new ArrayList<Page>();
 	private CardArrayAdapter mCardArrayAdapter;
+	private State mState = State.NOT_INITIALIZED;
+	private Context mContext;
 
 	public static final HomeFragment SOCCEROOS_FRAGMENT;
 	public static final HomeFragment ALEAGUE_FRAGMENT;
@@ -101,6 +103,15 @@ public abstract class HomeFragment extends Fragment implements
 		SOCCEROOS_FRAGMENT = new SocceroosFragment();
 
 		ALEAGUE_FRAGMENT = new ALeagueFragment();
+	}
+
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+
+		if (mContext == null) {
+			mContext = activity.getApplicationContext();
+		}
 	}
 
 	@Override
@@ -118,6 +129,7 @@ public abstract class HomeFragment extends Fragment implements
 		View view = inflater.inflate(R.layout.home_fragment, container, false);
 
 		// Create pull to refresh action bar
+		// p.s. getActivity() should not be null
 		mPullToRefreshLayout = (PullToRefreshLayout) view
 				.findViewById(R.id.pull_to_fresh_layout);
 		ActionBarPullToRefresh.from(getActivity()).allChildrenArePullable()
@@ -168,7 +180,7 @@ public abstract class HomeFragment extends Fragment implements
 		super.onActivityCreated(savedInstanceState);
 
 		if (mState == State.NOT_INITIALIZED) {
-			if (ConnectionManager.instance().isConnected(getActivity())) {
+			if (ConnectionManager.instance().isConnected(mContext)) {
 				// Start to initialize for the first time
 				onInitializeDownloading();
 				mFeedManager.requestDownloadFeed(mHandler, getFeedUrl());
@@ -193,7 +205,7 @@ public abstract class HomeFragment extends Fragment implements
 		if (mState == State.INITIALIZE_DOWNLOAD_FAIL
 				|| mState == State.INITIALIZE_DOWNLOAD_FAIL_NO_NETWORK) {
 			// Pull to refresh to re-initialize
-			if (ConnectionManager.instance().isConnected(getActivity())) {
+			if (ConnectionManager.instance().isConnected(mContext)) {
 				// Network is OK to re-initialize
 				onInitializeDownloading();
 				mFeedManager.requestDownloadFeed(mHandler, getFeedUrl());
@@ -202,7 +214,7 @@ public abstract class HomeFragment extends Fragment implements
 			}
 		} else {
 			// Pull to refresh to download
-			if (ConnectionManager.instance().isConnected(getActivity())) {
+			if (ConnectionManager.instance().isConnected(mContext)) {
 				// Network is OK to download
 				onPullToRefreshDownloading();
 				mFeedManager.requestDownloadFeed(mHandler, getFeedUrl());
@@ -466,7 +478,7 @@ public abstract class HomeFragment extends Fragment implements
 
 	private void showPageList(ArrayList<Page> pageList) {
 		// Parent activity cannot be null
-		if (getActivity() != null) {
+		if (mContext != null) {
 			// Create a card list
 			ArrayList<Card> cardList = new ArrayList<Card>();
 
@@ -477,7 +489,7 @@ public abstract class HomeFragment extends Fragment implements
 				// For each news
 				for (final News news : newsList) {
 					// Create a news card
-					NewsCard newsCard = new NewsCard(getActivity(), news);
+					NewsCard newsCard = new NewsCard(mContext, news);
 
 					// Setup news card
 					newsCard.setOnClickListener(new OnCardClickListener() {
@@ -508,14 +520,14 @@ public abstract class HomeFragment extends Fragment implements
 			}
 
 			// Create card array adapter and add to list view
-			mCardArrayAdapter = new CardArrayAdapter(getActivity(), cardList);
+			mCardArrayAdapter = new CardArrayAdapter(mContext, cardList);
 			mCardListView.setAdapter(mCardArrayAdapter);
 		}
 	}
 
 	private void restorePageList(ArrayList<Page> pageList) {
 		// Parent activity cannot be null
-		if (getActivity() != null) {
+		if (mContext != null) {
 			mCardListView.setAdapter(mCardArrayAdapter);
 		}
 	}
@@ -526,7 +538,7 @@ public abstract class HomeFragment extends Fragment implements
 			pageList.add(page);
 
 			// Parent activity cannot be null
-			if (getActivity() != null) {
+			if (mContext != null) {
 				// Create a card list
 				ArrayList<Card> cardList = new ArrayList<Card>();
 
@@ -535,7 +547,7 @@ public abstract class HomeFragment extends Fragment implements
 				// For each news
 				for (final News news : newsList) {
 					// Create a news card
-					NewsCard newsCard = new NewsCard(getActivity(), news);
+					NewsCard newsCard = new NewsCard(mContext, news);
 
 					// Setup news card
 					newsCard.setOnClickListener(new OnCardClickListener() {
