@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import it.gmariotti.cardslib.library.internal.Card;
 import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
 import it.gmariotti.cardslib.library.internal.Card.OnCardClickListener;
-import it.gmariotti.cardslib.library.view.CardListView;
+import it.gmariotti.cardslib.library.internal.CardGridArrayAdapter;
+import it.gmariotti.cardslib.library.view.CardGridView;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshLayout;
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
 import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
@@ -34,6 +35,8 @@ import com.luxiliu.soccernewsaustralia.model.Content;
 import com.luxiliu.soccernewsaustralia.model.News;
 import com.luxiliu.soccernewsaustralia.model.Page;
 import com.luxiliu.soccernewsaustralia.net.ConnectionManager;
+import com.luxiliu.soccernewsaustralia.widget.CardHeaderGridArrayAdapter;
+import com.luxiliu.soccernewsaustralia.widget.CardHeaderGridView;
 import com.luxiliu.soccernewsaustralia.widget.LoadingView;
 
 /**
@@ -85,14 +88,14 @@ public abstract class HomeFragment extends Fragment implements
 	private boolean mClickable = true;
 	private LoadingView mLoadingView;
 	private PullToRefreshLayout mPullToRefreshLayout;
-	private CardListView mCardListView;
+	private CardHeaderGridView mCardHeaderGridView;
 	private View mHeaderView;
 	private View mFooterView;
 	private View mLoadMoreView;
 
 	private FeedManager mFeedManager = FeedManager.instance();
 	private ArrayList<Page> mPageList = new ArrayList<Page>();
-	private CardArrayAdapter mCardArrayAdapter;
+	private CardHeaderGridArrayAdapter mCardHeaderArrayAdapter;
 	private State mState = State.NOT_INITIALIZED;
 	private Context mContext;
 
@@ -139,8 +142,9 @@ public abstract class HomeFragment extends Fragment implements
 		mLoadingView = (LoadingView) view.findViewById(R.id.loading_view);
 
 		// Create CardListView
-		mCardListView = (CardListView) view.findViewById(R.id.news_card_list);
-		mCardListView.setOnScrollListener(new OnScrollListener() {
+		mCardHeaderGridView = (CardHeaderGridView) view
+				.findViewById(R.id.news_card_list);
+		mCardHeaderGridView.setOnScrollListener(new OnScrollListener() {
 
 			@Override
 			public void onScroll(AbsListView view, int firstVisibleItem,
@@ -167,8 +171,8 @@ public abstract class HomeFragment extends Fragment implements
 		// Set card list view header and footer
 		mHeaderView = inflater.inflate(R.layout.header_footer, null, false);
 		mFooterView = inflater.inflate(R.layout.header_footer, null, false);
-		mCardListView.addHeaderView(mHeaderView);
-		mCardListView.addFooterView(mFooterView);
+		mCardHeaderGridView.addHeaderView(mHeaderView);
+		mCardHeaderGridView.addFooterView(mFooterView);
 
 		// Create load more view
 		mLoadMoreView = inflater.inflate(R.layout.load_more_view, null, false);
@@ -520,15 +524,16 @@ public abstract class HomeFragment extends Fragment implements
 			}
 
 			// Create card array adapter and add to list view
-			mCardArrayAdapter = new CardArrayAdapter(mContext, cardList);
-			mCardListView.setAdapter(mCardArrayAdapter);
+			mCardHeaderArrayAdapter = new CardHeaderGridArrayAdapter(mContext,
+					cardList);
+			mCardHeaderGridView.setAdapter(mCardHeaderArrayAdapter);
 		}
 	}
 
 	private void restorePageList(ArrayList<Page> pageList) {
 		// Parent activity cannot be null
 		if (mContext != null) {
-			mCardListView.setAdapter(mCardArrayAdapter);
+			mCardHeaderGridView.setAdapter(mCardHeaderArrayAdapter);
 		}
 	}
 
@@ -577,8 +582,8 @@ public abstract class HomeFragment extends Fragment implements
 				}
 
 				// Add card list to adapter and notify data changed
-				mCardArrayAdapter.addAll(cardList);
-				mCardArrayAdapter.notifyDataSetChanged();
+				mCardHeaderArrayAdapter.addAll(cardList);
+				mCardHeaderArrayAdapter.notifyDataSetChanged();
 			}
 		}
 	}
@@ -586,13 +591,13 @@ public abstract class HomeFragment extends Fragment implements
 	private void setLoadingMoreFooterEnabled(boolean enabled) {
 		if (enabled) {
 			// Add load more view to footer
-			if (mCardListView.getFooterViewsCount() == 1) {
-				mCardListView.addFooterView(mLoadMoreView);
+			if (mCardHeaderGridView.getFooterViewCount() == 1) {
+				mCardHeaderGridView.addFooterView(mLoadMoreView);
 			}
 		} else {
 			// Remove load more view from footer
-			if (mCardListView.getFooterViewsCount() == 2) {
-				mCardListView.removeFooterView(mLoadMoreView);
+			if (mCardHeaderGridView.getFooterViewCount() == 2) {
+				mCardHeaderGridView.removeFooterView(mLoadMoreView);
 			}
 		}
 	}
