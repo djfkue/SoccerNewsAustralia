@@ -3,10 +3,7 @@ package com.luxiliu.soccernewsaustralia.home;
 import java.util.ArrayList;
 
 import it.gmariotti.cardslib.library.internal.Card;
-import it.gmariotti.cardslib.library.internal.CardArrayAdapter;
 import it.gmariotti.cardslib.library.internal.Card.OnCardClickListener;
-import it.gmariotti.cardslib.library.internal.CardGridArrayAdapter;
-import it.gmariotti.cardslib.library.view.CardGridView;
 import uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshLayout;
 import uk.co.senab.actionbarpulltorefresh.library.ActionBarPullToRefresh;
 import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
@@ -276,7 +273,7 @@ public abstract class HomeFragment extends Fragment implements
 		// Update view
 		mPullToRefreshLayout.setEnabled(true);
 		mPullToRefreshLayout.setRefreshing(false);
-		mLoadingView.setDownloadSucceed(true);
+		mLoadingView.setDownloadComplete();
 		showPageList(mPageList);
 	}
 
@@ -290,7 +287,7 @@ public abstract class HomeFragment extends Fragment implements
 		// Update view
 		mPullToRefreshLayout.setEnabled(true);
 		mPullToRefreshLayout.setRefreshing(false);
-		mLoadingView.setDownloadSucceed(false);
+		mLoadingView.setDownloadFailNoContent();
 	}
 
 	private void onInitializeFailNoNetwork() {
@@ -299,7 +296,7 @@ public abstract class HomeFragment extends Fragment implements
 
 		mPullToRefreshLayout.setEnabled(true);
 		mPullToRefreshLayout.setRefreshing(false);
-		mLoadingView.setNoNetwork();
+		mLoadingView.setDownloadFailNoNetwork();
 	}
 
 	private void onPullToRefreshDownloading() {
@@ -323,7 +320,7 @@ public abstract class HomeFragment extends Fragment implements
 		// Update view
 		mPullToRefreshLayout.setEnabled(true);
 		mPullToRefreshLayout.setRefreshing(false);
-		mLoadingView.setDownloadSucceed(true);
+		mLoadingView.setDownloadComplete();
 		showPageList(mPageList);
 	}
 
@@ -335,7 +332,7 @@ public abstract class HomeFragment extends Fragment implements
 		// Just update view
 		mPullToRefreshLayout.setEnabled(true);
 		mPullToRefreshLayout.setRefreshing(false);
-		mLoadingView.setDownloadSucceed(true);
+		mLoadingView.setDownloadComplete();
 	}
 
 	private void onLoadMoreDownloading() {
@@ -404,19 +401,20 @@ public abstract class HomeFragment extends Fragment implements
 		case INITIALIZE_DOWNLOAD_FAIL:
 			mPullToRefreshLayout.setEnabled(true);
 			mPullToRefreshLayout.setRefreshing(false);
-			mLoadingView.setDownloadSucceed(false);
+			mLoadingView.setDownloadFailNoContent();
+			;
 			break;
 
 		case INITIALIZE_DOWNLOAD_FAIL_NO_NETWORK:
 			mPullToRefreshLayout.setEnabled(true);
 			mPullToRefreshLayout.setRefreshing(false);
-			mLoadingView.setNoNetwork();
+			mLoadingView.setDownloadFailNoNetwork();
 			break;
 
 		case INITIALIZE_DOWNLOAD_COMPLETE:
 			mPullToRefreshLayout.setEnabled(true);
 			mPullToRefreshLayout.setRefreshing(false);
-			mLoadingView.setDownloadSucceed(true);
+			mLoadingView.setDownloadComplete();
 
 			restorePageList(mPageList);
 			break;

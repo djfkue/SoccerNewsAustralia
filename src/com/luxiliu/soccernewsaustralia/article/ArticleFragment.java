@@ -212,7 +212,7 @@ public class ArticleFragment extends Fragment {
 		Log.d(LOG_TAG, mState.toString());
 
 		mArticle = new Article(content.getDocument());
-		mLoadingView.setDownloadSucceed(true);
+		mLoadingView.setDownloadComplete();
 		showArticle(mArticle);
 	}
 
@@ -220,14 +220,15 @@ public class ArticleFragment extends Fragment {
 		mState = State.INITIALIZE_DOWNLOAD_FAIL;
 		Log.d(LOG_TAG, mState.toString());
 
-		mLoadingView.setDownloadSucceed(false);
+		mLoadingView.setDownloadFailNoContent();
+		;
 	}
 
 	private void onInitializeFailNoNetwork() {
 		mState = State.INITIALIZE_DOWNLOAD_FAIL_NO_NETWORK;
 		Log.d(LOG_TAG, mState.toString());
 
-		mLoadingView.setNoNetwork();
+		mLoadingView.setDownloadFailNoNetwork();
 	}
 
 	private void restoreView(State state) {
@@ -242,15 +243,16 @@ public class ArticleFragment extends Fragment {
 			break;
 
 		case INITIALIZE_DOWNLOAD_FAIL:
-			mLoadingView.setDownloadSucceed(false);
+			mLoadingView.setDownloadFailNoContent();
+			;
 			break;
 
 		case INITIALIZE_DOWNLOAD_FAIL_NO_NETWORK:
-			mLoadingView.setNoNetwork();
+			mLoadingView.setDownloadFailNoNetwork();
 			break;
 
 		case INITIALIZE_DOWNLOAD_COMPLETE:
-			mLoadingView.setDownloadSucceed(true);
+			mLoadingView.setDownloadComplete();
 			showArticle(mArticle);
 			break;
 		}

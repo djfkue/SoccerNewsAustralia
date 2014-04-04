@@ -43,46 +43,59 @@ public class LoadingView extends RelativeLayout {
 	}
 
 	public void setDownloading() {
+		// Show the view
 		setVisibility(View.VISIBLE);
 
+		// Show the progress bar
 		mProgressBar.setVisibility(View.VISIBLE);
 
+		// Hide load result layout
 		mLoadResultLayout.setVisibility(View.GONE);
 	}
 
-	public void setDownloadSucceed(boolean succeed) {
-		if (succeed) {
-			setVisibility(View.INVISIBLE);
+	public void setDownloadComplete() {
+		// Hide the view
+		setVisibility(View.INVISIBLE);
 
-			mProgressBar.setVisibility(View.GONE);
-
-			mLoadResultLayout.setVisibility(View.GONE);
-		} else {
-			setVisibility(View.VISIBLE);
-
-			mProgressBar.setVisibility(View.GONE);
-
-			mLoadResultLayout.setVisibility(View.VISIBLE);
-
-			mImageView.setImageDrawable(getResources().getDrawable(
-					R.drawable.ic_empty_news));
-
-			mTextView.setText(getResources().getString(
-					R.string.content_failed_to_load));
-		}
-	}
-
-	public void setNoNetwork() {
-		setVisibility(View.VISIBLE);
-
+		// Hide the progress bar
 		mProgressBar.setVisibility(View.GONE);
 
+		// Hide the load result layout
+		mLoadResultLayout.setVisibility(View.GONE);
+	}
+
+	public void setDownloadFailNoNetwork() {
+		// Show the view
+		setVisibility(View.VISIBLE);
+
+		// Hide the progress bar
+		mProgressBar.setVisibility(View.GONE);
+
+		// Show the load result layout
 		mLoadResultLayout.setVisibility(View.VISIBLE);
 
+		// Show the image and message
 		mImageView.setImageDrawable(getResources().getDrawable(
 				R.drawable.ic_empty_download));
 		mTextView.setText(getResources().getString(
 				R.string.content_error_bad_connection));
+	}
+
+	public void setDownloadFailNoContent() {
+		// Show the view
+		setVisibility(View.VISIBLE);
+
+		// Hide the progress bar
+		mProgressBar.setVisibility(View.GONE);
+
+		// Show the load result layout
+		mLoadResultLayout.setVisibility(View.VISIBLE);
+
+		// Show the image and message
+		mImageView.setImageDrawable(getResources().getDrawable(
+				R.drawable.ic_empty_news));
+		mTextView.setText(getResources().getString(
+				R.string.content_failed_to_load));
 	}
 
 	private void initView() {
