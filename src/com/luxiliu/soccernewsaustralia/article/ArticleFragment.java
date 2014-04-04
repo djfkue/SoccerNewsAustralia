@@ -205,6 +205,7 @@ public class ArticleFragment extends Fragment {
 		Log.d(LOG_TAG, mState.toString());
 
 		mLoadingView.setDownloading();
+		mArticleView.setVisibility(View.INVISIBLE);
 	}
 
 	private void onInitializeDownloadComplete(Content content) {
@@ -221,7 +222,7 @@ public class ArticleFragment extends Fragment {
 		Log.d(LOG_TAG, mState.toString());
 
 		mLoadingView.setDownloadFailNoContent();
-		;
+		mArticleView.setVisibility(View.INVISIBLE);
 	}
 
 	private void onInitializeFailNoNetwork() {
@@ -229,6 +230,7 @@ public class ArticleFragment extends Fragment {
 		Log.d(LOG_TAG, mState.toString());
 
 		mLoadingView.setDownloadFailNoNetwork();
+		mArticleView.setVisibility(View.INVISIBLE);
 	}
 
 	private void restoreView(State state) {
@@ -240,15 +242,17 @@ public class ArticleFragment extends Fragment {
 
 		case INITIALIZE_DOWNLOADING:
 			mLoadingView.setDownloading();
+			mArticleView.setVisibility(View.INVISIBLE);
 			break;
 
 		case INITIALIZE_DOWNLOAD_FAIL:
 			mLoadingView.setDownloadFailNoContent();
-			;
+			mArticleView.setVisibility(View.INVISIBLE);
 			break;
 
 		case INITIALIZE_DOWNLOAD_FAIL_NO_NETWORK:
 			mLoadingView.setDownloadFailNoNetwork();
+			mArticleView.setVisibility(View.INVISIBLE);
 			break;
 
 		case INITIALIZE_DOWNLOAD_COMPLETE:
@@ -260,6 +264,7 @@ public class ArticleFragment extends Fragment {
 
 	private void showArticle(Article article) {
 		if (article != null) {
+			mArticleView.setVisibility(View.VISIBLE);
 			mArticleView.setArticle(article);
 		}
 	}

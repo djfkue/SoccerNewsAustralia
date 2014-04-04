@@ -9,13 +9,13 @@
         android:layout_height="wrap_content"
         android:orientation="vertical" >
 
-        <ImageView
+        <com.luxiliu.soccernewsaustralia.widget.ScaleImageView
             android:id="@+id/image"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/article_image_height"
+            android:layout_height="match_parent"
+            android:background="@color/news_card_thumbnail_background"
             android:contentDescription="@string/app_name"
-            android:scaleType="centerCrop" >
-        </ImageView>
+            android:scaleType="centerCrop" />
 
         <TextView
             android:id="@+id/title"
