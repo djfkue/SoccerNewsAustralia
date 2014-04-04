@@ -18,13 +18,15 @@
 
 package com.luxiliu.soccernewsaustralia.widget;
 
+import com.luxiliu.soccernewsaustralia.data.CardHeaderGridArrayAdapter;
+import com.luxiliu.soccernewsaustralia.data.CardHeaderGridCursorAdapter;
+
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListAdapter;
-
 import it.gmariotti.cardslib.library.R;
 import it.gmariotti.cardslib.library.view.CardView;
 

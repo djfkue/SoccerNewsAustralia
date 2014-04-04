@@ -25,6 +25,7 @@ import android.widget.AbsListView.OnScrollListener;
 import com.luxiliu.soccernewsaustralia.R;
 import com.luxiliu.soccernewsaustralia.article.ArticleActivity;
 import com.luxiliu.soccernewsaustralia.card.NewsCard;
+import com.luxiliu.soccernewsaustralia.data.CardHeaderGridArrayAdapter;
 import com.luxiliu.soccernewsaustralia.feed.FeedManager;
 import com.luxiliu.soccernewsaustralia.home.aleague.ALeagueFragment;
 import com.luxiliu.soccernewsaustralia.home.socceroos.SocceroosFragment;
@@ -32,7 +33,6 @@ import com.luxiliu.soccernewsaustralia.model.Content;
 import com.luxiliu.soccernewsaustralia.model.News;
 import com.luxiliu.soccernewsaustralia.model.Page;
 import com.luxiliu.soccernewsaustralia.net.ConnectionManager;
-import com.luxiliu.soccernewsaustralia.widget.CardHeaderGridArrayAdapter;
 import com.luxiliu.soccernewsaustralia.widget.CardHeaderGridView;
 import com.luxiliu.soccernewsaustralia.widget.LoadingView;
 

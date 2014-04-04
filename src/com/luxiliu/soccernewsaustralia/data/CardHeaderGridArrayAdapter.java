@@ -16,67 +16,103 @@
  *  *****************************************************************************
  */
 
-package com.luxiliu.soccernewsaustralia.widget;
+package com.luxiliu.soccernewsaustralia.data;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.HashMap;
+import java.util.List;
+
+import com.luxiliu.soccernewsaustralia.widget.CardHeaderGridView;
 
 import it.gmariotti.cardslib.library.R;
 import it.gmariotti.cardslib.library.internal.Card;
-import it.gmariotti.cardslib.library.internal.base.BaseCardCursorAdapter;
+import it.gmariotti.cardslib.library.internal.base.BaseCardArrayAdapter;
 import it.gmariotti.cardslib.library.view.CardView;
+import it.gmariotti.cardslib.library.view.listener.SwipeDismissListViewTouchListener;
 
 /**
- * Cursor Adapter for {@link Card} model
+ * Array Adapter for {@link Card} model. Use it with a {@link CardGridView}.
+ * </p> Usage:
  * 
+ * <pre>
+ * <code>
+ * ArrayList<Card> cards = new ArrayList<Card>();
+ * for (int i=0;i<1000;i++){
+ *     CardExample card = new CardExample(getActivity(),"My title "+i,"Inner text "+i);
+ *     cards.add(card);
+ * }
+ * <p/>
+ * CardGridArrayAdapter mCardArrayAdapter = new CardGridArrayAdapter(getActivity(),cards);
+ * <p/>
+ * CardGridView gridView = (CardGridView) getActivity().findViewById(R.id.gridId);
+ * gridView.setAdapter(mCardArrayAdapter); *
+ * </code>
+ * </pre>
+ * 
+ * It provides a default layout id for each row @layout/list_card_layout Use can
+ * easily customize it using card:list_card_layout_resourceID attr in your xml
+ * layout:
+ * 
+ * <pre>
+ * <code>
+ *    <it.gmariotti.cardslib.library.view.CardGridView
+ *     android:layout_width="match_parent"
+ *     android:layout_height="match_parent"
+ *     android:columnWidth="190dp"
+ *     android:numColumns="auto_fit"
+ *     android:verticalSpacing="3dp"
+ *     android:horizontalSpacing="2dp"
+ *     android:stretchMode="columnWidth"
+ *     android:gravity="center"
+ *     card:list_card_layout_resourceID="@layout/carddemo_grid_gplay"
+ *     android:id="@+id/carddemo_grid_base1"/>
+ * </code>
+ * </pre>
+ * 
+ * or:
+ * 
+ * <pre>
+ * <code>
+ * adapter.setRowLayoutId(list_card_layout_resourceID);
+ * </code>
+ * </pre>
  * 
  * </p>
  * 
  * @author Gabriele Mariotti (gabri.mariotti@gmail.com)
  */
-public abstract class CardHeaderGridCursorAdapter extends BaseCardCursorAdapter {
+public class CardHeaderGridArrayAdapter extends BaseCardArrayAdapter {
 
-	protected static String TAG = "CardGridCursorAdapter";
+	protected static String TAG = "CardGridArrayAdapter";
 
 	/**
-	 * {@link it.gmariotti.cardslib.library.view.CardGridView}
+	 * {@link CardGridView}
 	 */
 	protected CardHeaderGridView mCardGridView;
 
 	/**
-	 * Internal Map with all Cards. It uses the card id value as key.
+	 * Listener invoked when a card is swiped
 	 */
-	protected HashMap<String /* id */, Card> mInternalObjects;
-
-	/**
-	 * Recycle
-	 */
-	private boolean recycle = false;
+	protected SwipeDismissListViewTouchListener mOnTouchListener;
 
 	// -------------------------------------------------------------
 	// Constructors
 	// -------------------------------------------------------------
 
-	public CardHeaderGridCursorAdapter(Context context) {
-		super(context, null, false);
-		mContext = context;
-	}
-
-	protected CardHeaderGridCursorAdapter(Context context, Cursor c,
-			boolean autoRequery) {
-		super(context, c, autoRequery);
-		mContext = context;
-	}
-
-	protected CardHeaderGridCursorAdapter(Context context, Cursor c, int flags) {
-		super(context, c, flags);
-		mContext = context;
+	/**
+	 * Constructor
+	 * 
+	 * @param context
+	 *            The current context.
+	 * @param cards
+	 *            The cards to represent in the ListView.
+	 */
+	public CardHeaderGridArrayAdapter(Context context, List<Card> cards) {
+		super(context, cards);
 	}
 
 	// -------------------------------------------------------------
@@ -85,31 +121,30 @@ public abstract class CardHeaderGridCursorAdapter extends BaseCardCursorAdapter 
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		// Check for recycle
-		if (convertView == null) {
-			recycle = false;
-		} else {
-			recycle = true;
-		}
-		return super.getView(position, convertView, parent);
-	}
 
-	@Override
-	public View newView(Context context, Cursor cursor, ViewGroup parent) {
-		int layout = mRowLayoutId;
-		LayoutInflater mInflater = (LayoutInflater) mContext
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		return mInflater.inflate(layout, parent, false);
-	}
-
-	@Override
-	public void bindView(View view, Context context, Cursor cursor) {
-
+		View view = convertView;
 		CardView mCardView;
 		Card mCard;
 
-		mCard = (Card) getCardFromCursor(cursor);
+		LayoutInflater mInflater = (LayoutInflater) mContext
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+		// Retrieve card from items
+		mCard = (Card) getItem(position);
 		if (mCard != null) {
+
+			int layout = mRowLayoutId;
+			boolean recycle = false;
+
+			// Inflate layout
+			if (view == null) {
+				recycle = false;
+				view = mInflater.inflate(layout, parent, false);
+			} else {
+				recycle = true;
+			}
+
+			// Setup card
 			mCardView = (CardView) view.findViewById(R.id.list_cardId);
 			if (mCardView != null) {
 				// It is important to set recycle value for inner layout
@@ -120,14 +155,12 @@ public abstract class CardHeaderGridCursorAdapter extends BaseCardCursorAdapter 
 				// It is important to set recycle value for performance issue
 				mCardView.setRecycle(recycle);
 
-				// Save original swipeable to prevent cardSwipeListener
-				// (listView requires another cardSwipeListener)
+				// Save original swipeable value
 				boolean origianlSwipeable = mCard.isSwipeable();
+				// Set false to avoid swape card default action
 				mCard.setSwipeable(false);
-
 				mCardView.setCard(mCard);
 
-				// Set originalValue
 				// mCard.setSwipeable(origianlSwipeable);
 				if (origianlSwipeable)
 					Log.d(TAG, "Swipe action not enabled in this type of view");
@@ -142,21 +175,38 @@ public abstract class CardHeaderGridCursorAdapter extends BaseCardCursorAdapter 
 				// Setup swipeable animation
 				setupSwipeableAnimation(mCard, mCardView);
 
+				// setupMultiChoice
+				setupMultichoice(view, mCard, mCardView, position);
 			}
 		}
+
+		return view;
 	}
 
 	/**
-	 * Sets SwipeAnimation on List
+	 * Removes SwipeAnimation on Grid
 	 * 
 	 * @param card
 	 *            {@link Card}
 	 * @param cardView
-	 *            {@link it.gmariotti.cardslib.library.view.CardView}
+	 *            {@link CardView}
 	 */
 	protected void setupSwipeableAnimation(final Card card, CardView cardView) {
 
 		cardView.setOnTouchListener(null);
+	}
+
+	/**
+	 * Overrides the default collapse/expand animation in a List
+	 * 
+	 * @param cardView
+	 *            {@link it.gmariotti.cardslib.library.view.CardView}
+	 */
+	protected void setupExpandCollapseListAnimation(CardView cardView) {
+
+		if (cardView == null)
+			return;
+		cardView.setOnExpandListAnimatorListener(mCardGridView);
 	}
 
 	// -------------------------------------------------------------
@@ -164,14 +214,14 @@ public abstract class CardHeaderGridCursorAdapter extends BaseCardCursorAdapter 
 	// -------------------------------------------------------------
 
 	/**
-	 * @return {@link it.gmariotti.cardslib.library.view.CardGridView}
+	 * @return {@link CardGridView}
 	 */
 	public CardHeaderGridView getCardGridView() {
 		return mCardGridView;
 	}
 
 	/**
-	 * Sets the {@link it.gmariotti.cardslib.library.view.CardListView}
+	 * Sets the {@link CardGridView}
 	 * 
 	 * @param cardGridView
 	 *            cardGridView
@@ -179,41 +229,4 @@ public abstract class CardHeaderGridCursorAdapter extends BaseCardCursorAdapter 
 	public void setCardGridView(CardHeaderGridView cardGridView) {
 		this.mCardGridView = cardGridView;
 	}
-
-	/**
-	 * Indicates if the undo message is enabled after a swipe action
-	 * 
-	 * @return <code>true</code> if the undo message is enabled
-	 */
-	/*
-	 * public boolean isEnableUndo() { return mEnableUndo; }
-	 */
-
-	/**
-	 * Enables an undo message after a swipe action
-	 * 
-	 * @param enableUndo
-	 *            <code>true</code> to enable an undo message
-	 */
-	/*
-	 * public void setEnableUndo(boolean enableUndo) { mEnableUndo = enableUndo;
-	 * if (enableUndo) { mInternalObjects = new HashMap<String, Card>(); for
-	 * (int i=0;i<getCount();i++) { Card card = getItem(i);
-	 * mInternalObjects.put(card.getId(), card); }
-	 * 
-	 * //Create a UndoController if (mUndoBarController==null){ View undobar =
-	 * ((Activity)mContext).findViewById(R.id.list_card_undobar); if (undobar !=
-	 * null) { mUndoBarController = new UndoBarController(undobar, this); } }
-	 * }else{ mUndoBarController=null; } }
-	 */
-
-	/**
-	 * Return the UndoBarController for undo action
-	 * 
-	 * @return {@link it.gmariotti.cardslib.library.view.listener.UndoBarController}
-	 */
-	/*
-	 * public UndoBarController getUndoBarController() { return
-	 * mUndoBarController; }
-	 */
 }
