@@ -86,8 +86,9 @@ public class ArticleView extends LinearLayout {
 			Typeface authorDateArticleTypeface = Typeface.createFromAsset(
 					getContext().getAssets(), "fonts/Roboto-Light.ttf");
 			Typeface descriptionTypeface = Typeface.createFromAsset(
-					getContext().getAssets(),
-					"fonts/RobotoSlab-LightItalic.ttf");
+					getContext().getAssets(), "fonts/RobotoSlab-Light.ttf");
+			Typeface articleTextTypeface = Typeface.createFromAsset(
+					getContext().getAssets(), "fonts/Roboto-Light.ttf");
 
 			// Update title
 			mTitleTextView.setTypeface(titleTypeface);
@@ -107,7 +108,7 @@ public class ArticleView extends LinearLayout {
 			mDescriptionTextView.setText(mArticle.getDescription());
 
 			// Update article
-			mArticleTextView.setTypeface(authorDateArticleTypeface);
+			mArticleTextView.setTypeface(articleTextTypeface);
 			mArticleTextView.setText(Html.fromHtml(mArticle.getArticleText()));
 		}
 	}

@@ -67,6 +67,7 @@
             android:id="@+id/articleText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:lineSpacingMultiplier="1.2"
             android:paddingBottom="@dimen/article_text_padding_bottom"
             android:paddingLeft="@dimen/article_text_padding_left"
             android:paddingRight="@dimen/article_text_padding_right"
