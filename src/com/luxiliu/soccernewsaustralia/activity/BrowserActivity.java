@@ -16,31 +16,30 @@ import android.webkit.WebView;
  */
 @TargetApi(Build.VERSION_CODES.HONEYCOMB)
 public class BrowserActivity extends SNAActivity {
+	private String mUrl;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		if (savedInstanceState == null) {
-			// Setup action bar
-			getSupportActionBar().setDisplayOptions(
-					ActionBar.DISPLAY_USE_LOGO | ActionBar.DISPLAY_SHOW_HOME
-							| ActionBar.DISPLAY_HOME_AS_UP
-							| ActionBar.DISPLAY_SHOW_TITLE);
+		// Get the URL
+		Intent intent = getIntent();
+		mUrl = intent.getDataString();
 
-			// Get the URL
-			Intent intent = getIntent();
-			String url = intent.getDataString();
+		// Setup action bar
+		getSupportActionBar().setDisplayOptions(
+				ActionBar.DISPLAY_USE_LOGO | ActionBar.DISPLAY_SHOW_HOME
+						| ActionBar.DISPLAY_HOME_AS_UP
+						| ActionBar.DISPLAY_SHOW_TITLE);
 
-			// Load the web page
-			WebView webView = new WebView(this);
-			webView.setHorizontalScrollBarEnabled(false);
-			webView.setVerticalScrollBarEnabled(false);
-			webView.loadUrl(url);
+		// Load the web page
+		WebView webView = new WebView(this);
+		webView.setHorizontalScrollBarEnabled(false);
+		webView.setVerticalScrollBarEnabled(false);
+		webView.loadUrl(mUrl);
 
-			// Set the main content view
-			setContentView(webView);
-		}
+		// Set the main content view
+		setContentView(webView);
 	}
 
 	@Override

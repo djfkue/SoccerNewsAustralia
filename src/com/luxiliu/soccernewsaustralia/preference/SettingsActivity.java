@@ -17,14 +17,12 @@ public class SettingsActivity extends SNAActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		if (savedInstanceState == null) {
-			setContentView(R.layout.settings_activity);
+		setContentView(R.layout.settings_activity);
 
-			setContent();
-		}
+		setupView();
 	}
 
-	private void setContent() {
+	private void setupView() {
 		getActionBar().setDisplayOptions(
 				ActionBar.DISPLAY_USE_LOGO | ActionBar.DISPLAY_SHOW_HOME
 						| ActionBar.DISPLAY_HOME_AS_UP
