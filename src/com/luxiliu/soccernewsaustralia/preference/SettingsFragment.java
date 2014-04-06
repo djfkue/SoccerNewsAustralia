@@ -8,7 +8,9 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.ListPreference;
 import android.preference.Preference;
+import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceFragment;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.view.MenuItem;
@@ -33,6 +35,7 @@ public class SettingsFragment extends PreferenceFragment {
 		addPreferencesFromResource(R.xml.settings);
 
 		// Setup preferences
+		setupGeneralPreferences();
 		setupAboutPreferences();
 	}
 
@@ -44,6 +47,29 @@ public class SettingsFragment extends PreferenceFragment {
 		}
 
 		return super.onOptionsItemSelected(item);
+	}
+
+	private void setupGeneralPreferences() {
+		setupArticleTextSizePreference();
+	}
+
+	private void setupArticleTextSizePreference() {
+		ListPreference preference = (ListPreference) findPreference(getString(R.string.article_text_size_preference_key));
+		preference.setSummary(Preferences.getArticleFontSize(preference)
+				.toString());
+
+		preference
+				.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
+
+					@Override
+					public boolean onPreferenceChange(Preference preference,
+							Object newValue) {
+						preference.setSummary(Preferences.toFontSize(
+								preference.getContext(), (String) newValue)
+								.toString());
+						return true;
+					}
+				});
 	}
 
 	private void setupAboutPreferences() {

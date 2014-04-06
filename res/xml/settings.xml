@@ -2,6 +2,16 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <PreferenceCategory
+        android:key="@string/general_preference_category_key"
+        android:title="@string/general_capitalized" >
+        <ListPreference
+            android:defaultValue="MEDIUM"
+            android:entries="@array/article_text_size_entries"
+            android:entryValues="@array/article_text_size_values"
+            android:key="@string/article_text_size_preference_key"
+            android:title="@string/article_text_size" />
+    </PreferenceCategory>
+    <PreferenceCategory
         android:key="@string/about_preference_category_key"
         android:title="@string/about_capitalized" >
         <Preference

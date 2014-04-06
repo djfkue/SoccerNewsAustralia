@@ -13,6 +13,13 @@
     <string name="action_share" translatable="false">Share</string>
     <string name="action_browser" translatable="false">View in browser</string>
     <string name="settings" translatable="false">Settings</string>
+    <string name="general_preference_category_key">generalCategory</string>
+    <string name="general_capitalized">GENERAL</string>
+    <string name="article_text_size_preference_key">articleTextSize</string>
+    <string name="article_text_size">Article text size</string>
+    <string name="article_text_size_small">Small</string>
+    <string name="article_text_size_normal">Normal</string>
+    <string name="article_text_size_large">Large</string>
     <string name="about_preference_category_key" translatable="false">aboutCategory</string>
     <string name="about_capitalized" translatable="false">ABOUT</string>
     <string name="open_source_licenses" translatable="false">Open Source Licenses</string>
