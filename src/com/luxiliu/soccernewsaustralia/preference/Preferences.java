@@ -4,7 +4,6 @@ import com.luxiliu.soccernewsaustralia.R;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.preference.Preference;
 
 /**
  * The Preferences class is to provide preferences of applications

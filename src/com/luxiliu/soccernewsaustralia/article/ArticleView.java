@@ -2,6 +2,8 @@ package com.luxiliu.soccernewsaustralia.article;
 
 import com.luxiliu.soccernewsaustralia.R;
 import com.luxiliu.soccernewsaustralia.model.Article;
+import com.luxiliu.soccernewsaustralia.preference.Preferences;
+import com.luxiliu.soccernewsaustralia.preference.Preferences.FontSize;
 import com.luxiliu.soccernewsaustralia.util.Util;
 import com.squareup.picasso.Picasso;
 
@@ -89,6 +91,65 @@ public class ArticleView extends LinearLayout {
 					getContext().getAssets(), "fonts/RobotoSlab-Light.ttf");
 			Typeface articleTextTypeface = Typeface.createFromAsset(
 					getContext().getAssets(), "fonts/Roboto-Light.ttf");
+
+			// Customize font size
+			float density = getResources().getDisplayMetrics().density;
+			FontSize fontSize = Preferences.getArticleFontSize(getContext());
+			switch (fontSize) {
+			case Small:
+				mTitleTextView.setTextSize(getResources().getDimension(
+						R.dimen.article_title_text_size_small)
+						/ density);
+				mAuthorTextView.setTextSize(getResources().getDimension(
+						R.dimen.article_author_text_size_small)
+						/ density);
+				mDateTextView.setTextSize(getResources().getDimension(
+						R.dimen.article_date_text_size_small)
+						/ density);
+				mDescriptionTextView.setTextSize(getResources().getDimension(
+						R.dimen.article_description_text_size_small)
+						/ density);
+				mArticleTextView.setTextSize(getResources().getDimension(
+						R.dimen.article_text_text_size_small)
+						/ density);
+				break;
+
+			case Normal:
+				mTitleTextView.setTextSize(getResources().getDimension(
+						R.dimen.article_title_text_size_normal)
+						/ density);
+				mAuthorTextView.setTextSize(getResources().getDimension(
+						R.dimen.article_author_text_size_normal)
+						/ density);
+				mDateTextView.setTextSize(getResources().getDimension(
+						R.dimen.article_date_text_size_normal)
+						/ density);
+				mDescriptionTextView.setTextSize(getResources().getDimension(
+						R.dimen.article_description_text_size_normal)
+						/ density);
+				mArticleTextView.setTextSize(getResources().getDimension(
+						R.dimen.article_text_text_size_normal)
+						/ density);
+				break;
+
+			case Large:
+				mTitleTextView.setTextSize(getResources().getDimension(
+						R.dimen.article_title_text_size_large)
+						/ density);
+				mAuthorTextView.setTextSize(getResources().getDimension(
+						R.dimen.article_author_text_size_large)
+						/ density);
+				mDateTextView.setTextSize(getResources().getDimension(
+						R.dimen.article_date_text_size_large)
+						/ density);
+				mDescriptionTextView.setTextSize(getResources().getDimension(
+						R.dimen.article_description_text_size_large)
+						/ density);
+				mArticleTextView.setTextSize(getResources().getDimension(
+						R.dimen.article_text_text_size_large)
+						/ density);
+				break;
+			}
 
 			// Update title
 			mTitleTextView.setTypeface(titleTypeface);
