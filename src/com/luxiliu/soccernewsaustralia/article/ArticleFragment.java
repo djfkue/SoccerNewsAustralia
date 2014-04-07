@@ -15,7 +15,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.luxiliu.soccernewsaustralia.R;
 import com.luxiliu.soccernewsaustralia.feed.FeedManager;
@@ -69,6 +71,7 @@ public class ArticleFragment extends Fragment {
 
 	private LoadingView mLoadingView;
 	private ArticleView mArticleView;
+	private TextView mRetryTextView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -98,6 +101,16 @@ public class ArticleFragment extends Fragment {
 
 		// Get loading view
 		mLoadingView = (LoadingView) view.findViewById(R.id.loading_view);
+
+		mRetryTextView = (TextView) mLoadingView.findViewById(R.id.retry);
+		mRetryTextView.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				retry();
+			}
+
+		});
 
 		// Get article view
 		mArticleView = (ArticleView) view.findViewById(R.id.article);
@@ -229,7 +242,7 @@ public class ArticleFragment extends Fragment {
 		mState = State.INITIALIZE_DOWNLOAD_FAIL_NO_NETWORK;
 		Log.d(LOG_TAG, mState.toString());
 
-		mLoadingView.setDownloadFailNoNetwork();
+		mLoadingView.setDownloadFailNoNetwork(true);
 		mArticleView.setVisibility(View.INVISIBLE);
 	}
 
@@ -251,7 +264,7 @@ public class ArticleFragment extends Fragment {
 			break;
 
 		case INITIALIZE_DOWNLOAD_FAIL_NO_NETWORK:
-			mLoadingView.setDownloadFailNoNetwork();
+			mLoadingView.setDownloadFailNoNetwork(true);
 			mArticleView.setVisibility(View.INVISIBLE);
 			break;
 
@@ -266,6 +279,21 @@ public class ArticleFragment extends Fragment {
 		if (article != null) {
 			mArticleView.setVisibility(View.VISIBLE);
 			mArticleView.setArticle(article);
+		}
+	}
+
+	private void retry() {
+		if (mState == State.INITIALIZE_DOWNLOAD_FAIL_NO_NETWORK) {
+			if (ConnectionManager.instance().isConnected(getActivity())) {
+				// Network is OK
+				// Start to initialize again
+				onInitializeDownloading();
+				mFeedManager.requestDownloadFeed(mHandler,
+						mNews.getFeedLinkUrl());
+			} else {
+				// No network connection
+				onInitializeFailNoNetwork();
+			}
 		}
 	}
 }

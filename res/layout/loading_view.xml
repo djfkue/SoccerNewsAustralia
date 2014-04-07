@@ -32,6 +32,17 @@
             android:paddingTop="@dimen/loading_view_text_padding_top"
             android:textColor="@color/loading_view_text_color" >
         </TextView>
+
+        <TextView
+            android:id="@+id/retry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/message"
+            android:layout_centerHorizontal="true"
+            android:text="@string/retry"
+            android:textColor="@color/article_retry_text_color"
+            android:textStyle="bold" >
+        </TextView>
     </RelativeLayout>
 
 </merge>

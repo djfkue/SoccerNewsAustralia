@@ -22,7 +22,8 @@ public class LoadingView extends RelativeLayout {
 	private ProgressBar mProgressBar;
 	private RelativeLayout mLoadResultLayout;
 	private ImageView mImageView;
-	private TextView mTextView;
+	private TextView mMessageTextView;
+	private TextView mRetryTextView;
 
 	public LoadingView(Context context) {
 		super(context);
@@ -40,6 +41,22 @@ public class LoadingView extends RelativeLayout {
 		super(context, attrs, defStyle);
 
 		initView();
+	}
+
+	private void initView() {
+		LayoutInflater inflater = (LayoutInflater) getContext()
+				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		inflater.inflate(R.layout.loading_view, this, true);
+
+		mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
+
+		mLoadResultLayout = (RelativeLayout) findViewById(R.id.load_result_layout);
+
+		mImageView = (ImageView) findViewById(R.id.image);
+
+		mMessageTextView = (TextView) findViewById(R.id.message);
+
+		mRetryTextView = (TextView) findViewById(R.id.retry);
 	}
 
 	public void setDownloading() {
@@ -64,7 +81,7 @@ public class LoadingView extends RelativeLayout {
 		mLoadResultLayout.setVisibility(View.GONE);
 	}
 
-	public void setDownloadFailNoNetwork() {
+	public void setDownloadFailNoNetwork(boolean retry) {
 		// Show the view
 		setVisibility(View.VISIBLE);
 
@@ -77,8 +94,14 @@ public class LoadingView extends RelativeLayout {
 		// Show the image and message
 		mImageView.setImageDrawable(getResources().getDrawable(
 				R.drawable.ic_empty_download));
-		mTextView.setText(getResources().getString(
+		mMessageTextView.setText(getResources().getString(
 				R.string.content_error_bad_connection));
+
+		if (retry) {
+			mRetryTextView.setVisibility(View.VISIBLE);
+		} else {
+			mRetryTextView.setVisibility(View.GONE);
+		}
 	}
 
 	public void setDownloadFailNoContent() {
@@ -94,21 +117,9 @@ public class LoadingView extends RelativeLayout {
 		// Show the image and message
 		mImageView.setImageDrawable(getResources().getDrawable(
 				R.drawable.ic_empty_news));
-		mTextView.setText(getResources().getString(
+		mMessageTextView.setText(getResources().getString(
 				R.string.content_failed_to_load));
-	}
 
-	private void initView() {
-		LayoutInflater inflater = (LayoutInflater) getContext()
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		inflater.inflate(R.layout.loading_view, this, true);
-
-		mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
-
-		mLoadResultLayout = (RelativeLayout) findViewById(R.id.load_result_layout);
-
-		mImageView = (ImageView) findViewById(R.id.image);
-
-		mTextView = (TextView) findViewById(R.id.message);
+		mRetryTextView.setVisibility(View.GONE);
 	}
 }

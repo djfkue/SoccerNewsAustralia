@@ -296,7 +296,7 @@ public abstract class HomeFragment extends Fragment implements
 
 		mPullToRefreshLayout.setEnabled(true);
 		mPullToRefreshLayout.setRefreshing(false);
-		mLoadingView.setDownloadFailNoNetwork();
+		mLoadingView.setDownloadFailNoNetwork(false);
 	}
 
 	private void onPullToRefreshDownloading() {
@@ -408,7 +408,7 @@ public abstract class HomeFragment extends Fragment implements
 		case INITIALIZE_DOWNLOAD_FAIL_NO_NETWORK:
 			mPullToRefreshLayout.setEnabled(true);
 			mPullToRefreshLayout.setRefreshing(false);
-			mLoadingView.setDownloadFailNoNetwork();
+			mLoadingView.setDownloadFailNoNetwork(false);
 			break;
 
 		case INITIALIZE_DOWNLOAD_COMPLETE:

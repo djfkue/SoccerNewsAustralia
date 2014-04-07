@@ -4,7 +4,7 @@
     <!-- HomeActivity -->
     <color name="home_activity_background">#ffe4e4e4</color>
     <color name="holo_light_pressed">#33cccccc</color>
-    
+
     <!-- NewsCardThumbnail -->
     <color name="news_card_thumbnail_background">#fff4f4f4</color>
 
@@ -15,6 +15,7 @@
     <color name="article_title_text_color">#ff333333</color>
     <color name="article_author_text_color">#ff4e4e4e</color>
     <color name="article_text_text_color">#ff434343</color>
+    <color name="article_retry_text_color">#ff405ea7</color>
 
     <!-- NavDrawerEntry -->
     <color name="nav_drawer_background">#ffffffff</color>

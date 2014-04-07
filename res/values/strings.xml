@@ -10,6 +10,7 @@
     <string name="ptr_refreshing_text" translatable="false">Looking for new content&#8230;</string>
     <string name="content_error_bad_connection" translatable="false">Weak or no internet connection</string>
     <string name="content_failed_to_load" translatable="false">"Unfortunately, the content didn't load."</string>
+    <string name="retry">Retry</string>
     <string name="action_share" translatable="false">Share</string>
     <string name="action_browser" translatable="false">View in browser</string>
     <string name="settings" translatable="false">Settings</string>
