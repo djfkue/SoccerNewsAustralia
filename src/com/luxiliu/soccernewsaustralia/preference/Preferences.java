@@ -3,6 +3,7 @@ package com.luxiliu.soccernewsaustralia.preference;
 import com.luxiliu.soccernewsaustralia.R;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.preference.Preference;
 
 /**
@@ -12,6 +13,8 @@ import android.preference.Preference;
  * 
  */
 public class Preferences {
+	private static final int DEFAULT_ARTICLE_TEXT_SIZE_INDEX = 1;
+
 	private Preferences() {
 
 	}
@@ -20,14 +23,20 @@ public class Preferences {
 		Small, Normal, Large
 	}
 
-	public static FontSize getArticleFontSize(Preference preference) {
-		Context context = preference.getContext();
+	public static FontSize getArticleFontSize(Context context) {
+		// Get all the available font size values
 		String[] fontSizeValues = context.getResources().getStringArray(
 				R.array.article_text_size_values);
-		String value = preference.getSharedPreferences().getString(
-				preference.getContext().getString(
-						R.string.article_text_size_preference_key), "");
 
+		// Get font size from preference
+		String prefsFile = context.getPackageName() + "_preferences";
+		SharedPreferences preferences = context.getSharedPreferences(prefsFile,
+				Context.MODE_PRIVATE);
+		String value = preferences.getString(
+				context.getString(R.string.article_text_size_preference_key),
+				fontSizeValues[DEFAULT_ARTICLE_TEXT_SIZE_INDEX]);
+
+		// Find corresponding font size
 		int index = 0;
 		for (; index < fontSizeValues.length; index++) {
 			if (value.equals(fontSizeValues[index])) {

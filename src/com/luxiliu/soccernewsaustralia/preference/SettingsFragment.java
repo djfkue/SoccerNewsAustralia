@@ -54,9 +54,10 @@ public class SettingsFragment extends PreferenceFragment {
 	}
 
 	private void setupArticleTextSizePreference() {
+		// Get the preference
 		ListPreference preference = (ListPreference) findPreference(getString(R.string.article_text_size_preference_key));
-		preference.setSummary(Preferences.getArticleFontSize(preference)
-				.toString());
+		preference.setSummary(Preferences.getArticleFontSize(
+				preference.getContext()).toString());
 
 		preference
 				.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
