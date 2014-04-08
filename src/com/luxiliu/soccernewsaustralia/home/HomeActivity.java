@@ -45,74 +45,6 @@ public class HomeActivity extends SNAActivity {
 		}
 	}
 
-	@Override
-	protected void onPostCreate(Bundle savedInstanceState) {
-		super.onPostCreate(savedInstanceState);
-
-		if (mDrawerToggle != null) {
-			mDrawerToggle.syncState();
-		}
-	}
-
-	@Override
-	protected void onNewIntent(Intent intent) {
-		super.onNewIntent(intent);
-		// A drawer entry is clicked
-
-		// Get the home page for the clicked drawer entry
-		int homePageId = intent.getIntExtra(Intent.EXTRA_UID, -1);
-		if (homePageId != -1) {
-			HomePage homePage = null;
-
-			switch (homePageId) {
-			case HomePage.SOCCEROOS_PAGE_ID:
-				homePage = HomePage.SOCCEROOS_PAGE;
-				break;
-			case HomePage.ALEAGUE_PAGE_ID:
-				homePage = HomePage.ALEAGUE_PAGE;
-				break;
-			case HomePage.AFC_PAGE_ID:
-				homePage = HomePage.AFC_PAGE;
-				break;
-			default:
-				homePage = HomePage.ALEAGUE_PAGE;
-				break;
-			}
-
-			if (homePage.getId() != mHomePage.getId()) {
-				// Change to different home page
-				mHomePage = homePage;
-				changeHomePage(mHomePage);
-			}
-		} else {
-			Log.d(LOG_TAG, String.format("Cannot find page %d", homePageId));
-		}
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		if (item.getItemId() == android.R.id.home) {
-			// Menu item "Home" is used for navigation drawer
-			if (mDrawerLayout.isDrawerVisible(mNavDrawerFragment.getView())) {
-				mDrawerLayout.closeDrawer(mNavDrawerFragment.getView());
-			} else {
-				mDrawerLayout.openDrawer(mNavDrawerFragment.getView());
-			}
-
-			return true;
-		}
-
-		return super.onOptionsItemSelected(item);
-	}
-
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-
-		// Save mHomePage instance
-		outState.putSerializable(Intent.EXTRA_STREAM, mHomePage);
-	}
-
 	private void setupView() {
 		// Setup "Home" menu
 		getSupportActionBar().setHomeButtonEnabled(true);
@@ -136,6 +68,9 @@ public class HomeActivity extends SNAActivity {
 
 		// Set title
 		setTitle(mHomePage.getTitle(this));
+
+		// Update nav drawer fragment
+		mNavDrawerFragment.onHomePageActivated(mHomePage);
 
 		// Init fragment
 		initFragment(mHomePage);
@@ -194,6 +129,62 @@ public class HomeActivity extends SNAActivity {
 		}
 	}
 
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+
+		if (mDrawerToggle != null) {
+			mDrawerToggle.syncState();
+		}
+	}
+
+	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+		// A drawer entry is clicked
+
+		// Get the home page for the clicked drawer entry
+		int homePageId = intent.getIntExtra(Intent.EXTRA_UID, -1);
+		if (homePageId != -1) {
+			HomePage homePage = null;
+
+			switch (homePageId) {
+			case HomePage.SOCCEROOS_PAGE_ID:
+				homePage = HomePage.SOCCEROOS_PAGE;
+				break;
+			case HomePage.ALEAGUE_PAGE_ID:
+				homePage = HomePage.ALEAGUE_PAGE;
+				break;
+			case HomePage.AFC_PAGE_ID:
+				homePage = HomePage.AFC_PAGE;
+				break;
+			default:
+				homePage = HomePage.ALEAGUE_PAGE;
+				break;
+			}
+
+			if (homePage.getId() != mHomePage.getId()) {
+				mHomePage = homePage;
+
+				// Update nav drawer fragment
+				mNavDrawerFragment.onHomePageActivated(mHomePage);
+
+				// Change to different home page
+				changeHomePage(mHomePage);
+			}
+		} else {
+			Log.d(LOG_TAG, String.format("Cannot find page %d", homePageId));
+		}
+	}
+
+	private void changeHomePage(HomePage homePage) {
+		// Set new title
+		setTitle(homePage.getTitle(this));
+
+		// Replace with new home page's fragment
+		replaceFragment(homePage.getFragment());
+	}
+
 	private void replaceFragment(HomeFragment homeFragment) {
 		// Get fragment transaction
 		FragmentTransaction fragmentTransaction = getSupportFragmentManager()
@@ -203,11 +194,32 @@ public class HomeActivity extends SNAActivity {
 		fragmentTransaction.replace(R.id.home_fragment, homeFragment).commit();
 	}
 
-	private void changeHomePage(HomePage homePage) {
-		// Set new title
-		setTitle(homePage.getTitle(this));
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == android.R.id.home) {
+			// Menu item "Home" is used for navigation drawer
+			if (mDrawerLayout.isDrawerVisible(mNavDrawerFragment.getView())) {
+				mDrawerLayout.closeDrawer(mNavDrawerFragment.getView());
+			} else {
+				mDrawerLayout.openDrawer(mNavDrawerFragment.getView());
+			}
 
-		// Replace with new home page's fragment
-		replaceFragment(homePage.getFragment());
+			return true;
+		}
+
+		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+
+		// Save mHomePage instance
+		outState.putSerializable(Intent.EXTRA_STREAM, mHomePage);
+	}
+
+	public void onDrawerClosed() {
+		// Restore title when drawer is closed
+		setTitle(mHomePage.getTitle(this));
 	}
 }

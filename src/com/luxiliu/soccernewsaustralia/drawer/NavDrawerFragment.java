@@ -13,6 +13,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.luxiliu.soccernewsaustralia.R;
+import com.luxiliu.soccernewsaustralia.home.HomePage;
 
 /**
  * The NavDrawerFragment provides a navigation drawer fragment
@@ -63,5 +64,38 @@ public class NavDrawerFragment extends Fragment implements OnItemClickListener {
 
 		// Let that drawer entry deal the click event
 		navDrawerEntry.onClick(view);
+	}
+
+	public void onHomePageActivated(HomePage homePage) {
+		// Update nav drawer items
+
+		switch (homePage.getId()) {
+		case HomePage.ALEAGUE_PAGE_ID:
+			((HomePageEntry) NavDrawerEntry.ALEAGUE_ENTRY).setActivated(
+					getActivity(), true);
+			((HomePageEntry) NavDrawerEntry.AFCLEAGUE_ENTRY).setActivated(
+					getActivity(), false);
+			((HomePageEntry) NavDrawerEntry.SOCCEROOS_ENTRY).setActivated(
+					getActivity(), false);
+			break;
+
+		case HomePage.AFC_PAGE_ID:
+			((HomePageEntry) NavDrawerEntry.ALEAGUE_ENTRY).setActivated(
+					getActivity(), false);
+			((HomePageEntry) NavDrawerEntry.AFCLEAGUE_ENTRY).setActivated(
+					getActivity(), true);
+			((HomePageEntry) NavDrawerEntry.SOCCEROOS_ENTRY).setActivated(
+					getActivity(), false);
+			break;
+
+		case HomePage.SOCCEROOS_PAGE_ID:
+			((HomePageEntry) NavDrawerEntry.ALEAGUE_ENTRY).setActivated(
+					getActivity(), false);
+			((HomePageEntry) NavDrawerEntry.AFCLEAGUE_ENTRY).setActivated(
+					getActivity(), false);
+			((HomePageEntry) NavDrawerEntry.SOCCEROOS_ENTRY).setActivated(
+					getActivity(), true);
+			break;
+		}
 	}
 }

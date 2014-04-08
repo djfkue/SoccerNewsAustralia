@@ -20,6 +20,8 @@ import com.luxiliu.soccernewsaustralia.home.HomePage;
  */
 public class HomePageEntry extends NavDrawerEntry {
 	private HomePage mHomePage;
+	private TextView mTextView;
+	private boolean mActivated = false;
 
 	public HomePageEntry(HomePage homePage) {
 		mHomePage = homePage;
@@ -29,16 +31,24 @@ public class HomePageEntry extends NavDrawerEntry {
 	public View getView(View view, ViewGroup viewGroup) {
 		// Return the view of the entry
 		Context context = viewGroup.getContext();
-		TextView textView = (TextView) LayoutInflater.from(context).inflate(
-				R.layout.nav_drawer_entry, null);
 
-		// Use RobotoSlab font
-		Typeface typeface = Typeface.createFromAsset(context.getAssets(),
-				"fonts/Roboto-Light.ttf");
-		textView.setTypeface(typeface);
-		textView.setText(mHomePage.getTitle(context));
+		if (mTextView == null) {
+			mTextView = (TextView) LayoutInflater.from(context).inflate(
+					R.layout.nav_drawer_entry, null);
+			mTextView.setText(mHomePage.getTitle(context));
+		}
 
-		return textView;
+		if (mActivated) {
+			Typeface typeface = Typeface.createFromAsset(context.getAssets(),
+					"fonts/Roboto-Bold.ttf");
+			mTextView.setTypeface(typeface);
+		} else {
+			Typeface typeface = Typeface.createFromAsset(context.getAssets(),
+					"fonts/Roboto-Light.ttf");
+			mTextView.setTypeface(typeface);
+		}
+
+		return mTextView;
 	}
 
 	@Override
@@ -48,5 +58,21 @@ public class HomePageEntry extends NavDrawerEntry {
 		intent.setClass(view.getContext(), HomeActivity.class);
 		intent.putExtra(Intent.EXTRA_UID, mHomePage.getId());
 		view.getContext().startActivity(intent);
+	}
+
+	public void setActivated(Context context, boolean activated) {
+		mActivated = activated;
+
+		if (mTextView != null) {
+			if (mActivated) {
+				Typeface typeface = Typeface.createFromAsset(
+						context.getAssets(), "fonts/Roboto-Bold.ttf");
+				mTextView.setTypeface(typeface);
+			} else {
+				Typeface typeface = Typeface.createFromAsset(
+						context.getAssets(), "fonts/Roboto-Light.ttf");
+				mTextView.setTypeface(typeface);
+			}
+		}
 	}
 }
