@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import android.content.Context;
 
+import com.luxiliu.soccernewsaustralia.home.afc.AFCPage;
 import com.luxiliu.soccernewsaustralia.home.aleague.ALeaguePage;
 import com.luxiliu.soccernewsaustralia.home.socceroos.SocceroosPage;
 
@@ -18,9 +19,11 @@ public abstract class HomePage implements Serializable {
 	private static final long serialVersionUID = 7055897477453181778L;
 	public static final int SOCCEROOS_PAGE_ID = 0;
 	public static final int ALEAGUE_PAGE_ID = 1;
+	public static final int AFC_PAGE_ID = 2;
 
 	public static final HomePage SOCCEROOS_PAGE;
 	public static final HomePage ALEAGUE_PAGE;
+	public static final HomePage AFC_PAGE;
 
 	protected int mId;
 
@@ -28,6 +31,8 @@ public abstract class HomePage implements Serializable {
 		SOCCEROOS_PAGE = new SocceroosPage();
 
 		ALEAGUE_PAGE = new ALeaguePage();
+
+		AFC_PAGE = new AFCPage();
 	}
 
 	protected HomePage(int id) {

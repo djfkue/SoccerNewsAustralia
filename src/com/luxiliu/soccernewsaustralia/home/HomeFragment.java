@@ -27,6 +27,7 @@ import com.luxiliu.soccernewsaustralia.article.ArticleActivity;
 import com.luxiliu.soccernewsaustralia.card.NewsCard;
 import com.luxiliu.soccernewsaustralia.data.CardHeaderGridArrayAdapter;
 import com.luxiliu.soccernewsaustralia.feed.FeedManager;
+import com.luxiliu.soccernewsaustralia.home.afc.AFCFragment;
 import com.luxiliu.soccernewsaustralia.home.aleague.ALeagueFragment;
 import com.luxiliu.soccernewsaustralia.home.socceroos.SocceroosFragment;
 import com.luxiliu.soccernewsaustralia.model.Content;
@@ -98,11 +99,14 @@ public abstract class HomeFragment extends Fragment implements
 
 	public static final HomeFragment SOCCEROOS_FRAGMENT;
 	public static final HomeFragment ALEAGUE_FRAGMENT;
+	public static final HomeFragment AFC_FRAGMENT;
 
 	static {
 		SOCCEROOS_FRAGMENT = new SocceroosFragment();
 
 		ALEAGUE_FRAGMENT = new ALeagueFragment();
+
+		AFC_FRAGMENT = new AFCFragment();
 	}
 
 	@Override

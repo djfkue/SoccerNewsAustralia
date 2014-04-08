@@ -61,7 +61,7 @@ public final class FeedManager {
 			URL url = null;
 
 			try {
-				url = new URL(urls[0]);
+				url = new URL(urls[0].replaceAll(" ", "%20"));
 
 				HttpURLConnection connection = null;
 				try {

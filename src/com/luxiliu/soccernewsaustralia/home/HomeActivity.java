@@ -71,6 +71,9 @@ public class HomeActivity extends SNAActivity {
 			case HomePage.ALEAGUE_PAGE_ID:
 				homePage = HomePage.ALEAGUE_PAGE;
 				break;
+			case HomePage.AFC_PAGE_ID:
+				homePage = HomePage.AFC_PAGE;
+				break;
 			default:
 				homePage = HomePage.ALEAGUE_PAGE;
 				break;

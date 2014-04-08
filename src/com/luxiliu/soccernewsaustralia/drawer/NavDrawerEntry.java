@@ -16,10 +16,12 @@ public abstract class NavDrawerEntry {
 	public static final NavDrawerEntry SOCCEROOS_ENTRY;
 	public static final NavDrawerEntry ALEAGUE_ENTRY;
 	public static final NavDrawerEntry SETTINGS_ENTRY;
+	public static final NavDrawerEntry AFCLEAGUE_ENTRY;
 
 	static {
 		SOCCEROOS_ENTRY = new HomePageEntry(HomePage.SOCCEROOS_PAGE);
 		ALEAGUE_ENTRY = new HomePageEntry(HomePage.ALEAGUE_PAGE);
+		AFCLEAGUE_ENTRY = new HomePageEntry(HomePage.AFC_PAGE);
 
 		SETTINGS_ENTRY = new SettingsEntry();
 	}

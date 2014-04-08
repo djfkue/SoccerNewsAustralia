@@ -37,6 +37,7 @@ public class NavDrawerFragment extends Fragment implements OnItemClickListener {
 		// Create drawer entry list
 		mNavDrawerEntryList = new ArrayList<NavDrawerEntry>();
 		mNavDrawerEntryList.add(NavDrawerEntry.ALEAGUE_ENTRY);
+		mNavDrawerEntryList.add(NavDrawerEntry.AFCLEAGUE_ENTRY);
 		mNavDrawerEntryList.add(NavDrawerEntry.SOCCEROOS_ENTRY);
 		mNavDrawerEntryList.add(NavDrawerEntry.SETTINGS_ENTRY);
 
