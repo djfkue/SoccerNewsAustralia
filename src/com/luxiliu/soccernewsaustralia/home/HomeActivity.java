@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.luxiliu.soccernewsaustralia.R;
 import com.luxiliu.soccernewsaustralia.activity.SNAActivity;
@@ -54,7 +55,25 @@ public class HomeActivity extends SNAActivity {
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
 
 		// Setup drawer toggle
-		mDrawerToggle = new NavDrawerActionBarDrawerToggle(this, mDrawerLayout);
+		mDrawerToggle = new NavDrawerActionBarDrawerToggle(this, mDrawerLayout) {
+
+			@Override
+			public void onDrawerClosed(View drawerView) {
+				super.onDrawerClosed(drawerView);
+
+				// Set title as home page name when drawer toggle closed
+				setTitle(mHomePage.getTitle(HomeActivity.this));
+			}
+
+			@Override
+			public void onDrawerOpened(View drawerView) {
+				super.onDrawerOpened(drawerView);
+
+				// Set title as app name when drawer toggle opened
+				setTitle(R.string.app_name);
+			}
+
+		};
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 
 		// Setup drawer fragment
@@ -216,10 +235,5 @@ public class HomeActivity extends SNAActivity {
 
 		// Save mHomePage instance
 		outState.putSerializable(Intent.EXTRA_STREAM, mHomePage);
-	}
-
-	public void onDrawerClosed() {
-		// Restore title when drawer is closed
-		setTitle(mHomePage.getTitle(this));
 	}
 }
