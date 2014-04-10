@@ -2,32 +2,31 @@ package com.luxiliu.soccernewsaustralia.home;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.luxiliu.soccernewsaustralia.R;
 import com.luxiliu.soccernewsaustralia.activity.SNAActivity;
+import com.luxiliu.soccernewsaustralia.data.HomeFragmentStatePagerAdapter;
 import com.luxiliu.soccernewsaustralia.drawer.NavDrawerActionBarDrawerToggle;
 import com.luxiliu.soccernewsaustralia.drawer.NavDrawerFragment;
 
 /**
- * The HomeActivity is the activity to display various feed content topic
+ * The HomeActivity is the activity to display feed content list
  * 
  * @author Luxi Liu (luxi.liu@gmail.com)
  * 
  */
 public class HomeActivity extends SNAActivity {
-	private static final String LOG_TAG = "HomeActivity";
-
 	private DrawerLayout mDrawerLayout;
 	private NavDrawerActionBarDrawerToggle mDrawerToggle;
 	private NavDrawerFragment mNavDrawerFragment;
 
-	private HomePage mHomePage;
+	private ViewPager mPager;
+	private PagerAdapter mPagerAdapter;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,14 +35,15 @@ public class HomeActivity extends SNAActivity {
 		setContentView(R.layout.home_activity);
 
 		setupView();
-
-		if (savedInstanceState == null) {
-			// Init content for the first time
-			initContent();
-		} else {
-			// Restore content
-			restoreContent(savedInstanceState);
-		}
+		//
+		//
+		// if (savedInstanceState == null) {
+		// // Init content for the first time
+		// initContent();
+		// } else {
+		// // Restore content
+		// restoreContent(savedInstanceState);
+		// }
 	}
 
 	private void setupView() {
@@ -56,96 +56,51 @@ public class HomeActivity extends SNAActivity {
 
 		// Setup drawer toggle
 		mDrawerToggle = new NavDrawerActionBarDrawerToggle(this, mDrawerLayout) {
-
 			@Override
 			public void onDrawerClosed(View drawerView) {
 				super.onDrawerClosed(drawerView);
 
-				// Set title as home page name when drawer toggle closed
-				setTitle(mHomePage.getTitle(HomeActivity.this));
+				// Restore title to fragment title when drawer toggle closed
+				setTitle(HomeFragment.getHomeFragment(mPager.getCurrentItem())
+						.getTitle(HomeActivity.this));
 			}
 
 			@Override
 			public void onDrawerOpened(View drawerView) {
 				super.onDrawerOpened(drawerView);
 
-				// Set title as app name when drawer toggle opened
+				// Set title as application name when drawer toggle opened
 				setTitle(R.string.app_name);
 			}
-
 		};
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 
 		// Setup drawer fragment
 		mNavDrawerFragment = (NavDrawerFragment) getSupportFragmentManager()
 				.findFragmentById(R.id.nav_drawer_fragment);
-	}
 
-	private void initContent() {
-		// Setup initial home page
-		mHomePage = HomePage.ALEAGUE_PAGE;
+		// Setup ViewPager and PagerAdapter.
+		mPager = (ViewPager) findViewById(R.id.pager);
+		mPager.setPageTransformer(true, new DepthPageTransformer());
 
-		// Set title
-		setTitle(mHomePage.getTitle(this));
+		mPagerAdapter = new HomeFragmentStatePagerAdapter(
+				getSupportFragmentManager());
+		mPager.setAdapter(mPagerAdapter);
+		mPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+			@Override
+			public void onPageSelected(int position) {
+				invalidateOptionsMenu();
 
-		// Update nav drawer fragment
-		mNavDrawerFragment.onHomePageActivated(mHomePage);
+				HomeFragment homeFragment = HomeFragment
+						.getHomeFragment(position);
 
-		// Init fragment
-		initFragment(mHomePage);
-	}
+				// Update title
+				setTitle(homeFragment.getTitle(HomeActivity.this));
 
-	private void restoreContent(Bundle savedInstanceState) {
-		// Restore the home page
-		mHomePage = (HomePage) savedInstanceState
-				.getSerializable(Intent.EXTRA_STREAM);
-
-		// Restore the title
-		setTitle(mHomePage.getTitle(this));
-
-		// Restore the fragment
-		restoreFragment(mHomePage);
-	}
-
-	private void initFragment(HomePage homePage) {
-		// Get fragment manager and transaction
-		FragmentManager fragmentManager = getSupportFragmentManager();
-		FragmentTransaction fragmentTransaction = fragmentManager
-				.beginTransaction();
-
-		// Find an existing home fragment
-		// Remove if found
-		HomeFragment homeFragment = (HomeFragment) fragmentManager
-				.findFragmentById(R.id.home_fragment);
-		if (homeFragment != null) {
-			fragmentTransaction.remove(homeFragment);
-		}
-
-		// Get the fragment from initial home page
-		homeFragment = homePage.getFragment();
-
-		// Add the fragment
-		fragmentTransaction.add(R.id.home_fragment, homeFragment).commit();
-	}
-
-	private void restoreFragment(HomePage homePage) {
-		// Get fragment manager and transaction
-		FragmentManager fragmentManager = getSupportFragmentManager();
-		FragmentTransaction fragmentTransaction = fragmentManager
-				.beginTransaction();
-
-		// Find previous home fragment
-		HomeFragment homeFragment = (HomeFragment) fragmentManager
-				.findFragmentById(R.id.home_fragment);
-		if (homeFragment == null) {
-			// Get one from current home page if not found
-			homeFragment = homePage.getFragment();
-		}
-
-		if (!homeFragment.isAdded()) {
-			// Add the home fragment if not added yet
-			fragmentTransaction.add(R.id.home_fragment, homeFragment).commit();
-		}
+				// Update drawer entry
+				mNavDrawerFragment.onHomeFragmentActivated(homeFragment);
+			}
+		});
 	}
 
 	@Override
@@ -160,57 +115,31 @@ public class HomeActivity extends SNAActivity {
 	@Override
 	protected void onNewIntent(Intent intent) {
 		super.onNewIntent(intent);
-		// A drawer entry is clicked
 
-		// Get the home page for the clicked drawer entry
-		int homePageId = intent.getIntExtra(Intent.EXTRA_UID, -1);
-		if (homePageId != -1) {
-			HomePage homePage = null;
+		// Get the home fragment for the clicked drawer entry
+		int homeFragmentId = intent.getIntExtra(Intent.EXTRA_UID, -1);
+		HomeFragment homeFragment = HomeFragment
+				.getHomeFragment(homeFragmentId);
 
-			switch (homePageId) {
-			case HomePage.SOCCEROOS_PAGE_ID:
-				homePage = HomePage.SOCCEROOS_PAGE;
-				break;
-			case HomePage.ALEAGUE_PAGE_ID:
-				homePage = HomePage.ALEAGUE_PAGE;
-				break;
-			case HomePage.AFC_PAGE_ID:
-				homePage = HomePage.AFC_PAGE;
-				break;
-			default:
-				homePage = HomePage.ALEAGUE_PAGE;
-				break;
-			}
+		// Update title
+		setTitle(homeFragment.getTitle(this));
 
-			if (homePage.getId() != mHomePage.getId()) {
-				mHomePage = homePage;
+		// Update view pager
+		mPager.setCurrentItem(homeFragment.getInternalId(), true);
 
-				// Update nav drawer fragment
-				mNavDrawerFragment.onHomePageActivated(mHomePage);
-
-				// Change to different home page
-				changeHomePage(mHomePage);
-			}
-		} else {
-			Log.d(LOG_TAG, String.format("Cannot find page %d", homePageId));
-		}
-	}
-
-	private void changeHomePage(HomePage homePage) {
-		// Set new title
-		setTitle(homePage.getTitle(this));
-
-		// Replace with new home page's fragment
-		replaceFragment(homePage.getFragment());
-	}
-
-	private void replaceFragment(HomeFragment homeFragment) {
-		// Get fragment transaction
-		FragmentTransaction fragmentTransaction = getSupportFragmentManager()
-				.beginTransaction();
-
-		// Replace with new home fragment
-		fragmentTransaction.replace(R.id.home_fragment, homeFragment).commit();
+		// Update drawer fragment
+		mNavDrawerFragment.onHomeFragmentActivated(homeFragment);
+		//
+		// if (homeFragment.getInternalId() !=
+		// mHomeFragment.getInternalId()) {
+		// mHomeFragment = homeFragment;
+		//
+		// // Update nav drawer fragment
+		// mNavDrawerFragment.onHomeFragmentActivated(mHomeFragment);
+		//
+		// // Change to different home page
+		// changeHomeFragment(mHomeFragment);
+		// }
 	}
 
 	@Override
@@ -234,6 +163,45 @@ public class HomeActivity extends SNAActivity {
 		super.onSaveInstanceState(outState);
 
 		// Save mHomePage instance
-		outState.putSerializable(Intent.EXTRA_STREAM, mHomePage);
+		outState.putInt(Intent.EXTRA_UID,
+				HomeFragment.getHomeFragment(mPager.getCurrentItem())
+						.getInternalId());
+	}
+
+	private class DepthPageTransformer implements ViewPager.PageTransformer {
+		private static final float MIN_SCALE = 0.75f;
+
+		public void transformPage(View view, float position) {
+			int pageWidth = view.getWidth();
+
+			if (position < -1) { // [-Infinity,-1)
+				// This page is way off-screen to the left.
+				view.setAlpha(0);
+
+			} else if (position <= 0) { // [-1,0]
+				// Use the default slide transition when moving to the left page
+				view.setAlpha(1);
+				view.setTranslationX(0);
+				view.setScaleX(1);
+				view.setScaleY(1);
+
+			} else if (position <= 1) { // (0,1]
+				// Fade the page out.
+				view.setAlpha(1 - position);
+
+				// Counteract the default slide transition
+				view.setTranslationX(pageWidth * -position);
+
+				// Scale the page down (between MIN_SCALE and 1)
+				float scaleFactor = MIN_SCALE + (1 - MIN_SCALE)
+						* (1 - Math.abs(position));
+				view.setScaleX(scaleFactor);
+				view.setScaleY(scaleFactor);
+
+			} else { // (1,+Infinity]
+				// This page is way off-screen to the right.
+				view.setAlpha(0);
+			}
+		}
 	}
 }

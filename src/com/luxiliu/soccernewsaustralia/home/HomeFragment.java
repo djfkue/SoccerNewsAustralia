@@ -62,27 +62,6 @@ public abstract class HomeFragment extends Fragment implements
 		LOAD_MORE_DOWNLOAD_FAIL
 	}
 
-	// The handler to deal with feed content request
-	private Handler mHandler = new Handler(Looper.getMainLooper()) {
-
-		@Override
-		public void handleMessage(Message msg) {
-			super.handleMessage(msg);
-
-			switch (msg.what) {
-			case FeedManager.REQUEST_DOWNLOAD_FEED_COMPLETE:
-				Content content = (Content) msg.getData().getSerializable(
-						FeedManager.KEY_FEED_CONTENTS);
-				onRequestDownloadComplete(content);
-				break;
-
-			case FeedManager.REQUEST_DOWNLOAD_FEED_FAIL:
-				onRequestDownloadFail();
-				break;
-			}
-		}
-	};
-
 	private boolean mClickable = true;
 	private LoadingView mLoadingView;
 	private PullToRefreshLayout mPullToRefreshLayout;
@@ -97,22 +76,34 @@ public abstract class HomeFragment extends Fragment implements
 	private State mState = State.NOT_INITIALIZED;
 	private Context mContext;
 
-	public static final HomeFragment SOCCEROOS_FRAGMENT;
-	public static final HomeFragment ALEAGUE_FRAGMENT;
-	public static final HomeFragment AFC_FRAGMENT;
+	// The handler to deal with feed content request
+	private Handler mHandler = new Handler(Looper.getMainLooper()) {
 
-	static {
-		SOCCEROOS_FRAGMENT = new SocceroosFragment();
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
 
-		ALEAGUE_FRAGMENT = new ALeagueFragment();
+			switch (msg.what) {
+			case FeedManager.REQUEST_DOWNLOAD_FEED_COMPLETE:
+				// Feed download succeed
+				Content content = (Content) msg.getData().getSerializable(
+						FeedManager.KEY_FEED_CONTENTS);
+				onRequestDownloadComplete(content);
+				break;
 
-		AFC_FRAGMENT = new AFCFragment();
-	}
+			case FeedManager.REQUEST_DOWNLOAD_FEED_FAIL:
+				// Feed download fail
+				onRequestDownloadFail();
+				break;
+			}
+		}
+	};
 
 	@Override
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
+		// Keep application context
 		if (mContext == null) {
 			mContext = activity.getApplicationContext();
 		}
@@ -158,7 +149,7 @@ public abstract class HomeFragment extends Fragment implements
 					if (totalItemCount != 0
 							&& (firstVisibleItem + visibleItemCount) == totalItemCount
 							&& mFooterView.getVisibility() == View.VISIBLE) {
-						// It's time to load more
+						// Scroll to the bottom, and it's time to load more
 						loadMore();
 					}
 				}
@@ -202,6 +193,7 @@ public abstract class HomeFragment extends Fragment implements
 	public void onResume() {
 		super.onResume();
 
+		// Re-enable list item to be clicked
 		mClickable = true;
 	}
 
@@ -215,6 +207,7 @@ public abstract class HomeFragment extends Fragment implements
 				onInitializeDownloading();
 				mFeedManager.requestDownloadFeed(mHandler, getFeedUrl());
 			} else {
+				// No network to initialize
 				onInitializeFailNoNetwork();
 			}
 		} else {
@@ -261,6 +254,7 @@ public abstract class HomeFragment extends Fragment implements
 		mState = State.INITIALIZE_DOWNLOADING;
 		Log.d(LOG_TAG, mState.toString());
 
+		// Update views
 		mPullToRefreshLayout.setEnabled(false);
 		mPullToRefreshLayout.setRefreshing(false);
 		mLoadingView.setDownloading();
@@ -298,6 +292,7 @@ public abstract class HomeFragment extends Fragment implements
 		mState = State.INITIALIZE_DOWNLOAD_FAIL_NO_NETWORK;
 		Log.d(LOG_TAG, mState.toString());
 
+		// Update views
 		mPullToRefreshLayout.setEnabled(true);
 		mPullToRefreshLayout.setRefreshing(false);
 		mLoadingView.setDownloadFailNoNetwork(false);
@@ -307,6 +302,7 @@ public abstract class HomeFragment extends Fragment implements
 		mState = State.PULL_TO_REFRESH_DOWNLOADING;
 		Log.d(LOG_TAG, mState.toString());
 
+		// Update views
 		mPullToRefreshLayout.setEnabled(true);
 		mPullToRefreshLayout.setRefreshing(true);
 		mLoadingView.setVisibility(View.INVISIBLE);
@@ -343,8 +339,10 @@ public abstract class HomeFragment extends Fragment implements
 		mState = State.LOAD_MORE_DOWNLOADING;
 		Log.d(LOG_TAG, mState.toString());
 
+		// Enable load more footer view
 		setLoadingMoreFooterEnabled(true);
 
+		// Update views
 		mPullToRefreshLayout.setEnabled(false);
 		mPullToRefreshLayout.setRefreshing(false);
 		mLoadingView.setVisibility(View.INVISIBLE);
@@ -354,12 +352,15 @@ public abstract class HomeFragment extends Fragment implements
 		mState = State.LOAD_MORE_DOWNLOAD_COMPLETE;
 		Log.d(LOG_TAG, mState.toString());
 
+		// Disable load more footer view
 		setLoadingMoreFooterEnabled(false);
 
+		// Update views
 		mPullToRefreshLayout.setEnabled(true);
 		mPullToRefreshLayout.setRefreshing(false);
 		mLoadingView.setVisibility(View.INVISIBLE);
 
+		// Add new page to page list and show
 		addAndShowPageList(pageList, page);
 	}
 
@@ -367,8 +368,10 @@ public abstract class HomeFragment extends Fragment implements
 		mState = State.LOAD_MORE_DOWNLOAD_FAIL;
 		Log.d(LOG_TAG, mState.toString());
 
+		// Disalbe load more footer view
 		setLoadingMoreFooterEnabled(false);
 
+		// Update views
 		mPullToRefreshLayout.setEnabled(true);
 		mPullToRefreshLayout.setRefreshing(false);
 		mLoadingView.setVisibility(View.INVISIBLE);
@@ -604,9 +607,47 @@ public abstract class HomeFragment extends Fragment implements
 		}
 	}
 
+	private int mId;
+
+	public static final int ALEAGUE_FRAGMENT_ID = 0;
+	public static final int AFC_FRAGMENT_ID = 1;
+	public static final int SOCCEROOS_FRAGMENT_ID = 2;
+	public static final int SIZE = 3;
+
+	public static final HomeFragment ALEAGUE_FRAGMENT = new ALeagueFragment();
+	public static final HomeFragment AFC_FRAGMENT = new AFCFragment();
+	public static final HomeFragment SOCCEROOS_FRAGMENT = new SocceroosFragment();
+
+	protected HomeFragment(int id) {
+		mId = id;
+	}
+
+	public static final HomeFragment getHomeFragment(int id) {
+		switch (id) {
+		case ALEAGUE_FRAGMENT_ID:
+			return ALEAGUE_FRAGMENT;
+
+		case AFC_FRAGMENT_ID:
+			return AFC_FRAGMENT;
+
+		case SOCCEROOS_FRAGMENT_ID:
+			return SOCCEROOS_FRAGMENT;
+
+		default:
+			return ALEAGUE_FRAGMENT;
+		}
+	}
+
+	public int getInternalId() {
+		return mId;
+	}
+
 	public abstract String getFeedUrl();
 
 	public abstract String getFeedUrlWithPageIndex(int page);
 
 	public abstract boolean hasMultiplePages();
+
+	public abstract String getTitle(Context context);
+
 }

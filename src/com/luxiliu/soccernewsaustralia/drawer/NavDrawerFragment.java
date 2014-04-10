@@ -13,7 +13,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.luxiliu.soccernewsaustralia.R;
-import com.luxiliu.soccernewsaustralia.home.HomePage;
+import com.luxiliu.soccernewsaustralia.home.HomeFragment;
 
 /**
  * The NavDrawerFragment provides a navigation drawer fragment
@@ -54,8 +54,6 @@ public class NavDrawerFragment extends Fragment implements OnItemClickListener {
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		// A drawer entry is clicked
-
 		// Close the drawer provided a entry is clicked
 		((DrawerLayout) getView().getParent()).closeDrawer(getView());
 
@@ -66,34 +64,34 @@ public class NavDrawerFragment extends Fragment implements OnItemClickListener {
 		navDrawerEntry.onClick(view);
 	}
 
-	public void onHomePageActivated(HomePage homePage) {
-		// Update nav drawer items
+	public void onHomeFragmentActivated(HomeFragment homeFragment) {
+		// Update drawer entries' activated/deactivated states
 
-		switch (homePage.getId()) {
-		case HomePage.ALEAGUE_PAGE_ID:
-			((HomePageEntry) NavDrawerEntry.ALEAGUE_ENTRY).setActivated(
+		switch (homeFragment.getInternalId()) {
+		case HomeFragment.ALEAGUE_FRAGMENT_ID:
+			((HomeFragmentEntry) NavDrawerEntry.ALEAGUE_ENTRY).setActivated(
 					getActivity(), true);
-			((HomePageEntry) NavDrawerEntry.AFCLEAGUE_ENTRY).setActivated(
+			((HomeFragmentEntry) NavDrawerEntry.AFCLEAGUE_ENTRY).setActivated(
 					getActivity(), false);
-			((HomePageEntry) NavDrawerEntry.SOCCEROOS_ENTRY).setActivated(
+			((HomeFragmentEntry) NavDrawerEntry.SOCCEROOS_ENTRY).setActivated(
 					getActivity(), false);
 			break;
 
-		case HomePage.AFC_PAGE_ID:
-			((HomePageEntry) NavDrawerEntry.ALEAGUE_ENTRY).setActivated(
+		case HomeFragment.AFC_FRAGMENT_ID:
+			((HomeFragmentEntry) NavDrawerEntry.ALEAGUE_ENTRY).setActivated(
 					getActivity(), false);
-			((HomePageEntry) NavDrawerEntry.AFCLEAGUE_ENTRY).setActivated(
+			((HomeFragmentEntry) NavDrawerEntry.AFCLEAGUE_ENTRY).setActivated(
 					getActivity(), true);
-			((HomePageEntry) NavDrawerEntry.SOCCEROOS_ENTRY).setActivated(
+			((HomeFragmentEntry) NavDrawerEntry.SOCCEROOS_ENTRY).setActivated(
 					getActivity(), false);
 			break;
 
-		case HomePage.SOCCEROOS_PAGE_ID:
-			((HomePageEntry) NavDrawerEntry.ALEAGUE_ENTRY).setActivated(
+		case HomeFragment.SOCCEROOS_FRAGMENT_ID:
+			((HomeFragmentEntry) NavDrawerEntry.ALEAGUE_ENTRY).setActivated(
 					getActivity(), false);
-			((HomePageEntry) NavDrawerEntry.AFCLEAGUE_ENTRY).setActivated(
+			((HomeFragmentEntry) NavDrawerEntry.AFCLEAGUE_ENTRY).setActivated(
 					getActivity(), false);
-			((HomePageEntry) NavDrawerEntry.SOCCEROOS_ENTRY).setActivated(
+			((HomeFragmentEntry) NavDrawerEntry.SOCCEROOS_ENTRY).setActivated(
 					getActivity(), true);
 			break;
 		}
