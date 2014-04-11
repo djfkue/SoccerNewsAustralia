@@ -196,7 +196,7 @@ public class HeaderGridView extends GridView {
 
 		if (adapter != null && !(adapter instanceof HeaderViewGridAdapter)) {
 			throw new IllegalStateException(
-					"Cannot add header view to grid -- setAdapter has already been called.");
+					"Cannot add footer view to grid -- setAdapter has already been called.");
 		}
 
 		FixedViewInfo info = new FixedViewInfo();
@@ -424,8 +424,16 @@ public class HeaderGridView extends GridView {
 		@Override
 		public int getCount() {
 			if (mAdapter != null) {
-				return getHeadersCount() * mNumColumns + mAdapter.getCount()
-						+ getFootersCount() * mNumColumns;
+				if (mAdapter.getCount() % mNumColumns == 0) {
+					return getHeadersCount() * mNumColumns
+							+ mAdapter.getCount() + getFootersCount()
+							* mNumColumns;
+				} else {
+					return (getHeadersCount() * mNumColumns)
+							+ mAdapter.getCount()
+							+ (mAdapter.getCount() % mNumColumns)
+							+ (getFootersCount() * mNumColumns);
+				}
 			} else {
 				return getHeadersCount() * mNumColumns;
 			}
@@ -461,6 +469,14 @@ public class HeaderGridView extends GridView {
 				}
 			}
 
+			// Padding
+			final int paddingPosition = position - numHeadersAndPlaceholders
+					- mAdapter.getCount();
+			int paddingCount = mAdapter.getCount() % mNumColumns;
+			if (paddingCount != 0 && paddingPosition < paddingCount) {
+				return false;
+			}
+
 			// Footer
 			int numFootersAndPlaceholders = getFootersCount() * mNumColumns;
 			int footerPosition = adjPosition - mAdapter.getCount();
@@ -494,8 +510,17 @@ public class HeaderGridView extends GridView {
 				}
 			}
 
+			// Padding
+			final int paddingPosition = position - numHeadersAndPlaceholders
+					- mAdapter.getCount();
+			int paddingCount = mAdapter.getCount() % mNumColumns;
+			if (paddingCount != 0 && paddingPosition < paddingCount) {
+				return new Object();
+			}
+
 			// Footer
-			int footerPosition = adjPosition - mAdapter.getCount();
+			int footerPosition = position - numHeadersAndPlaceholders
+					- mAdapter.getCount() - paddingCount;
 			if (footerPosition % mNumColumns == 0) {
 				return mFooterViewInfos.get(footerPosition / mNumColumns).data;
 			}
@@ -558,9 +583,20 @@ public class HeaderGridView extends GridView {
 				}
 			}
 
+			// Padding
+			final int paddingPosition = position - numHeadersAndPlaceholders
+					- mAdapter.getCount();
+			int paddingCount = mAdapter.getCount() % mNumColumns;
+			if (paddingCount != 0 && paddingPosition < paddingCount) {
+				View view = mAdapter.getView(0, convertView, parent);
+				view.setVisibility(View.INVISIBLE);
+				return view;
+			}
+
 			// Footer
 			int numFootersAndPlaceholders = getFootersCount() * mNumColumns;
-			int footerPosition = adjPosition - mAdapter.getCount();
+			int footerPosition = position - numHeadersAndPlaceholders
+					- mAdapter.getCount() - paddingCount;
 			if (footerPosition < numFootersAndPlaceholders) {
 				View footerViewContainer = mFooterViewInfos.get(footerPosition
 						/ mNumColumns).viewContainer;
@@ -601,8 +637,16 @@ public class HeaderGridView extends GridView {
 				}
 			}
 
-			int footerPosition = position - numHeadersAndPlaceholders
+			// Padding
+			final int paddingPosition = position - numHeadersAndPlaceholders
 					- mAdapter.getCount();
+			int paddingCount = mAdapter.getCount() % mNumColumns;
+			if (paddingCount != 0 && paddingPosition < paddingCount) {
+				return AdapterView.ITEM_VIEW_TYPE_IGNORE;
+			}
+
+			int footerPosition = position - numHeadersAndPlaceholders
+					- mAdapter.getCount() - paddingCount;
 			if (position >= (numHeadersAndPlaceholders + mAdapter.getCount())
 					&& position < (numHeadersAndPlaceholders
 							+ mAdapter.getCount() + numFootersAndPlaceholders)
