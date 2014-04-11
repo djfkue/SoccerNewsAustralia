@@ -39,16 +39,6 @@ public class SettingsFragment extends PreferenceFragment {
 		setupAboutPreferences();
 	}
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		if (item.getItemId() == android.R.id.home) {
-			getActivity().onBackPressed();
-			return true;
-		}
-
-		return super.onOptionsItemSelected(item);
-	}
-
 	private void setupGeneralPreferences() {
 		setupArticleTextSizePreference();
 	}
@@ -58,10 +48,8 @@ public class SettingsFragment extends PreferenceFragment {
 		ListPreference preference = (ListPreference) findPreference(getString(R.string.article_text_size_preference_key));
 		preference.setSummary(Preferences.getArticleFontSize(
 				preference.getContext()).toString());
-
 		preference
 				.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-
 					@Override
 					public boolean onPreferenceChange(Preference preference,
 							Object newValue) {
@@ -94,7 +82,6 @@ public class SettingsFragment extends PreferenceFragment {
 						startActivity(intent);
 						return true;
 					}
-
 				});
 	}
 
@@ -153,5 +140,17 @@ public class SettingsFragment extends PreferenceFragment {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == android.R.id.home) {
+			if (getActivity() != null) {
+				getActivity().onBackPressed();
+			}
+			return true;
+		}
+
+		return super.onOptionsItemSelected(item);
 	}
 }

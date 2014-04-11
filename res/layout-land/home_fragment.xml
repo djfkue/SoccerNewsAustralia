@@ -4,17 +4,17 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <com.luxiliu.soccernewsaustralia.widget.LoadingView
-        android:id="@+id/loading_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_centerInParent="true" >
-    </com.luxiliu.soccernewsaustralia.widget.LoadingView>
-
     <uk.co.senab.actionbarpulltorefresh.extras.actionbarcompat.PullToRefreshLayout
         android:id="@+id/pull_to_fresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
+
+        <com.luxiliu.soccernewsaustralia.widget.LoadingView
+            android:id="@+id/loading_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true" >
+        </com.luxiliu.soccernewsaustralia.widget.LoadingView>
 
         <com.luxiliu.soccernewsaustralia.widget.CardHeaderGridView
             android:id="@+id/news_card_list"

@@ -6,6 +6,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
+/**
+ * The HomeFragmentStatePagerAdapter class provide an adapter of view pager
+ * 
+ * @author Luxi Liu (luxi.liu@gmail.com)
+ * 
+ */
 public class HomeFragmentStatePagerAdapter extends FragmentStatePagerAdapter {
 
 	public HomeFragmentStatePagerAdapter(FragmentManager fm) {

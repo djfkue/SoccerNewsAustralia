@@ -6,7 +6,7 @@ import com.luxiliu.soccernewsaustralia.R;
 import com.luxiliu.soccernewsaustralia.activity.SNAActivity;
 
 /**
- * The SettingsActivity is used to set and get application's preferences
+ * The SettingsActivity is used for application's preferences
  * 
  * @author Luxi Liu (luxi.liu@gmail.com)
  * 

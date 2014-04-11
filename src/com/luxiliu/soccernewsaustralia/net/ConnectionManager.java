@@ -14,6 +14,10 @@ import android.net.NetworkInfo;
 public class ConnectionManager {
 	private static final ConnectionManager mInstance = new ConnectionManager();
 
+	// Make ConnectionManager as a static class
+	private ConnectionManager() {
+	}
+
 	public static ConnectionManager instance() {
 		return mInstance;
 	}
@@ -23,10 +27,7 @@ public class ConnectionManager {
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
 
 		NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-		return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-	}
 
-	// Make ConnectionManager as a static class
-	private ConnectionManager() {
+		return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
 	}
 }

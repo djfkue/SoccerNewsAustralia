@@ -12,18 +12,19 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 /**
- * The LoadingView provides a simple view to display the state of content
- * download
+ * The LoadingView provides a view to display the state of content download
  * 
  * @author Luxi Liu (luxi.liu@gmail.com)
  * 
  */
 public class LoadingView extends RelativeLayout {
+
 	private ProgressBar mProgressBar;
 	private RelativeLayout mLoadResultLayout;
 	private ImageView mImageView;
 	private TextView mMessageTextView;
 	private TextView mRetryTextView;
+	private OnClickListener mRetryListener;
 
 	public LoadingView(Context context) {
 		super(context);
@@ -44,19 +45,35 @@ public class LoadingView extends RelativeLayout {
 	}
 
 	private void initView() {
+		// Inflate the main view
 		LayoutInflater inflater = (LayoutInflater) getContext()
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		inflater.inflate(R.layout.loading_view, this, true);
 
+		// Get progress bar
 		mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
 
+		// Get result layout
 		mLoadResultLayout = (RelativeLayout) findViewById(R.id.load_result_layout);
 
+		// Get image view
 		mImageView = (ImageView) findViewById(R.id.image);
 
+		// Get message view
 		mMessageTextView = (TextView) findViewById(R.id.message);
 
+		// Get retry text view
 		mRetryTextView = (TextView) findViewById(R.id.retry);
+		mRetryTextView.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				if (mRetryListener != null) {
+					// "Retry" is clicked
+					mRetryListener.onClick(v);
+				}
+			}
+		});
 	}
 
 	public void setDownloading() {
@@ -121,5 +138,9 @@ public class LoadingView extends RelativeLayout {
 				R.string.content_failed_to_load));
 
 		mRetryTextView.setVisibility(View.GONE);
+	}
+
+	public void setOnRetryClickListener(OnClickListener listener) {
+		mRetryListener = listener;
 	}
 }

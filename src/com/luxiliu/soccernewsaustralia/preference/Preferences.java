@@ -13,6 +13,9 @@ import android.content.SharedPreferences;
  */
 public class Preferences {
 	private static final int DEFAULT_ARTICLE_TEXT_SIZE_INDEX = 1;
+	private static final int ARTICLE_TEXT_SIZE_SMALL = 0;
+	private static final int ARTICLE_TEXT_SIZE_NORMAL = 1;
+	private static final int ARTICLE_TEXT_SIZE_LARGE = 2;
 
 	private Preferences() {
 
@@ -44,12 +47,15 @@ public class Preferences {
 		}
 
 		switch (index) {
-		case 0:
+		case ARTICLE_TEXT_SIZE_SMALL:
 			return FontSize.Small;
-		case 1:
+
+		case ARTICLE_TEXT_SIZE_NORMAL:
 			return FontSize.Normal;
-		case 2:
+
+		case ARTICLE_TEXT_SIZE_LARGE:
 			return FontSize.Large;
+
 		default:
 			return FontSize.Normal;
 		}
@@ -67,12 +73,15 @@ public class Preferences {
 		}
 
 		switch (index) {
-		case 0:
+		case ARTICLE_TEXT_SIZE_SMALL:
 			return FontSize.Small;
-		case 1:
+
+		case ARTICLE_TEXT_SIZE_NORMAL:
 			return FontSize.Normal;
-		case 2:
+
+		case ARTICLE_TEXT_SIZE_LARGE:
 			return FontSize.Large;
+
 		default:
 			return FontSize.Normal;
 		}

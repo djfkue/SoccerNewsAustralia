@@ -19,10 +19,10 @@ public class Page {
 	private static final String ATTRIBUTE_PREVIOUS_PAGE_NAME = "previousPage";
 	private static final String ATTRIBUTE_NEXT_PAGE_NAME = "nextPage";
 
-	private int mPagination;
+	private ArrayList<News> mNewsList;
+	private int mCurrentPage;
 	private boolean mHasPreviousPage;
 	private boolean mHasNextPage;
-	private ArrayList<News> mNewsList;
 
 	public Page(Document document) {
 		mNewsList = new ArrayList<News>();
@@ -31,7 +31,7 @@ public class Page {
 			// Get root element from document
 			Element rootElement = document.getRootElement();
 
-			// Get all the needed nodes
+			// Get all the item nodes
 			@SuppressWarnings("unchecked")
 			List<Element> itemElementList = (List<Element>) rootElement
 					.selectNodes(NODE_ITEM);
@@ -45,7 +45,7 @@ public class Page {
 			// Get pagination
 			Element paginationElement = (Element) rootElement
 					.selectSingleNode(NODE_PAGINATION);
-			mPagination = Integer.valueOf(paginationElement
+			mCurrentPage = Integer.valueOf(paginationElement
 					.attributeValue(ATTRIBUTE_CURRENT_PAGE_NAME));
 			mHasPreviousPage = Boolean.valueOf(paginationElement
 					.attributeValue(ATTRIBUTE_PREVIOUS_PAGE_NAME));
@@ -54,8 +54,8 @@ public class Page {
 		}
 	}
 
-	public int getPagination() {
-		return mPagination;
+	public int getCurrentPage() {
+		return mCurrentPage;
 	}
 
 	public boolean hasPreviousPage() {

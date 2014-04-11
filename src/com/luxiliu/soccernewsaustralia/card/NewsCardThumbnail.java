@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import it.gmariotti.cardslib.library.internal.CardThumbnail;
 
 /**
- * This class provides a thumbnail for a news card
+ * The NewsCardThumbnail class provides a thumbnail for a news card
  * 
  * @author Luxi Liu (luxi.liu@gmail.com)
  * 

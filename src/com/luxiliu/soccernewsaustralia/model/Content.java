@@ -13,6 +13,7 @@ import org.dom4j.Document;
  */
 public class Content implements Serializable {
 	private static final long serialVersionUID = 961250637847274483L;
+
 	private Document mDocument;
 
 	public Content(Document document) {

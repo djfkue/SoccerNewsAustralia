@@ -17,8 +17,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.TextView;
-
 import com.luxiliu.soccernewsaustralia.R;
 import com.luxiliu.soccernewsaustralia.feed.FeedManager;
 import com.luxiliu.soccernewsaustralia.model.Article;
@@ -35,6 +33,22 @@ import com.luxiliu.soccernewsaustralia.widget.LoadingView;
  */
 public class ArticleFragment extends Fragment {
 	private static final String LOG_TAG = "ArticleFragment";
+
+	private enum State {
+		NOT_INITIALIZED, //
+		INITIALIZE_DOWNLOADING, //
+		INITIALIZE_DOWNLOAD_COMPLETE, //
+		INITIALIZE_DOWNLOAD_FAIL, //
+		INITIALIZE_DOWNLOAD_FAIL_NO_NETWORK, //
+	}
+
+	private State mState = State.NOT_INITIALIZED;
+	private News mNews;
+	private Article mArticle;
+	private FeedManager mFeedManager = FeedManager.instance();
+
+	private LoadingView mLoadingView;
+	private ArticleView mArticleView;
 
 	private Handler mHandler = new Handler(Looper.getMainLooper()) {
 
@@ -55,23 +69,6 @@ public class ArticleFragment extends Fragment {
 			}
 		}
 	};
-
-	private enum State {
-		NOT_INITIALIZED, //
-		INITIALIZE_DOWNLOADING, //
-		INITIALIZE_DOWNLOAD_COMPLETE, //
-		INITIALIZE_DOWNLOAD_FAIL, //
-		INITIALIZE_DOWNLOAD_FAIL_NO_NETWORK, //
-	}
-
-	private State mState = State.NOT_INITIALIZED;
-	private News mNews;
-	private Article mArticle;
-	private FeedManager mFeedManager = FeedManager.instance();
-
-	private LoadingView mLoadingView;
-	private ArticleView mArticleView;
-	private TextView mRetryTextView;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -101,15 +98,11 @@ public class ArticleFragment extends Fragment {
 
 		// Get loading view
 		mLoadingView = (LoadingView) view.findViewById(R.id.loading_view);
-
-		mRetryTextView = (TextView) mLoadingView.findViewById(R.id.retry);
-		mRetryTextView.setOnClickListener(new OnClickListener() {
-
+		mLoadingView.setOnRetryClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				retry();
 			}
-
 		});
 
 		// Get article view
@@ -227,6 +220,7 @@ public class ArticleFragment extends Fragment {
 
 		mArticle = new Article(content.getDocument());
 		mLoadingView.setDownloadComplete();
+		
 		showArticle(mArticle);
 	}
 
@@ -270,6 +264,7 @@ public class ArticleFragment extends Fragment {
 
 		case INITIALIZE_DOWNLOAD_COMPLETE:
 			mLoadingView.setDownloadComplete();
+
 			showArticle(mArticle);
 			break;
 		}

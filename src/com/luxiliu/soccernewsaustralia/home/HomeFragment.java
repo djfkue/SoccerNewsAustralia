@@ -258,7 +258,6 @@ public abstract class HomeFragment extends Fragment implements
 		mPullToRefreshLayout.setEnabled(false);
 		mPullToRefreshLayout.setRefreshing(false);
 		mLoadingView.setDownloading();
-		mCardHeaderGridView.setVisibility(View.INVISIBLE);
 	}
 
 	private void onInitializeDownloadComplete(Content content) {
@@ -273,7 +272,7 @@ public abstract class HomeFragment extends Fragment implements
 		mPullToRefreshLayout.setEnabled(true);
 		mPullToRefreshLayout.setRefreshing(false);
 		mLoadingView.setDownloadComplete();
-		mCardHeaderGridView.setVisibility(View.VISIBLE);
+
 		showPageList(mPageList);
 	}
 
@@ -288,7 +287,6 @@ public abstract class HomeFragment extends Fragment implements
 		mPullToRefreshLayout.setEnabled(true);
 		mPullToRefreshLayout.setRefreshing(false);
 		mLoadingView.setDownloadFailNoContent();
-		mCardHeaderGridView.setVisibility(View.INVISIBLE);
 	}
 
 	private void onInitializeFailNoNetwork() {
@@ -299,7 +297,6 @@ public abstract class HomeFragment extends Fragment implements
 		mPullToRefreshLayout.setEnabled(true);
 		mPullToRefreshLayout.setRefreshing(false);
 		mLoadingView.setDownloadFailNoNetwork(false);
-		mCardHeaderGridView.setVisibility(View.INVISIBLE);
 	}
 
 	private void onPullToRefreshDownloading() {
@@ -310,7 +307,6 @@ public abstract class HomeFragment extends Fragment implements
 		mPullToRefreshLayout.setEnabled(true);
 		mPullToRefreshLayout.setRefreshing(true);
 		mLoadingView.setVisibility(View.INVISIBLE);
-		mCardHeaderGridView.setVisibility(View.VISIBLE);
 	}
 
 	private void onPullToRefreshDownloadComplete(Content content) {
@@ -326,7 +322,7 @@ public abstract class HomeFragment extends Fragment implements
 		mPullToRefreshLayout.setEnabled(true);
 		mPullToRefreshLayout.setRefreshing(false);
 		mLoadingView.setDownloadComplete();
-		mCardHeaderGridView.setVisibility(View.VISIBLE);
+
 		showPageList(mPageList);
 	}
 
@@ -339,7 +335,6 @@ public abstract class HomeFragment extends Fragment implements
 		mPullToRefreshLayout.setEnabled(true);
 		mPullToRefreshLayout.setRefreshing(false);
 		mLoadingView.setDownloadComplete();
-		mCardHeaderGridView.setVisibility(View.VISIBLE);
 	}
 
 	private void onLoadMoreDownloading() {
@@ -353,7 +348,6 @@ public abstract class HomeFragment extends Fragment implements
 		mPullToRefreshLayout.setEnabled(false);
 		mPullToRefreshLayout.setRefreshing(false);
 		mLoadingView.setVisibility(View.INVISIBLE);
-		mCardHeaderGridView.setVisibility(View.VISIBLE);
 	}
 
 	private void onLoadMoreDownloadComplete(ArrayList<Page> pageList, Page page) {
@@ -367,7 +361,6 @@ public abstract class HomeFragment extends Fragment implements
 		mPullToRefreshLayout.setEnabled(true);
 		mPullToRefreshLayout.setRefreshing(false);
 		mLoadingView.setVisibility(View.INVISIBLE);
-		mCardHeaderGridView.setVisibility(View.VISIBLE);
 
 		// Add new page to page list and show
 		addAndShowPageList(pageList, page);
@@ -384,7 +377,6 @@ public abstract class HomeFragment extends Fragment implements
 		mPullToRefreshLayout.setEnabled(true);
 		mPullToRefreshLayout.setRefreshing(false);
 		mLoadingView.setVisibility(View.INVISIBLE);
-		mCardHeaderGridView.setVisibility(View.VISIBLE);
 	}
 
 	private void loadMore() {
@@ -398,7 +390,7 @@ public abstract class HomeFragment extends Fragment implements
 
 			mFeedManager.requestDownloadFeed(mHandler,
 					getFeedUrlWithPageIndex(mPageList.get(mPageList.size() - 1)
-							.getPagination() + 1));
+							.getCurrentPage() + 1));
 		}
 	}
 
@@ -413,28 +405,24 @@ public abstract class HomeFragment extends Fragment implements
 			mPullToRefreshLayout.setEnabled(false);
 			mPullToRefreshLayout.setRefreshing(false);
 			mLoadingView.setDownloading();
-			mCardHeaderGridView.setVisibility(View.INVISIBLE);
 			break;
 
 		case INITIALIZE_DOWNLOAD_FAIL:
 			mPullToRefreshLayout.setEnabled(true);
 			mPullToRefreshLayout.setRefreshing(false);
 			mLoadingView.setDownloadFailNoContent();
-			mCardHeaderGridView.setVisibility(View.INVISIBLE);
 			break;
 
 		case INITIALIZE_DOWNLOAD_FAIL_NO_NETWORK:
 			mPullToRefreshLayout.setEnabled(true);
 			mPullToRefreshLayout.setRefreshing(false);
 			mLoadingView.setDownloadFailNoNetwork(false);
-			mCardHeaderGridView.setVisibility(View.INVISIBLE);
 			break;
 
 		case INITIALIZE_DOWNLOAD_COMPLETE:
 			mPullToRefreshLayout.setEnabled(true);
 			mPullToRefreshLayout.setRefreshing(false);
 			mLoadingView.setDownloadComplete();
-			mCardHeaderGridView.setVisibility(View.VISIBLE);
 
 			restorePageList(mPageList);
 			break;
@@ -443,7 +431,6 @@ public abstract class HomeFragment extends Fragment implements
 			mPullToRefreshLayout.setEnabled(true);
 			mPullToRefreshLayout.setRefreshing(true);
 			mLoadingView.setVisibility(View.INVISIBLE);
-			mCardHeaderGridView.setVisibility(View.VISIBLE);
 
 			restorePageList(mPageList);
 			break;
@@ -452,7 +439,6 @@ public abstract class HomeFragment extends Fragment implements
 			mPullToRefreshLayout.setEnabled(true);
 			mPullToRefreshLayout.setRefreshing(false);
 			mLoadingView.setVisibility(View.INVISIBLE);
-			mCardHeaderGridView.setVisibility(View.VISIBLE);
 
 			restorePageList(mPageList);
 			break;
@@ -461,7 +447,6 @@ public abstract class HomeFragment extends Fragment implements
 			mPullToRefreshLayout.setEnabled(true);
 			mPullToRefreshLayout.setRefreshing(false);
 			mLoadingView.setVisibility(View.INVISIBLE);
-			mCardHeaderGridView.setVisibility(View.VISIBLE);
 
 			restorePageList(mPageList);
 			break;
@@ -471,7 +456,6 @@ public abstract class HomeFragment extends Fragment implements
 			mPullToRefreshLayout.setEnabled(false);
 			mPullToRefreshLayout.setRefreshing(false);
 			mLoadingView.setVisibility(View.INVISIBLE);
-			mCardHeaderGridView.setVisibility(View.VISIBLE);
 
 			restorePageList(mPageList);
 			break;
@@ -481,7 +465,6 @@ public abstract class HomeFragment extends Fragment implements
 			mPullToRefreshLayout.setEnabled(true);
 			mPullToRefreshLayout.setRefreshing(false);
 			mLoadingView.setVisibility(View.INVISIBLE);
-			mCardHeaderGridView.setVisibility(View.VISIBLE);
 
 			restorePageList(mPageList);
 			break;
@@ -491,7 +474,6 @@ public abstract class HomeFragment extends Fragment implements
 			mPullToRefreshLayout.setEnabled(true);
 			mPullToRefreshLayout.setRefreshing(false);
 			mLoadingView.setVisibility(View.INVISIBLE);
-			mCardHeaderGridView.setVisibility(View.VISIBLE);
 
 			restorePageList(mPageList);
 			break;
@@ -665,5 +647,4 @@ public abstract class HomeFragment extends Fragment implements
 	public abstract boolean hasMultiplePages();
 
 	public abstract String getTitle(Context context);
-
 }

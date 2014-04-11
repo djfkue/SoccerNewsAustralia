@@ -12,7 +12,7 @@ import com.luxiliu.soccernewsaustralia.model.News;
 /**
  * The ArticleActivity is the activity to display feed article
  * 
- * @author luxi.liu
+ * @author Luxi Liu (luxi.liu@gmail.com)
  * 
  */
 public class ArticleActivity extends SNAActivity {
@@ -30,13 +30,7 @@ public class ArticleActivity extends SNAActivity {
 
 		setupView();
 
-		if (savedInstanceState == null) {
-			// Init content for the first time
-			initContent();
-		} else {
-			// Restore content
-			restoreContent(savedInstanceState);
-		}
+		setupContent();
 	}
 
 	private void setupView() {
@@ -48,16 +42,12 @@ public class ArticleActivity extends SNAActivity {
 		setTitle(mNews.getCategory());
 	}
 
-	private void initContent() {
-		// Init fragment
-		initFragment();
+	private void setupContent() {
+		// Setup fragment
+		setupFragment();
 	}
 
-	private void restoreContent(Bundle savedInstanceState) {
-		restoreFragment();
-	}
-
-	private void initFragment() {
+	private void setupFragment() {
 		// Initialize fragment manager and transaction
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
@@ -78,9 +68,5 @@ public class ArticleActivity extends SNAActivity {
 			fragmentTransaction.add(R.id.article_fragment, mArticleFragment,
 					ARTICLE_FRAGMENT).commit();
 		}
-	}
-
-	private void restoreFragment() {
-		initFragment();
 	}
 }

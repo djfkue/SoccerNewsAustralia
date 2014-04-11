@@ -88,11 +88,7 @@ public class HomeActivity extends SNAActivity {
 				HomeFragment homeFragment = HomeFragment
 						.getHomeFragment(position);
 
-				// Update title
-				setTitle(homeFragment.getTitle(HomeActivity.this));
-
-				// Update drawer entry
-				mNavDrawerFragment.onHomeFragmentActivated(homeFragment);
+				updateViewOnFragmentChange(homeFragment);
 			}
 		});
 	}
@@ -102,11 +98,7 @@ public class HomeActivity extends SNAActivity {
 		HomeFragment homeFragment = HomeFragment.getHomeFragment(mPager
 				.getCurrentItem());
 
-		// Set title
-		setTitle(homeFragment.getTitle(this));
-
-		// Set drawer entry
-		mNavDrawerFragment.onHomeFragmentActivated(homeFragment);
+		updateViewOnFragmentChange(homeFragment);
 	}
 
 	@Override
@@ -127,14 +119,7 @@ public class HomeActivity extends SNAActivity {
 		HomeFragment homeFragment = HomeFragment
 				.getHomeFragment(homeFragmentId);
 
-		// Update title
-		setTitle(homeFragment.getTitle(this));
-
-		// Update view pager
-		mPager.setCurrentItem(homeFragment.getInternalId(), true);
-
-		// Update drawer fragment
-		mNavDrawerFragment.onHomeFragmentActivated(homeFragment);
+		updateViewOnFragmentChange(homeFragment);
 	}
 
 	@Override
@@ -163,6 +148,24 @@ public class HomeActivity extends SNAActivity {
 						.getInternalId());
 	}
 
+	private void updateViewOnFragmentChange(HomeFragment homeFragment) {
+		// Set title
+		setTitle(homeFragment.getTitle(this));
+
+		// Update view pager
+		mPager.setCurrentItem(homeFragment.getInternalId(), true);
+
+		// Update drawer fragment
+		mNavDrawerFragment.onHomeFragmentActivated(homeFragment);
+	}
+
+	/**
+	 * The DepthPageTransformer class provide a transform animation for view
+	 * pager
+	 * 
+	 * @author Luxi Liu (luxi.liu@gmail.com)
+	 * 
+	 */
 	private class DepthPageTransformer implements ViewPager.PageTransformer {
 		private static final float MIN_SCALE = 1.0f;
 

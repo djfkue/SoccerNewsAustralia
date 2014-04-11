@@ -66,7 +66,6 @@ public class NavDrawerFragment extends Fragment implements OnItemClickListener {
 
 	public void onHomeFragmentActivated(HomeFragment homeFragment) {
 		// Update drawer entries' activated/deactivated states
-
 		switch (homeFragment.getInternalId()) {
 		case HomeFragment.ALEAGUE_FRAGMENT_ID:
 			((HomeFragmentEntry) NavDrawerEntry.ALEAGUE_ENTRY).setActivated(

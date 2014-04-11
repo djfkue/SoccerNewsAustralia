@@ -13,10 +13,12 @@ import android.support.v4.app.Fragment;
  * 
  * @author Luxi Liu (luxi.liu@gmail.com)
  * 
- * 
- * 
  */
 public final class Util {
+	// Make Util class as a static class
+	private Util() {
+	}
+
 	public static boolean isPortrait(Fragment fragment) {
 		if (fragment != null) {
 			return (fragment.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT);
@@ -31,7 +33,7 @@ public final class Util {
 		long value = 0;
 		String ret;
 
-		// Default return value
+		// Default date string
 		SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd MMM yyyy, HH:mm",
 				Locale.getDefault());
 		ret = sdf.format(date);
@@ -65,9 +67,5 @@ public final class Util {
 		}
 
 		return ret;
-	}
-
-	// Make Util class as a static class
-	private Util() {
 	}
 }

@@ -8,7 +8,7 @@ import com.luxiliu.soccernewsaustralia.home.HomeFragment;
 
 /**
  * The SocceroosFragment provides Australia socceroos feed content display. It
- * provides pull down to refresh features. Socceroo feed content can only get
+ * provides pull down to refresh features. Socceroos feed content can only get
  * one page from feed server
  * 
  * @author Luxi Liu (luxi.liu@gmail.com)

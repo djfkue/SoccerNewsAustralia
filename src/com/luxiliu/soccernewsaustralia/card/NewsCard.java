@@ -12,7 +12,7 @@ import android.widget.TextView;
 import it.gmariotti.cardslib.library.internal.Card;
 
 /**
- * This class provides a card view to display a News
+ * The NewsCard class provides a card view to display a News
  * 
  * @author Luxi Liu (luxi.liu@gmail.com)
  * 
@@ -42,7 +42,7 @@ public class NewsCard extends Card {
 
 	@Override
 	public void setupInnerViewElements(ViewGroup parent, View view) {
-		// Get views, thumbnail will setup its view by itself
+		// Get title and secondary title
 		TextView titleView = (TextView) parent
 				.findViewById(R.id.news_card_title);
 		TextView secondaryTitleView = (TextView) parent
@@ -58,7 +58,7 @@ public class NewsCard extends Card {
 			titleView.setText(mNews.getTitle());
 		}
 
-		// Set date as the secondary titile
+		// Set secondary title
 		if (secondaryTitleView != null) {
 			secondaryTitleView.setTypeface(typeface);
 			secondaryTitleView.setText(Util.toPrettyDate(mNews

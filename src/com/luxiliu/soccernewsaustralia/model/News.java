@@ -17,6 +17,7 @@ import org.dom4j.Node;
  */
 public class News implements Serializable {
 	private static final long serialVersionUID = 2484234548662887150L;
+
 	private static final String ELEMENT_NAME = "item";
 	private static final String ATTRIBUTE_TYPE_NAME = "type";
 	private static final String ATTRIBUTE_TYPE_VALUE = "news";
@@ -39,6 +40,7 @@ public class News implements Serializable {
 	private String mFeedLinkUrl;
 	private String mWebviewLinkUrl;
 	private String mWebsiteLinkUrl;
+
 	private String mCategory;
 
 	public News(Element element) {

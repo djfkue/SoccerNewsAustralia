@@ -61,17 +61,22 @@ public final class FeedManager {
 			URL url = null;
 
 			try {
+				// Replace spaces
 				url = new URL(urls[0].replaceAll(" ", "%20"));
 
 				HttpURLConnection connection = null;
 				try {
+					// Create connection
 					connection = (HttpURLConnection) url.openConnection();
 					connection.setConnectTimeout(CONNECTION_TIMEOUT);
 					connection.setReadTimeout(READ_TIMEOUT);
 
 					InputStream inputStream = null;
 					try {
+						// Get input stream from connection
 						inputStream = connection.getInputStream();
+
+						// Transform into Content instance
 						content = new Content(new SAXReader().read(inputStream));
 					} catch (Exception e) {
 						e.printStackTrace();

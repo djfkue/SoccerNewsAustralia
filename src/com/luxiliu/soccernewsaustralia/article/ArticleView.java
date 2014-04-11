@@ -17,7 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
- * The ArticleView provides a simple view of an article
+ * The ArticleView provides a view to display an article
  * 
  * @author Luxi Liu (luxi.liu@gmail.com)
  * 
@@ -45,12 +45,6 @@ public class ArticleView extends LinearLayout {
 		initView();
 	}
 
-	public void setArticle(Article article) {
-		mArticle = article;
-
-		updateView();
-	}
-
 	private void initView() {
 		// Inflate the main view
 		LayoutInflater inflater = (LayoutInflater) getContext()
@@ -76,6 +70,12 @@ public class ArticleView extends LinearLayout {
 		mArticleTextView = (TextView) findViewById(R.id.articleText);
 	}
 
+	public void setArticle(Article article) {
+		mArticle = article;
+
+		updateView();
+	}
+
 	private void updateView() {
 		if (mArticle != null) {
 			// Update image
@@ -87,10 +87,8 @@ public class ArticleView extends LinearLayout {
 					.getAssets(), "fonts/RobotoSlab-Light.ttf");
 			Typeface authorDateArticleTypeface = Typeface.createFromAsset(
 					getContext().getAssets(), "fonts/Roboto-Light.ttf");
-			Typeface descriptionTypeface = Typeface.createFromAsset(
-					getContext().getAssets(), "fonts/RobotoSlab-Light.ttf");
-			Typeface articleTextTypeface = Typeface.createFromAsset(
-					getContext().getAssets(), "fonts/Roboto-Light.ttf");
+			Typeface descriptionTypeface = titleTypeface;
+			Typeface articleTextTypeface = authorDateArticleTypeface;
 
 			// Customize font size
 			float density = getResources().getDisplayMetrics().density;

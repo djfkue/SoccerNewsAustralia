@@ -1,5 +1,7 @@
 package com.luxiliu.soccernewsaustralia.widget;
 
+import com.luxiliu.soccernewsaustralia.R;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -25,8 +27,6 @@ public class ScaleImageView extends ImageView {
 											// measure height manually dependent
 											// of width
 	private boolean forceMeasure = true;
-	private int DEFAULT_WIDTH = 570;
-	private int DEFAULT_HEIGHT = 355;
 
 	public ScaleImageView(Context context) {
 		super(context);
@@ -105,8 +105,10 @@ public class ScaleImageView extends ImageView {
 		if (getDrawable() == null || getDrawable().getIntrinsicWidth() == 0) {
 			if (forceMeasure) {
 				if (scaleToWidth) {
-					int iw = DEFAULT_WIDTH;
-					int ih = DEFAULT_HEIGHT;
+					int iw = (int) getContext().getResources().getDimension(
+							R.dimen.image_default_width);
+					int ih = (int) getContext().getResources().getDimension(
+							R.dimen.image_default_height);
 					int heightC = width * ih / iw;
 					if (height > 0)
 						if (heightC > height) {
@@ -130,8 +132,10 @@ public class ScaleImageView extends ImageView {
 						}
 					}
 
-					int iw = DEFAULT_WIDTH;
-					int ih = DEFAULT_HEIGHT;
+					int iw = (int) getContext().getResources().getDimension(
+							R.dimen.image_default_width);
+					int ih = (int) getContext().getResources().getDimension(
+							R.dimen.image_default_height);
 
 					width = height * iw / ih;
 					height -= marg;
@@ -176,8 +180,6 @@ public class ScaleImageView extends ImageView {
 				height -= marg;
 				setMeasuredDimension(width, height);
 			}
-
 		}
 	}
-
 }

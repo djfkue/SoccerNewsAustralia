@@ -21,7 +21,7 @@ import com.luxiliu.soccernewsaustralia.home.HomeFragment;
 public class HomeFragmentEntry extends NavDrawerEntry {
 	private HomeFragment mHomeFragment;
 	private TextView mTextView;
-	private boolean mActivated = false;
+	private boolean mActivated;
 
 	public HomeFragmentEntry(HomeFragment homeFragment) {
 		mHomeFragment = homeFragment;
@@ -29,11 +29,11 @@ public class HomeFragmentEntry extends NavDrawerEntry {
 
 	@Override
 	public View getView(View view, ViewGroup viewGroup) {
-		// Keep the context of the view group
+		// Get the context of the view group
 		Context context = viewGroup.getContext();
 
 		if (mTextView == null) {
-			// Initialize the view for the first time
+			// Setup the view for the first time
 			mTextView = (TextView) LayoutInflater.from(context).inflate(
 					R.layout.nav_drawer_entry, null);
 			mTextView.setText(mHomeFragment.getTitle(context));

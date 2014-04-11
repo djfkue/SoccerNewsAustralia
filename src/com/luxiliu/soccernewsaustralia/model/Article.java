@@ -92,7 +92,7 @@ public class Article {
 					mThumbnailUrl = thumbnailNode.getText();
 				}
 
-				// urls/websiteLink
+				// urls/mobileSite
 				Node mobileSiteNode = element
 						.selectSingleNode(NODE_URLS_MOBILE_SITE);
 				if (mobileSiteNode != null) {
