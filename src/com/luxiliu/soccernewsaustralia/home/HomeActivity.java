@@ -35,15 +35,8 @@ public class HomeActivity extends SNAActivity {
 		setContentView(R.layout.home_activity);
 
 		setupView();
-		//
-		//
-		// if (savedInstanceState == null) {
-		// // Init content for the first time
-		// initContent();
-		// } else {
-		// // Restore content
-		// restoreContent(savedInstanceState);
-		// }
+
+		setupContent();
 	}
 
 	private void setupView() {
@@ -91,6 +84,7 @@ public class HomeActivity extends SNAActivity {
 			public void onPageSelected(int position) {
 				invalidateOptionsMenu();
 
+				// Get home fragment
 				HomeFragment homeFragment = HomeFragment
 						.getHomeFragment(position);
 
@@ -101,6 +95,18 @@ public class HomeActivity extends SNAActivity {
 				mNavDrawerFragment.onHomeFragmentActivated(homeFragment);
 			}
 		});
+	}
+
+	private void setupContent() {
+		// Get current home fragment
+		HomeFragment homeFragment = HomeFragment.getHomeFragment(mPager
+				.getCurrentItem());
+
+		// Set title
+		setTitle(homeFragment.getTitle(this));
+
+		// Set drawer entry
+		mNavDrawerFragment.onHomeFragmentActivated(homeFragment);
 	}
 
 	@Override
@@ -129,17 +135,6 @@ public class HomeActivity extends SNAActivity {
 
 		// Update drawer fragment
 		mNavDrawerFragment.onHomeFragmentActivated(homeFragment);
-		//
-		// if (homeFragment.getInternalId() !=
-		// mHomeFragment.getInternalId()) {
-		// mHomeFragment = homeFragment;
-		//
-		// // Update nav drawer fragment
-		// mNavDrawerFragment.onHomeFragmentActivated(mHomeFragment);
-		//
-		// // Change to different home page
-		// changeHomeFragment(mHomeFragment);
-		// }
 	}
 
 	@Override
