@@ -20,6 +20,7 @@
             android:id="@+id/news_card_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/home_activity_background"
             android:numColumns="1"
             android:paddingLeft="@dimen/news_card_list_padding"
             android:paddingRight="@dimen/news_card_list_padding"

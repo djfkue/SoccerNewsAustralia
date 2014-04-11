@@ -169,7 +169,7 @@ public class HomeActivity extends SNAActivity {
 	}
 
 	private class DepthPageTransformer implements ViewPager.PageTransformer {
-		private static final float MIN_SCALE = 0.75f;
+		private static final float MIN_SCALE = 1.0f;
 
 		public void transformPage(View view, float position) {
 			int pageWidth = view.getWidth();
