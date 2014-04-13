@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.luxiliu.soccernewsaustralia"
-    android:versionCode="1404111349"
-    android:versionName="0.0.9" >
+    android:versionCode="1404131051"
+    android:versionName="0.1.0" >
 
     <uses-sdk
         android:minSdkVersion="14"
