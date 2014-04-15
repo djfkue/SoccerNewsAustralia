@@ -64,7 +64,8 @@ public class SettingsFragment extends PreferenceFragment {
 	private void setupAboutPreferences() {
 		setupOpenSourcePreference();
 		setupTermsOfServicePreference();
-		setupPrivacyPolicyPreference();
+		setupGoalPrivacyPolicyPreference();
+		setupFfaPrivacyPolicyPreference();
 		setupAboutAppPreference();
 	}
 
@@ -101,16 +102,32 @@ public class SettingsFragment extends PreferenceFragment {
 				});
 	}
 
-	private void setupPrivacyPolicyPreference() {
+	private void setupGoalPrivacyPolicyPreference() {
 		// Get the preference
-		findPreference(getString(R.string.privacy_policy_preference_key))
+		findPreference(getString(R.string.goal_privacy_policy_preference_key))
 				.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 
 					@Override
 					public boolean onPreferenceClick(Preference arg0) {
 						Intent intent = new Intent(Intent.ACTION_VIEW);
 						intent.setData(Uri.parse(getResources().getString(
-								R.string.privacy_policy_url)));
+								R.string.goal_privacy_policy_url)));
+						startActivity(intent);
+						return true;
+					}
+				});
+	}
+
+	private void setupFfaPrivacyPolicyPreference() {
+		// Get the preference
+		findPreference(getString(R.string.ffa_privacy_policy_preference_key))
+				.setOnPreferenceClickListener(new OnPreferenceClickListener() {
+
+					@Override
+					public boolean onPreferenceClick(Preference arg0) {
+						Intent intent = new Intent(Intent.ACTION_VIEW);
+						intent.setData(Uri.parse(getResources().getString(
+								R.string.ffa_privacy_policy_url)));
 						startActivity(intent);
 						return true;
 					}

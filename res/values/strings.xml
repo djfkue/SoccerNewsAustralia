@@ -30,12 +30,15 @@
     <string name="open_source_licenses_url" translatable="false">file:///android_asset/html/licences.html</string>
     <string name="terms_of_service" translatable="false">Terms of Service</string>
     <string name="terms_of_service_url" translatable="false">http://www.goal.com/en-au/legal/terms-conditions?ICID=OP</string>
-    <string name="privacy_policy" translatable="false">Privacy Policy</string>
-    <string name="privacy_policy_url" translatable="false">http://www.goal.com/en-au/legal/privacy-policy?ICID=OP</string>
+    <string name="goal_privacy_policy" translatable="false">Privacy Policy - GOAL</string>
+    <string name="goal_privacy_policy_url" translatable="false">http://www.goal.com/en-au/legal/privacy-policy?ICID=OP</string>
+    <string name="ffa_privacy_policy" translatable="false">Privacy Policy - FFA</string>
+    <string name="ffa_privacy_policy_url" translatable="false">http://www.footballaustralia.com.au/privacy</string>
     <string name="usage_policy" translatable="false">Usage Policy</string>
     <string name="usage_policy_description" translatable="false">Soccer News Australia is for personal and non-commercial use only.</string>
     <string name="terms_of_service_preference_key" translatable="false">termsOfService</string>
-    <string name="privacy_policy_preference_key" translatable="false">privacyPolicy</string>
+    <string name="goal_privacy_policy_preference_key" translatable="false">goalPrivacyPolicy</string>
+    <string name="ffa_privacy_policy_preference_key" translatable="false">ffaPrivacyPolicy</string>
     <string name="open_source_licenses_preference_key" translatable="false">openSourceLicenses</string>
     <string name="release" translatable="false">Version %1$s | Build %2$s</string>
     <string name="usage_policy_preference_key" translatable="false">usagePolicy</string>
