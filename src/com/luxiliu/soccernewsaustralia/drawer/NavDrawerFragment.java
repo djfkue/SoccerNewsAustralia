@@ -38,6 +38,7 @@ public class NavDrawerFragment extends Fragment implements OnItemClickListener {
 		// Create drawer entry list
 		mNavDrawerEntryList = new ArrayList<NavDrawerEntry>();
 		mNavDrawerEntryList.add(NavDrawerEntry.ALEAGUE_ENTRY);
+		mNavDrawerEntryList.add(NavDrawerEntry.WLEAGUE_ENTRY);
 		mNavDrawerEntryList.add(NavDrawerEntry.AFCLEAGUE_ENTRY);
 		mNavDrawerEntryList.add(NavDrawerEntry.SOCCEROOS_ENTRY);
 		mNavDrawerEntryList.add(NavDrawerEntry.SETTINGS_ENTRY);
@@ -65,34 +66,17 @@ public class NavDrawerFragment extends Fragment implements OnItemClickListener {
 	}
 
 	public void onHomeFragmentActivated(HomeFragment homeFragment) {
-		// Update drawer entries' activated/deactivated states
-		switch (homeFragment.getInternalId()) {
-		case HomeFragment.ALEAGUE_FRAGMENT_ID:
-			((HomeFragmentEntry) NavDrawerEntry.ALEAGUE_ENTRY).setActivated(
-					getActivity(), true);
-			((HomeFragmentEntry) NavDrawerEntry.AFCLEAGUE_ENTRY).setActivated(
-					getActivity(), false);
-			((HomeFragmentEntry) NavDrawerEntry.SOCCEROOS_ENTRY).setActivated(
-					getActivity(), false);
-			break;
-
-		case HomeFragment.AFC_FRAGMENT_ID:
-			((HomeFragmentEntry) NavDrawerEntry.ALEAGUE_ENTRY).setActivated(
-					getActivity(), false);
-			((HomeFragmentEntry) NavDrawerEntry.AFCLEAGUE_ENTRY).setActivated(
-					getActivity(), true);
-			((HomeFragmentEntry) NavDrawerEntry.SOCCEROOS_ENTRY).setActivated(
-					getActivity(), false);
-			break;
-
-		case HomeFragment.SOCCEROOS_FRAGMENT_ID:
-			((HomeFragmentEntry) NavDrawerEntry.ALEAGUE_ENTRY).setActivated(
-					getActivity(), false);
-			((HomeFragmentEntry) NavDrawerEntry.AFCLEAGUE_ENTRY).setActivated(
-					getActivity(), false);
-			((HomeFragmentEntry) NavDrawerEntry.SOCCEROOS_ENTRY).setActivated(
-					getActivity(), true);
-			break;
+		for (int i = 0; i < mNavDrawerEntryList.size(); i++) {
+			NavDrawerEntry entry = (NavDrawerEntry) mNavDrawerEntryList.get(i);
+			if (entry instanceof HomeFragmentEntry) {
+				if (i == homeFragment.getInternalId()) {
+					((HomeFragmentEntry) entry).setActivated(getActivity(),
+							true);
+				} else {
+					((HomeFragmentEntry) entry).setActivated(getActivity(),
+							false);
+				}
+			}
 		}
 	}
 }

@@ -45,8 +45,9 @@ public class NewsCard extends Card {
 		// Get title and secondary title
 		TextView titleView = (TextView) parent
 				.findViewById(R.id.news_card_title);
-		TextView secondaryTitleView = (TextView) parent
-				.findViewById(R.id.news_card_secondary_title);
+		TextView descriptionView = (TextView) parent
+				.findViewById(R.id.news_card_description);
+		TextView dateView = (TextView) parent.findViewById(R.id.news_card_date);
 
 		// Use RobotoSlab font
 		Typeface typeface = Typeface.createFromAsset(mContext.getAssets(),
@@ -54,15 +55,35 @@ public class NewsCard extends Card {
 
 		// Set title
 		if (titleView != null) {
+			if (mNews.getImageUrl() == null || mNews.getImageUrl().isEmpty()) {
+				// Set suitable padding value if news has no image
+				titleView.setPadding(
+						titleView.getPaddingLeft(),
+						view.getContext()
+								.getResources()
+								.getDimensionPixelSize(
+										R.dimen.news_card_title_padding_top),
+						titleView.getPaddingRight(),
+						titleView.getPaddingBottom());
+			}
 			titleView.setTypeface(typeface);
 			titleView.setText(mNews.getTitle());
 		}
 
-		// Set secondary title
-		if (secondaryTitleView != null) {
-			secondaryTitleView.setTypeface(typeface);
-			secondaryTitleView.setText(Util.toPrettyDate(mNews
-					.getPublishedDate()));
+		// Set description if news no image
+		if (descriptionView != null) {
+			if (mNews.getImageUrl() == null || mNews.getImageUrl().isEmpty()) {
+				descriptionView.setTypeface(typeface);
+				descriptionView.setText(mNews.getDescription());
+			} else {
+				descriptionView.setVisibility(View.GONE);
+			}
+		}
+
+		// Set date
+		if (dateView != null) {
+			dateView.setTypeface(typeface);
+			dateView.setText(Util.toPrettyDate(mNews.getPublishedDate()));
 		}
 	}
 }

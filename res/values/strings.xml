@@ -7,6 +7,7 @@
     <string name="socceroos_title" translatable="false">Socceroos</string>
     <string name="aleague_title" translatable="false">A-League</string>
     <string name="afc_title" translatable="false">AFC Champions League</string>
+    <string name="wleague_title" translatable="false">W-League</string>
     <string name="ptr_pull_text" translatable="false">Swipe down to refresh</string>
     <string name="ptr_refreshing_text" translatable="false">Looking for new content&#8230;</string>
     <string name="content_error_bad_connection" translatable="false">Weak or no internet connection</string>

@@ -16,13 +16,25 @@
         android:textSize="@dimen/news_card_title_text_size" />
 
     <TextView
-        android:id="@+id/news_card_secondary_title"
+        android:id="@+id/news_card_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="@dimen/news_card_secondary_title_padding_bottom"
-        android:paddingLeft="@dimen/news_card_secondary_title_padding_left"
-        android:paddingRight="@dimen/news_card_secondary_title_padding_right"
+        android:ellipsize="end"
+        android:maxLines="4"
+        android:paddingBottom="@dimen/news_card_description_padding_bottom"
+        android:paddingLeft="@dimen/news_card_description_padding_left"
+        android:paddingRight="@dimen/news_card_description_padding_right"
+        android:textColor="@color/news_card_description_text_color"
+        android:textSize="@dimen/news_card_description_text_size" />
+
+    <TextView
+        android:id="@+id/news_card_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/news_card_date_padding_bottom"
+        android:paddingLeft="@dimen/news_card_date_padding_left"
+        android:paddingRight="@dimen/news_card_date_padding_right"
         android:textColor="@android:color/darker_gray"
-        android:textSize="@dimen/news_card_secondary_title_text_size" />
+        android:textSize="@dimen/news_card_date_text_size" />
 
 </LinearLayout>

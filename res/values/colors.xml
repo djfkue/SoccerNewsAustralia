@@ -10,6 +10,7 @@
 
     <!-- NewsCard -->
     <color name="news_card_title_text_color">#ff333333</color>
+    <color name="news_card_description_text_color">#ff808080</color>
 
     <!-- ArticleView -->
     <color name="article_title_text_color">#ff333333</color>

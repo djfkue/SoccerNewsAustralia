@@ -26,8 +26,13 @@ public class NewsCardThumbnail extends CardThumbnail {
 
 	@Override
 	public void setupInnerViewElements(ViewGroup parent, View imageView) {
-		// Load thumbnail image with Picasso library
-		Picasso.with(getContext()).load(mThumbnailUrl)
-				.into((ImageView) imageView);
+		if (mThumbnailUrl != null && !mThumbnailUrl.isEmpty()) {
+			// Load thumbnail image with Picasso library
+			Picasso.with(getContext()).load(mThumbnailUrl)
+					.into((ImageView) imageView);
+		} else {
+			// Hide image view if no image URL
+			imageView.setVisibility(View.GONE);
+		}
 	}
 }

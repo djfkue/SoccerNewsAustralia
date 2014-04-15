@@ -9,6 +9,8 @@ import java.util.Locale;
 import org.dom4j.Element;
 import org.dom4j.Node;
 
+import com.luxiliu.soccernewsaustralia.model.Page.Type;
+
 /**
  * The News class represents <item> element in the feed content
  * 
@@ -18,18 +20,24 @@ import org.dom4j.Node;
 public class News implements Serializable {
 	private static final long serialVersionUID = 2484234548662887150L;
 
-	private static final String ELEMENT_NAME = "item";
-	private static final String ATTRIBUTE_TYPE_NAME = "type";
-	private static final String ATTRIBUTE_TYPE_VALUE = "news";
-	private static final String ATTRIBUTE_ID_NAME = "id";
-	private static final String TAG_PUBLISHED_DATE = "publishedDate";
-	private static final String TAG_TITLE = "title";
-	private static final String TAG_DESCRIPTION = "description";
-	private static final String NODE_IMAGES_IMAGE = "images/image";
-	private static final String NODE_IMAGES_THUMBNAIL = "images/thumbnail";
-	private static final String NODE_URLS_FEED_LINK = "urls/feedLink";
-	private static final String NODE_URLS_WEBVIEW_LINK = "urls/webviewLink";
-	private static final String NODE_URLS_WEBSITE_LINK = "urls/websiteLink";
+	private static final String GOAL_FEED_ELEMENT_NAME = "item";
+	private static final String GOAL_FEED_ATTRIBUTE_TYPE_NAME = "type";
+	private static final String GOAL_FEED_ATTRIBUTE_TYPE_VALUE = "news";
+	private static final String GOAL_FEED_ATTRIBUTE_ID_NAME = "id";
+	private static final String GOAL_FEED_TAG_PUBLISHED_DATE = "publishedDate";
+	private static final String GOAL_FEED_TAG_TITLE = "title";
+	private static final String GOAL_FEED_TAG_DESCRIPTION = "description";
+	private static final String GOAL_FEED_NODE_IMAGES_IMAGE = "images/image";
+	private static final String GOAL_FEED_NODE_IMAGES_THUMBNAIL = "images/thumbnail";
+	private static final String GOAL_FEED_NODE_URLS_FEED_LINK = "urls/feedLink";
+	private static final String GOAL_FEED_NODE_URLS_WEBVIEW_LINK = "urls/webviewLink";
+	private static final String GOAL_FEED_NODE_URLS_WEBSITE_LINK = "urls/websiteLink";
+
+	private static final String FFA_FEED_ELEMENT_NAME = "item";
+	private static final String FFA_FEED_TAG_TITLE = "title";
+	private static final String FFA_FEED_TAG_LINK = "link";
+	private static final String FFA_FEED_TAG_DESCRIPTION = "description";
+	private static final String FFA_FEED_TAG_PUB_DATE = "pubDate";
 
 	private String mId;
 	private Date mPublishedDate;
@@ -43,23 +51,39 @@ public class News implements Serializable {
 
 	private String mCategory;
 
-	public News(Element element) {
+	public News(Element element, Type type) {
+		switch (type) {
+		case GoalFeed:
+			parseGoalFeedNews(element);
+			break;
+
+		case FfaFeed:
+			parseFfaFeedNews(element);
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	private void parseGoalFeedNews(Element element) {
 		// Element must not be null;
 		// Element name must be "item"
 		// Element attribute "type" must not be null
 		// Element attribute "type" must be "news"
 		if (element != null
-				&& element.getName().equals(ELEMENT_NAME)
-				&& element.attributeValue(ATTRIBUTE_TYPE_NAME) != null
-				&& element.attributeValue(ATTRIBUTE_TYPE_NAME).equals(
-						ATTRIBUTE_TYPE_VALUE)) {
+				&& element.getName().equals(GOAL_FEED_ELEMENT_NAME)
+				&& element.attributeValue(GOAL_FEED_ATTRIBUTE_TYPE_NAME) != null
+				&& element.attributeValue(GOAL_FEED_ATTRIBUTE_TYPE_NAME)
+						.equals(GOAL_FEED_ATTRIBUTE_TYPE_VALUE)) {
 
 			// Attribute "id"
-			mId = element.attributeValue(ATTRIBUTE_ID_NAME);
+			mId = element.attributeValue(GOAL_FEED_ATTRIBUTE_ID_NAME);
 
 			// publishedDate
 			try {
-				String dateStr = element.elementTextTrim(TAG_PUBLISHED_DATE);
+				String dateStr = element
+						.elementTextTrim(GOAL_FEED_TAG_PUBLISHED_DATE);
 				if (dateStr != null) {
 					mPublishedDate = new SimpleDateFormat(
 							"yyyy-MM-dd HH:mm:ss Z", Locale.getDefault())
@@ -70,42 +94,70 @@ public class News implements Serializable {
 			}
 
 			// title
-			mTitle = element.elementTextTrim(TAG_TITLE);
+			mTitle = element.elementTextTrim(GOAL_FEED_TAG_TITLE);
 
 			// description
-			mDescription = element.elementTextTrim(TAG_DESCRIPTION);
+			mDescription = element.elementTextTrim(GOAL_FEED_TAG_DESCRIPTION);
 
 			// images/image
-			Node imageNode = element.selectSingleNode(NODE_IMAGES_IMAGE);
+			Node imageNode = element
+					.selectSingleNode(GOAL_FEED_NODE_IMAGES_IMAGE);
 			if (imageNode != null) {
 				mImageUrl = imageNode.getText();
 			}
 
 			// images/thumbnail
 			Node thumbnailNode = element
-					.selectSingleNode(NODE_IMAGES_THUMBNAIL);
+					.selectSingleNode(GOAL_FEED_NODE_IMAGES_THUMBNAIL);
 			if (thumbnailNode != null) {
 				mThumbnailUrl = thumbnailNode.getText();
 			}
 
 			// urls/feedLink
-			Node feedLinkNode = element.selectSingleNode(NODE_URLS_FEED_LINK);
+			Node feedLinkNode = element
+					.selectSingleNode(GOAL_FEED_NODE_URLS_FEED_LINK);
 			if (feedLinkNode != null) {
 				mFeedLinkUrl = feedLinkNode.getText();
 			}
 
 			// urls/webviewLink
 			Node webviewLinkNode = element
-					.selectSingleNode(NODE_URLS_WEBVIEW_LINK);
+					.selectSingleNode(GOAL_FEED_NODE_URLS_WEBVIEW_LINK);
 			if (webviewLinkNode != null) {
 				mWebviewLinkUrl = webviewLinkNode.getText();
 			}
 
 			// urls/websiteLink
 			Node websiteLinkNode = element
-					.selectSingleNode(NODE_URLS_WEBSITE_LINK);
+					.selectSingleNode(GOAL_FEED_NODE_URLS_WEBSITE_LINK);
 			if (websiteLinkNode != null) {
 				mWebsiteLinkUrl = websiteLinkNode.getText();
+			}
+		}
+	}
+
+	private void parseFfaFeedNews(Element element) {
+		if (element != null && element.getName().equals(FFA_FEED_ELEMENT_NAME)) {
+			// title
+			mTitle = element.elementTextTrim(FFA_FEED_TAG_TITLE);
+
+			// link
+			mWebsiteLinkUrl = element.elementText(FFA_FEED_TAG_LINK);
+
+			// description
+			mDescription = element.elementText(FFA_FEED_TAG_DESCRIPTION);
+
+			// pubDate
+			try {
+				String dateStr = element.elementTextTrim(FFA_FEED_TAG_PUB_DATE);
+				if (dateStr != null) {
+					mPublishedDate = new SimpleDateFormat(
+					// Mon, 14 Apr 2014 23:37:09 GMT
+							"EEE, dd MMM yyyy HH:mm:ss Z", Locale.getDefault())
+							.parse(dateStr);
+				}
+			} catch (ParseException e) {
+				e.printStackTrace();
 			}
 		}
 	}

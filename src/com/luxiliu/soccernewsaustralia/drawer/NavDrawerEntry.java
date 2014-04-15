@@ -16,6 +16,9 @@ public abstract class NavDrawerEntry {
 	public static final NavDrawerEntry ALEAGUE_ENTRY = new HomeFragmentEntry(
 			HomeFragment.ALEAGUE_FRAGMENT);
 
+	public static final NavDrawerEntry WLEAGUE_ENTRY = new HomeFragmentEntry(
+			HomeFragment.WLEAGUE_FRAGMENT);
+
 	public static final NavDrawerEntry AFCLEAGUE_ENTRY = new HomeFragmentEntry(
 			HomeFragment.AFC_FRAGMENT);
 

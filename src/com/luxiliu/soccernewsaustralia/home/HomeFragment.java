@@ -10,6 +10,7 @@ import uk.co.senab.actionbarpulltorefresh.library.listeners.OnRefreshListener;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -30,6 +31,7 @@ import com.luxiliu.soccernewsaustralia.feed.FeedManager;
 import com.luxiliu.soccernewsaustralia.home.afc.AFCFragment;
 import com.luxiliu.soccernewsaustralia.home.aleague.ALeagueFragment;
 import com.luxiliu.soccernewsaustralia.home.socceroos.SocceroosFragment;
+import com.luxiliu.soccernewsaustralia.home.wleague.WLeagueFragment;
 import com.luxiliu.soccernewsaustralia.model.Content;
 import com.luxiliu.soccernewsaustralia.model.News;
 import com.luxiliu.soccernewsaustralia.model.Page;
@@ -499,27 +501,8 @@ public abstract class HomeFragment extends Fragment implements
 					NewsCard newsCard = new NewsCard(mContext, news);
 
 					// Setup news card
-					newsCard.setOnClickListener(new OnCardClickListener() {
-						@Override
-						public void onClick(Card card, View view) {
-							if (mClickable) {
-								// To avoid multiple clicks and multiple
-								// activities
-								mClickable = false;
-
-								// Start ArticleActivity to display news
-								// article
-								// details
-								news.setCategory(String.valueOf(getActivity()
-										.getTitle()));
-								Intent intent = new Intent();
-								intent.putExtra(Intent.EXTRA_STREAM, news);
-								intent.setClass(getActivity(),
-										ArticleActivity.class);
-								startActivity(intent);
-							}
-						}
-					});
+					newsCard.setOnClickListener(new OnNewsCardClickListener(
+							news));
 
 					// Add news card to list
 					cardList.add(newsCard);
@@ -558,27 +541,8 @@ public abstract class HomeFragment extends Fragment implements
 					NewsCard newsCard = new NewsCard(mContext, news);
 
 					// Setup news card
-					newsCard.setOnClickListener(new OnCardClickListener() {
-						@Override
-						public void onClick(Card card, View view) {
-							if (mClickable) {
-								// To avoid multiple clicks and multiple
-								// activities
-								mClickable = false;
-
-								// Start ArticleActivity to display news
-								// article
-								// details
-								news.setCategory(String.valueOf(getActivity()
-										.getTitle()));
-								Intent intent = new Intent();
-								intent.putExtra(Intent.EXTRA_STREAM, news);
-								intent.setClass(getActivity(),
-										ArticleActivity.class);
-								startActivity(intent);
-							}
-						}
-					});
+					newsCard.setOnClickListener(new OnNewsCardClickListener(
+							news));
 
 					// Add news card to list
 					cardList.add(newsCard);
@@ -605,14 +569,51 @@ public abstract class HomeFragment extends Fragment implements
 		}
 	}
 
+	private class OnNewsCardClickListener implements OnCardClickListener {
+		private News mNews;
+
+		public OnNewsCardClickListener(News news) {
+			mNews = news;
+		}
+
+		public void onClick(Card card, View view) {
+			if (mClickable) {
+				// To avoid multiple clicks and multiple
+				// activities
+				mClickable = false;
+
+				mNews.setCategory(String.valueOf(getActivity().getTitle()));
+
+				if (mNews.getFeedLinkUrl() != null
+						&& !mNews.getFeedLinkUrl().isEmpty()) {
+					// Start ArticleActivity to display news article details
+					Intent articleIntent = new Intent();
+					articleIntent.putExtra(Intent.EXTRA_STREAM, mNews);
+					articleIntent
+							.setClass(getActivity(), ArticleActivity.class);
+					startActivity(articleIntent);
+				} else {
+					// Start browser to display news article details
+					Intent browserIntent = new Intent();
+					browserIntent.setAction(Intent.ACTION_VIEW);
+					browserIntent.addCategory(Intent.CATEGORY_BROWSABLE);
+					browserIntent.setData(Uri.parse(mNews.getWebsiteLinkUrl()));
+					startActivity(browserIntent);
+				}
+			}
+		}
+	};
+
 	private int mId;
 
 	public static final int ALEAGUE_FRAGMENT_ID = 0;
-	public static final int AFC_FRAGMENT_ID = 1;
-	public static final int SOCCEROOS_FRAGMENT_ID = 2;
-	public static final int SIZE = 3;
+	public static final int WLEAGUE_FRAGMENT_ID = 1;
+	public static final int AFC_FRAGMENT_ID = 2;
+	public static final int SOCCEROOS_FRAGMENT_ID = 3;
+	public static final int SIZE = 4;
 
 	public static final HomeFragment ALEAGUE_FRAGMENT = new ALeagueFragment();
+	public static final HomeFragment WLEAGUE_FRAGMENT = new WLeagueFragment();
 	public static final HomeFragment AFC_FRAGMENT = new AFCFragment();
 	public static final HomeFragment SOCCEROOS_FRAGMENT = new SocceroosFragment();
 
@@ -624,6 +625,9 @@ public abstract class HomeFragment extends Fragment implements
 		switch (id) {
 		case ALEAGUE_FRAGMENT_ID:
 			return ALEAGUE_FRAGMENT;
+
+		case WLEAGUE_FRAGMENT_ID:
+			return WLEAGUE_FRAGMENT;
 
 		case AFC_FRAGMENT_ID:
 			return AFC_FRAGMENT;
