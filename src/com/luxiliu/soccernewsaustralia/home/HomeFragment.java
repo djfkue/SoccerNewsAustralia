@@ -32,6 +32,7 @@ import com.luxiliu.soccernewsaustralia.home.afc.AFCFragment;
 import com.luxiliu.soccernewsaustralia.home.aleague.ALeagueFragment;
 import com.luxiliu.soccernewsaustralia.home.socceroos.SocceroosFragment;
 import com.luxiliu.soccernewsaustralia.home.wleague.WLeagueFragment;
+import com.luxiliu.soccernewsaustralia.home.yleague.YLeagueFragment;
 import com.luxiliu.soccernewsaustralia.model.Content;
 import com.luxiliu.soccernewsaustralia.model.News;
 import com.luxiliu.soccernewsaustralia.model.Page;
@@ -608,12 +609,14 @@ public abstract class HomeFragment extends Fragment implements
 
 	public static final int ALEAGUE_FRAGMENT_ID = 0;
 	public static final int WLEAGUE_FRAGMENT_ID = 1;
-	public static final int AFC_FRAGMENT_ID = 2;
-	public static final int SOCCEROOS_FRAGMENT_ID = 3;
-	public static final int SIZE = 4;
+	public static final int YLEAGUE_FRAGMENT_ID = 2;
+	public static final int AFC_FRAGMENT_ID = 3;
+	public static final int SOCCEROOS_FRAGMENT_ID = 4;
+	public static final int SIZE = 5;
 
 	public static final HomeFragment ALEAGUE_FRAGMENT = new ALeagueFragment();
 	public static final HomeFragment WLEAGUE_FRAGMENT = new WLeagueFragment();
+	public static final HomeFragment YLEAGUE_FRAGMENT = new YLeagueFragment();
 	public static final HomeFragment AFC_FRAGMENT = new AFCFragment();
 	public static final HomeFragment SOCCEROOS_FRAGMENT = new SocceroosFragment();
 
@@ -628,6 +631,9 @@ public abstract class HomeFragment extends Fragment implements
 
 		case WLEAGUE_FRAGMENT_ID:
 			return WLEAGUE_FRAGMENT;
+
+		case YLEAGUE_FRAGMENT_ID:
+			return YLEAGUE_FRAGMENT;
 
 		case AFC_FRAGMENT_ID:
 			return AFC_FRAGMENT;
