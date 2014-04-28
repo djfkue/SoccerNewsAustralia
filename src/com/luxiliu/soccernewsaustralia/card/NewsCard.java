@@ -29,34 +29,34 @@ public class NewsCard extends Card {
 	}
 
 	private void init() {
-		// Create a thumbnail
+		// create a thumbnail
 		NewsCardThumbnail newsCardThumbnail = new NewsCardThumbnail(
 				getContext(), mNews.getImageUrl());
 
-		// It must be set to use a external library
+		// it must be set to use a external library
 		newsCardThumbnail.setExternalUsage(true);
 
-		// Add thumbnail
+		// add thumbnail
 		addCardThumbnail(newsCardThumbnail);
 	}
 
 	@Override
 	public void setupInnerViewElements(ViewGroup parent, View view) {
-		// Get title and secondary title
+		// get title and secondary title
 		TextView titleView = (TextView) parent
 				.findViewById(R.id.news_card_title);
 		TextView descriptionView = (TextView) parent
 				.findViewById(R.id.news_card_description);
 		TextView dateView = (TextView) parent.findViewById(R.id.news_card_date);
 
-		// Use RobotoSlab font
+		// use RobotoSlab font
 		Typeface typeface = Typeface.createFromAsset(mContext.getAssets(),
 				"fonts/RobotoSlab-Light.ttf");
 
-		// Set title
+		// set title
 		if (titleView != null) {
 			if (mNews.getImageUrl() == null || mNews.getImageUrl().isEmpty()) {
-				// Set suitable padding value if news has no image
+				// set suitable padding value if news has no image
 				titleView.setPadding(
 						titleView.getPaddingLeft(),
 						view.getContext()
@@ -70,7 +70,7 @@ public class NewsCard extends Card {
 			titleView.setText(mNews.getTitle());
 		}
 
-		// Set description if news no image
+		// set description if news no image
 		if (descriptionView != null) {
 			if (mNews.getImageUrl() == null || mNews.getImageUrl().isEmpty()) {
 				descriptionView.setTypeface(typeface);
@@ -80,7 +80,7 @@ public class NewsCard extends Card {
 			}
 		}
 
-		// Set date
+		// set date
 		if (dateView != null) {
 			dateView.setTypeface(typeface);
 			dateView.setText(Util.toPrettyDate(mNews.getPublishedDate()));

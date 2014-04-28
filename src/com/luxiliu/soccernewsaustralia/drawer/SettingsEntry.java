@@ -22,14 +22,14 @@ public class SettingsEntry extends NavDrawerEntry {
 
 	@Override
 	public View getView(View view, ViewGroup viewGroup) {
-		// Get context
+		// get context
 		Context context = viewGroup.getContext();
 
-		// Inflate main view
+		// inflate main view
 		LinearLayout linearLayout = (LinearLayout) LayoutInflater.from(context)
 				.inflate(R.layout.nav_drawer_misc_entry, null);
 
-		// Set the text and the image
+		// set the text and the image
 		TextView textView = (TextView) linearLayout
 				.findViewById(R.id.entry_label);
 		textView.setText(context.getString(R.string.settings).toUpperCase(
@@ -39,7 +39,7 @@ public class SettingsEntry extends NavDrawerEntry {
 					R.drawable.ic_gear_40, 0, 0, 0);
 		}
 
-		// Set divider
+		// set divider
 		linearLayout.findViewById(R.id.lower_divider).setVisibility(
 				View.VISIBLE);
 
@@ -48,7 +48,7 @@ public class SettingsEntry extends NavDrawerEntry {
 
 	@Override
 	public void onClick(View view) {
-		// Start SettingsActivity
+		// start SettingsActivity
 		Intent intent = new Intent();
 		intent.setClass(view.getContext(), SettingsActivity.class);
 		view.getContext().startActivity(intent);

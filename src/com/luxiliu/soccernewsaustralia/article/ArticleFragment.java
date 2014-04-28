@@ -74,10 +74,10 @@ public class ArticleFragment extends Fragment {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// Enable action bar option menu
+		// enable action bar option menu
 		setHasOptionsMenu(true);
 
-		// Retain fragment instance
+		// retain fragment instance
 		setRetainInstance(true);
 	}
 
@@ -85,18 +85,18 @@ public class ArticleFragment extends Fragment {
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		// Get news instance
+		// get news instance
 		mNews = (News) getArguments().getSerializable(Intent.EXTRA_STREAM);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// Get main view
+		// get main view
 		View view = inflater.inflate(R.layout.article_fragment, container,
 				false);
 
-		// Get loading view
+		// get loading view
 		mLoadingView = (LoadingView) view.findViewById(R.id.loading_view);
 		mLoadingView.setOnRetryClickListener(new OnClickListener() {
 			@Override
@@ -105,7 +105,7 @@ public class ArticleFragment extends Fragment {
 			}
 		});
 
-		// Get article view
+		// get article view
 		mArticleView = (ArticleView) view.findViewById(R.id.article);
 
 		return view;
@@ -117,17 +117,17 @@ public class ArticleFragment extends Fragment {
 
 		if (mState == State.NOT_INITIALIZED) {
 			if (ConnectionManager.instance().isConnected(getActivity())) {
-				// Network is OK
-				// Start to initialize
+				// network is OK
+				// start to initialize
 				onInitializeDownloading();
 				mFeedManager.requestDownloadFeed(mHandler,
 						mNews.getFeedLinkUrl());
 			} else {
-				// No network connection
+				// no network connection
 				onInitializeFailNoNetwork();
 			}
 		} else {
-			// Just restore view for previous state
+			// just restore view for previous state
 			restoreView(mState);
 		}
 	}
@@ -143,14 +143,14 @@ public class ArticleFragment extends Fragment {
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
-			// Back to previous activity
+			// back to previous activity
 			if (getActivity() != null) {
 				getActivity().finish();
 			}
 			break;
 
 		case R.id.menu_item_share:
-			// Share this article
+			// share this article
 			if (getActivity() != null) {
 				Intent shareIntent = ShareCompat.IntentBuilder
 						.from(getActivity())
@@ -168,7 +168,7 @@ public class ArticleFragment extends Fragment {
 			break;
 
 		case R.id.menu_item_browser:
-			// Start a browser to view this article
+			// start a browser to view this article
 			if (getActivity() != null) {
 				Intent browserIntent = new Intent();
 				String url = null;
@@ -194,14 +194,14 @@ public class ArticleFragment extends Fragment {
 
 	private void onRequestDownloadComplete(Feed feed) {
 		if (mState == State.INITIALIZE_DOWNLOADING) {
-			// Initialize complete
+			// initialize complete
 			onInitializeDownloadComplete(feed);
 		}
 	}
 
 	private void onRequestDownloadFail() {
 		if (mState == State.INITIALIZE_DOWNLOADING) {
-			// Initialize fail
+			// initialize fail
 			onInitializeDownloadFail();
 		}
 	}
@@ -220,7 +220,7 @@ public class ArticleFragment extends Fragment {
 
 		mArticle = new Article(feed.getDocument());
 		mLoadingView.setDownloadComplete();
-		
+
 		showArticle(mArticle);
 	}
 
@@ -280,13 +280,13 @@ public class ArticleFragment extends Fragment {
 	private void retry() {
 		if (mState == State.INITIALIZE_DOWNLOAD_FAIL_NO_NETWORK) {
 			if (ConnectionManager.instance().isConnected(getActivity())) {
-				// Network is OK
-				// Start to initialize again
+				// network is OK
+				// start to initialize again
 				onInitializeDownloading();
 				mFeedManager.requestDownloadFeed(mHandler,
 						mNews.getFeedLinkUrl());
 			} else {
-				// No network connection
+				// no network connection
 				onInitializeFailNoNetwork();
 			}
 		}

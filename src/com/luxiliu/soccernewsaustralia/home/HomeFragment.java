@@ -79,7 +79,7 @@ public abstract class HomeFragment extends Fragment implements
 	private State mState = State.NOT_INITIALIZED;
 	private Context mContext;
 
-	// The handler to deal with feed content request
+	// the handler to deal with feed content request
 	private Handler mHandler = new Handler(Looper.getMainLooper()) {
 
 		@Override
@@ -88,14 +88,14 @@ public abstract class HomeFragment extends Fragment implements
 
 			switch (msg.what) {
 			case FeedManager.REQUEST_DOWNLOAD_FEED_COMPLETE:
-				// Feed download succeed
+				// feed download succeed
 				Feed feed = (Feed) msg.getData().getSerializable(
 						FeedManager.KEY_FEED_CONTENTS);
 				onRequestDownloadComplete(feed);
 				break;
 
 			case FeedManager.REQUEST_DOWNLOAD_FEED_FAIL:
-				// Feed download fail
+				// feed download fail
 				onRequestDownloadFail();
 				break;
 			}
@@ -106,7 +106,7 @@ public abstract class HomeFragment extends Fragment implements
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 
-		// Keep application context
+		// keep application context
 		if (mContext == null) {
 			mContext = activity.getApplicationContext();
 		}
@@ -116,27 +116,27 @@ public abstract class HomeFragment extends Fragment implements
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// Retain fragment instance
+		// retain fragment instance
 		setRetainInstance(true);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// Create main view
+		// create main view
 		View view = inflater.inflate(R.layout.home_fragment, container, false);
 
-		// Create pull to refresh action bar
+		// create pull to refresh action bar
 		// p.s. getActivity() should not be null
 		mPullToRefreshLayout = (PullToRefreshLayout) view
 				.findViewById(R.id.pull_to_fresh_layout);
 		ActionBarPullToRefresh.from(getActivity()).allChildrenArePullable()
 				.listener(this).setup(mPullToRefreshLayout);
 
-		// Create progress bar
+		// create progress bar
 		mLoadingView = (LoadingView) view.findViewById(R.id.loading_view);
 
-		// Create CardListView
+		// create CardListView
 		mCardHeaderGridView = (CardHeaderGridView) view
 				.findViewById(R.id.news_card_list);
 		mCardHeaderGridView.setOnScrollListener(new OnScrollListener() {
@@ -147,12 +147,12 @@ public abstract class HomeFragment extends Fragment implements
 				if (hasMultiplePages() && mPageList != null
 						&& mPageList.size() != 0
 						&& mPageList.get(mPageList.size() - 1).hasNextPage()) {
-					// The topic has multiple pages, and current page has a next
+					// the topic has multiple pages, and current page has a next
 					// page
 					if (totalItemCount != 0
 							&& (firstVisibleItem + visibleItemCount) == totalItemCount
 							&& mFooterView.getVisibility() == View.VISIBLE) {
-						// Scroll to the bottom, and it's time to load more
+						// scroll to the bottom, and it's time to load more
 						loadMore();
 					}
 				}
@@ -163,13 +163,13 @@ public abstract class HomeFragment extends Fragment implements
 			}
 		});
 
-		// Set card list view header and footer
+		// set card list view header and footer
 		mHeaderView = inflater.inflate(R.layout.header_footer, null, false);
 		mFooterView = inflater.inflate(R.layout.header_footer, null, false);
 		mCardHeaderGridView.addHeaderView(mHeaderView);
 		mCardHeaderGridView.addFooterView(mFooterView);
 
-		// Create load more view
+		// create load more view
 		mLoadMoreView = inflater.inflate(R.layout.load_more_view, null, false);
 		return view;
 	}
@@ -180,14 +180,14 @@ public abstract class HomeFragment extends Fragment implements
 
 		if (mState == State.NOT_INITIALIZED) {
 			if (ConnectionManager.instance().isConnected(mContext)) {
-				// Start to initialize for the first time
+				// start to initialize for the first time
 				onInitializeDownloading();
 				mFeedManager.requestDownloadFeed(mHandler, getFeedUrl());
 			} else {
 				onInitializeFailNoNetwork();
 			}
 		} else {
-			// Just restore view for previous state
+			// just restore view for previous state
 			restoreView(mState);
 		}
 	}
@@ -196,7 +196,7 @@ public abstract class HomeFragment extends Fragment implements
 	public void onResume() {
 		super.onResume();
 
-		// Re-enable list item to be clicked
+		// re-enable list item to be clicked
 		mClickable = true;
 	}
 
@@ -204,23 +204,23 @@ public abstract class HomeFragment extends Fragment implements
 	public void onRefreshStarted(View view) {
 		if (mState == State.INITIALIZE_DOWNLOAD_FAIL
 				|| mState == State.INITIALIZE_DOWNLOAD_FAIL_NO_NETWORK) {
-			// Pull to refresh to re-initialize
+			// pull to refresh to re-initialize
 			if (ConnectionManager.instance().isConnected(mContext)) {
-				// Network is OK to re-initialize
+				// network is OK to re-initialize
 				onInitializeDownloading();
 				mFeedManager.requestDownloadFeed(mHandler, getFeedUrl());
 			} else {
-				// No network to initialize
+				// no network to initialize
 				onInitializeFailNoNetwork();
 			}
 		} else {
-			// Pull to refresh to download
+			// pull to refresh to download
 			if (ConnectionManager.instance().isConnected(mContext)) {
-				// Network is OK to download
+				// network is OK to download
 				onPullToRefreshDownloading();
 				mFeedManager.requestDownloadFeed(mHandler, getFeedUrl());
 			} else {
-				// No network to download
+				// no network to download
 				onPullToRefreshDownloadFail();
 			}
 		}
@@ -228,27 +228,26 @@ public abstract class HomeFragment extends Fragment implements
 
 	private void onRequestDownloadComplete(Feed feed) {
 		if (mState == State.INITIALIZE_DOWNLOADING) {
-			// Initialize complete
+			// initialize complete
 			onInitializeDownloadComplete(feed);
 		} else if (mState == State.PULL_TO_REFRESH_DOWNLOADING) {
-			// Pull to refresh download complete
+			// pull to refresh download complete
 			onPullToRefreshDownloadComplete(feed);
 		} else if (mState == State.LOAD_MORE_DOWNLOADING) {
-			// Load more download complete
-			onLoadMoreDownloadComplete(mPageList,
-					new Page(feed.getDocument()));
+			// load more download complete
+			onLoadMoreDownloadComplete(mPageList, new Page(feed.getDocument()));
 		}
 	}
 
 	private void onRequestDownloadFail() {
 		if (mState == State.INITIALIZE_DOWNLOADING) {
-			// Initialize fail
+			// initialize fail
 			onInitializeDownloadFail();
 		} else if (mState == State.PULL_TO_REFRESH_DOWNLOADING) {
-			// Pull to refresh download fail
+			// pull to refresh download fail
 			onPullToRefreshDownloadFail();
 		} else if (mState == State.LOAD_MORE_DOWNLOADING) {
-			// Load more download fail
+			// load more download fail
 			onLoadMoreDownloadFail();
 		}
 	}
@@ -257,7 +256,7 @@ public abstract class HomeFragment extends Fragment implements
 		mState = State.INITIALIZE_DOWNLOADING;
 		Log.d(LOG_TAG, mState.toString());
 
-		// Update views
+		// update views
 		mPullToRefreshLayout.setEnabled(false);
 		mPullToRefreshLayout.setRefreshing(false);
 		mLoadingView.setDownloading();
@@ -267,11 +266,11 @@ public abstract class HomeFragment extends Fragment implements
 		mState = State.INITIALIZE_DOWNLOAD_COMPLETE;
 		Log.d(LOG_TAG, mState.toString());
 
-		// Clear page list, and add the new page
+		// clear page list, and add the new page
 		mPageList.clear();
 		mPageList.add(new Page(feed.getDocument()));
 
-		// Update view
+		// update view
 		mPullToRefreshLayout.setEnabled(true);
 		mPullToRefreshLayout.setRefreshing(false);
 		mLoadingView.setDownloadComplete();
@@ -283,10 +282,10 @@ public abstract class HomeFragment extends Fragment implements
 		mState = State.INITIALIZE_DOWNLOAD_FAIL;
 		Log.d(LOG_TAG, mState.toString());
 
-		// Clear page list
+		// clear page list
 		mPageList.clear();
 
-		// Update view
+		// update view
 		mPullToRefreshLayout.setEnabled(true);
 		mPullToRefreshLayout.setRefreshing(false);
 		mLoadingView.setDownloadFailNoContent();
@@ -296,7 +295,7 @@ public abstract class HomeFragment extends Fragment implements
 		mState = State.INITIALIZE_DOWNLOAD_FAIL_NO_NETWORK;
 		Log.d(LOG_TAG, mState.toString());
 
-		// Update views
+		// update views
 		mPullToRefreshLayout.setEnabled(true);
 		mPullToRefreshLayout.setRefreshing(false);
 		mLoadingView.setDownloadFailNoNetwork(false);
@@ -306,7 +305,7 @@ public abstract class HomeFragment extends Fragment implements
 		mState = State.PULL_TO_REFRESH_DOWNLOADING;
 		Log.d(LOG_TAG, mState.toString());
 
-		// Update views
+		// update views
 		mPullToRefreshLayout.setEnabled(true);
 		mPullToRefreshLayout.setRefreshing(true);
 		mLoadingView.setVisibility(View.INVISIBLE);
@@ -316,12 +315,12 @@ public abstract class HomeFragment extends Fragment implements
 		mState = State.PULL_TO_REFRESH_DOWNLOAD_COMPLETE;
 		Log.d(LOG_TAG, mState.toString());
 
-		// Pull to refresh does not keep previous page
-		// Clear page list and add the new page
+		// pull to refresh does not keep previous page
+		// clear page list and add the new page
 		mPageList.clear();
 		mPageList.add(new Page(feed.getDocument()));
 
-		// Update view
+		// update view
 		mPullToRefreshLayout.setEnabled(true);
 		mPullToRefreshLayout.setRefreshing(false);
 		mLoadingView.setDownloadComplete();
@@ -333,8 +332,8 @@ public abstract class HomeFragment extends Fragment implements
 		mState = State.PULL_TO_REFRESH_DOWNLOAD_FAIL;
 		Log.d(LOG_TAG, mState.toString());
 
-		// Keep previous page list
-		// Just update view
+		// keep previous page list
+		// just update view
 		mPullToRefreshLayout.setEnabled(true);
 		mPullToRefreshLayout.setRefreshing(false);
 		mLoadingView.setDownloadComplete();
@@ -344,10 +343,10 @@ public abstract class HomeFragment extends Fragment implements
 		mState = State.LOAD_MORE_DOWNLOADING;
 		Log.d(LOG_TAG, mState.toString());
 
-		// Enable load more footer view
+		// enable load more footer view
 		setLoadingMoreFooterEnabled(true);
 
-		// Update views
+		// update views
 		mPullToRefreshLayout.setEnabled(false);
 		mPullToRefreshLayout.setRefreshing(false);
 		mLoadingView.setVisibility(View.INVISIBLE);
@@ -357,15 +356,15 @@ public abstract class HomeFragment extends Fragment implements
 		mState = State.LOAD_MORE_DOWNLOAD_COMPLETE;
 		Log.d(LOG_TAG, mState.toString());
 
-		// Disable load more footer view
+		// disable load more footer view
 		setLoadingMoreFooterEnabled(false);
 
-		// Update views
+		// update views
 		mPullToRefreshLayout.setEnabled(true);
 		mPullToRefreshLayout.setRefreshing(false);
 		mLoadingView.setVisibility(View.INVISIBLE);
 
-		// Add new page to page list and show
+		// add new page to page list and show
 		addAndShowPageList(pageList, page);
 	}
 
@@ -373,10 +372,10 @@ public abstract class HomeFragment extends Fragment implements
 		mState = State.LOAD_MORE_DOWNLOAD_FAIL;
 		Log.d(LOG_TAG, mState.toString());
 
-		// Disalbe load more footer view
+		// disable load more footer view
 		setLoadingMoreFooterEnabled(false);
 
-		// Update views
+		// update views
 		mPullToRefreshLayout.setEnabled(true);
 		mPullToRefreshLayout.setRefreshing(false);
 		mLoadingView.setVisibility(View.INVISIBLE);
@@ -487,30 +486,30 @@ public abstract class HomeFragment extends Fragment implements
 	}
 
 	private void showPageList(ArrayList<Page> pageList) {
-		// Parent activity cannot be null
+		// parent activity cannot be null
 		if (mContext != null) {
-			// Create a card list
+			// create a card list
 			ArrayList<Card> cardList = new ArrayList<Card>();
 
 			for (Page page : pageList) {
-				// For each page
+				// for each page
 				ArrayList<News> newsList = page.getNewsList();
 
-				// For each news
+				// for each news
 				for (final News news : newsList) {
-					// Create a news card
+					// create a news card
 					NewsCard newsCard = new NewsCard(mContext, news);
 
-					// Setup news card
+					// setup news card
 					newsCard.setOnClickListener(new OnNewsCardClickListener(
 							news));
 
-					// Add news card to list
+					// add news card to list
 					cardList.add(newsCard);
 				}
 			}
 
-			// Create card array adapter and add to list view
+			// create card array adapter and add to list view
 			mCardHeaderArrayAdapter = new CardHeaderGridArrayAdapter(mContext,
 					cardList);
 			mCardHeaderGridView.setAdapter(mCardHeaderArrayAdapter);
@@ -518,38 +517,38 @@ public abstract class HomeFragment extends Fragment implements
 	}
 
 	private void restorePageList(ArrayList<Page> pageList) {
-		// Parent activity cannot be null
+		// parent activity cannot be null
 		if (mContext != null) {
 			mCardHeaderGridView.setAdapter(mCardHeaderArrayAdapter);
 		}
 	}
 
 	private void addAndShowPageList(ArrayList<Page> pageList, Page page) {
-		// Page list cannot be null
+		// page list cannot be null
 		if (pageList != null) {
 			pageList.add(page);
 
-			// Parent activity cannot be null
+			// parent activity cannot be null
 			if (mContext != null) {
-				// Create a card list
+				// create a card list
 				ArrayList<Card> cardList = new ArrayList<Card>();
 
-				// Get news list from new page
+				// get news list from new page
 				ArrayList<News> newsList = page.getNewsList();
-				// For each news
+				// for each news
 				for (final News news : newsList) {
-					// Create a news card
+					// create a news card
 					NewsCard newsCard = new NewsCard(mContext, news);
 
-					// Setup news card
+					// setup news card
 					newsCard.setOnClickListener(new OnNewsCardClickListener(
 							news));
 
-					// Add news card to list
+					// add news card to list
 					cardList.add(newsCard);
 				}
 
-				// Add card list to adapter and notify data changed
+				// add card list to adapter and notify data changed
 				mCardHeaderArrayAdapter.addAll(cardList);
 				mCardHeaderArrayAdapter.notifyDataSetChanged();
 			}
@@ -558,12 +557,12 @@ public abstract class HomeFragment extends Fragment implements
 
 	private void setLoadingMoreFooterEnabled(boolean enabled) {
 		if (enabled) {
-			// Add load more view to footer
+			// add load more view to footer
 			if (mCardHeaderGridView.getFooterViewCount() == 1) {
 				mCardHeaderGridView.addFooterView(mLoadMoreView);
 			}
 		} else {
-			// Remove load more view from footer
+			// remove load more view from footer
 			if (mCardHeaderGridView.getFooterViewCount() == 2) {
 				mCardHeaderGridView.removeFooterView(mLoadMoreView);
 			}
@@ -579,7 +578,7 @@ public abstract class HomeFragment extends Fragment implements
 
 		public void onClick(Card card, View view) {
 			if (mClickable) {
-				// To avoid multiple clicks and multiple
+				// to avoid multiple clicks and multiple
 				// activities
 				mClickable = false;
 
@@ -587,14 +586,14 @@ public abstract class HomeFragment extends Fragment implements
 
 				if (mNews.getFeedLinkUrl() != null
 						&& !mNews.getFeedLinkUrl().isEmpty()) {
-					// Start ArticleActivity to display news article details
+					// start ArticleActivity to display news article details
 					Intent articleIntent = new Intent();
 					articleIntent.putExtra(Intent.EXTRA_STREAM, mNews);
 					articleIntent
 							.setClass(getActivity(), ArticleActivity.class);
 					startActivity(articleIntent);
 				} else {
-					// Start browser to display news article details
+					// start browser to display news article details
 					Intent browserIntent = new Intent();
 					browserIntent.setAction(Intent.ACTION_VIEW);
 					browserIntent.addCategory(Intent.CATEGORY_BROWSABLE);

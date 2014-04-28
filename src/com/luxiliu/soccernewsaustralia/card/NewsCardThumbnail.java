@@ -20,18 +20,18 @@ public class NewsCardThumbnail extends CardThumbnail {
 	public NewsCardThumbnail(Context context, String thumbnailUrl) {
 		super(context);
 
-		// Thumbnail url
+		// thumbnail url
 		mThumbnailUrl = thumbnailUrl;
 	}
 
 	@Override
 	public void setupInnerViewElements(ViewGroup parent, View imageView) {
 		if (mThumbnailUrl != null && !mThumbnailUrl.isEmpty()) {
-			// Load thumbnail image with Picasso library
+			// load thumbnail image with Picasso library
 			Picasso.with(getContext()).load(mThumbnailUrl)
 					.into((ImageView) imageView);
 		} else {
-			// Hide image view if no image URL
+			// hide image view if no image URL
 			imageView.setVisibility(View.GONE);
 		}
 	}

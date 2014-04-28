@@ -28,14 +28,14 @@ public class NavDrawerFragment extends Fragment implements OnItemClickListener {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 
-		// Inflate the fragment view
+		// inflate the fragment view
 		View view = inflater.inflate(R.layout.nav_drawer_fragment, container);
 
-		// Get drawer list view
+		// get drawer list view
 		ListView mDrawerListView = (ListView) view
 				.findViewById(R.id.drawer_list);
 
-		// Create drawer entry list
+		// create drawer entry list
 		mNavDrawerEntryList = new ArrayList<NavDrawerEntry>();
 		mNavDrawerEntryList.add(NavDrawerEntry.ALEAGUE_ENTRY);
 		mNavDrawerEntryList.add(NavDrawerEntry.WLEAGUE_ENTRY);
@@ -44,7 +44,7 @@ public class NavDrawerFragment extends Fragment implements OnItemClickListener {
 		mNavDrawerEntryList.add(NavDrawerEntry.SOCCEROOS_ENTRY);
 		mNavDrawerEntryList.add(NavDrawerEntry.SETTINGS_ENTRY);
 
-		// Add drawer entries to list view
+		// add drawer entries to list view
 		NavDrawerEntryAdapter adapter = new NavDrawerEntryAdapter(
 				inflater.getContext(), mNavDrawerEntryList);
 		mDrawerListView.setAdapter(adapter);
@@ -56,13 +56,13 @@ public class NavDrawerFragment extends Fragment implements OnItemClickListener {
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		// Close the drawer provided a entry is clicked
+		// close the drawer provided a entry is clicked
 		((DrawerLayout) getView().getParent()).closeDrawer(getView());
 
-		// Get clicked drawer entry
+		// get clicked drawer entry
 		NavDrawerEntry navDrawerEntry = mNavDrawerEntryList.get(position);
 
-		// Let that drawer entry deal the click event
+		// let that drawer entry deal the click event
 		navDrawerEntry.onClick(view);
 	}
 

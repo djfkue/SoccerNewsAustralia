@@ -29,19 +29,19 @@ public class HomeFragmentEntry extends NavDrawerEntry {
 
 	@Override
 	public View getView(View view, ViewGroup viewGroup) {
-		// Get the context of the view group
+		// get the context of the view group
 		Context context = viewGroup.getContext();
 
 		if (mTextView == null) {
-			// Setup the view for the first time
+			// setup the view for the first time
 			mTextView = (TextView) LayoutInflater.from(context).inflate(
 					R.layout.nav_drawer_entry, null);
 			mTextView.setText(mHomeFragment.getTitle(context));
 		} else {
-			// The view is already initialized
+			// the view is already initialized
 		}
 
-		// Set activated/deactivated state
+		// set activated/deactivated state
 		setInternalActivated(context, mActivated);
 
 		return mTextView;
@@ -49,7 +49,7 @@ public class HomeFragmentEntry extends NavDrawerEntry {
 
 	@Override
 	public void onClick(View view) {
-		// Inform HomeActivity to update the home fragment when it's clicked
+		// inform HomeActivity to update the home fragment when it's clicked
 		Intent intent = new Intent();
 		intent.setClass(view.getContext(), HomeActivity.class);
 		intent.putExtra(Intent.EXTRA_UID, mHomeFragment.getInternalId());
@@ -57,10 +57,10 @@ public class HomeFragmentEntry extends NavDrawerEntry {
 	}
 
 	public void setActivated(Context context, boolean activated) {
-		// Keep view activated/deactivated state
+		// keep view activated/deactivated state
 		mActivated = activated;
 
-		// Set activated/deactivated state
+		// set activated/deactivated state
 		if (mTextView != null) {
 			setInternalActivated(context, mActivated);
 		}
@@ -68,12 +68,12 @@ public class HomeFragmentEntry extends NavDrawerEntry {
 
 	private void setInternalActivated(Context context, boolean activated) {
 		if (activated) {
-			// Set activated type face
+			// set activated type face
 			Typeface typeface = Typeface.createFromAsset(context.getAssets(),
 					"fonts/Roboto-Bold.ttf");
 			mTextView.setTypeface(typeface);
 		} else {
-			// Set deactivated type face
+			// set deactivated type face
 			Typeface typeface = Typeface.createFromAsset(context.getAssets(),
 					"fonts/Roboto-Light.ttf");
 			mTextView.setTypeface(typeface);

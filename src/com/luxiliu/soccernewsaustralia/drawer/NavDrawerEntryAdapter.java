@@ -22,7 +22,7 @@ public class NavDrawerEntryAdapter extends ArrayAdapter<NavDrawerEntry> {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		// Return drawer entry's own view
+		// return drawer entry's own view
 		return getItem(position).getView(convertView, parent);
 	}
 }

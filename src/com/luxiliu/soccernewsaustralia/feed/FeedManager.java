@@ -26,10 +26,14 @@ public final class FeedManager {
 	public static final int REQUEST_DOWNLOAD_FEED_COMPLETE = 0x00;
 	public static final int REQUEST_DOWNLOAD_FEED_FAIL = 0x01;
 
+	// make FeedManager as a static class
 	private static final FeedManager mInstance = new FeedManager();
 
 	public static FeedManager instance() {
 		return mInstance;
+	}
+
+	private FeedManager() {
 	}
 
 	public void requestDownloadFeed(Handler handler, String url) {
@@ -38,11 +42,7 @@ public final class FeedManager {
 		task.execute(url);
 	}
 
-	private FeedManager() {
-	}
-
-	private static class DownloadTask extends
-			AsyncTask<String, Integer, Feed> {
+	private static class DownloadTask extends AsyncTask<String, Integer, Feed> {
 		private static final int CONNECTION_TIMEOUT = 5000;
 		private static final int READ_TIMEOUT = 5000;
 		private Handler mHandler;
@@ -53,30 +53,26 @@ public final class FeedManager {
 
 		@Override
 		protected Feed doInBackground(String... urls) {
-			// These error may cause page null
-			// No network connection; Cannot reach feed host, connection
-			// timeout, invalid content, and etc.
-
 			Feed feed = null;
 			URL url = null;
 
 			try {
-				// Replace spaces
+				// replace spaces
 				url = new URL(urls[0].replaceAll(" ", "%20"));
 
 				HttpURLConnection connection = null;
 				try {
-					// Create connection
+					// create connection
 					connection = (HttpURLConnection) url.openConnection();
 					connection.setConnectTimeout(CONNECTION_TIMEOUT);
 					connection.setReadTimeout(READ_TIMEOUT);
 
 					InputStream inputStream = null;
 					try {
-						// Get input stream from connection
+						// get input stream from connection
 						inputStream = connection.getInputStream();
 
-						// Transform into Feed instance
+						// transform into Feed instance
 						feed = new Feed(new SAXReader().read(inputStream));
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -106,7 +102,7 @@ public final class FeedManager {
 				message.setData(bundle);
 				message.what = FeedManager.REQUEST_DOWNLOAD_FEED_COMPLETE;
 			} else {
-				// Some errors happened in downloading
+				// some errors happened in downloading
 				message.what = FeedManager.REQUEST_DOWNLOAD_FEED_FAIL;
 			}
 

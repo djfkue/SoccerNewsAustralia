@@ -46,27 +46,27 @@ public class ArticleView extends LinearLayout {
 	}
 
 	private void initView() {
-		// Inflate the main view
+		// inflate the main view
 		LayoutInflater inflater = (LayoutInflater) getContext()
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		inflater.inflate(R.layout.article_view, this, true);
 
-		// Get image
+		// get image
 		mImageView = (ImageView) findViewById(R.id.image);
 
-		// Get title
+		// get title
 		mTitleTextView = (TextView) findViewById(R.id.title);
 
-		// Get description
+		// get description
 		mDescriptionTextView = (TextView) findViewById(R.id.description);
 
-		// Get author
+		// get author
 		mAuthorTextView = (TextView) findViewById(R.id.author);
 
-		// Get date
+		// get date
 		mDateTextView = (TextView) findViewById(R.id.date);
 
-		// Get text
+		// get text
 		mArticleTextView = (TextView) findViewById(R.id.articleText);
 	}
 
@@ -78,11 +78,11 @@ public class ArticleView extends LinearLayout {
 
 	private void updateView() {
 		if (mArticle != null) {
-			// Update image
+			// update image
 			Picasso.with(getContext()).load(mArticle.getImageUrl())
 					.into((ImageView) mImageView);
 
-			// Customize font
+			// customize font
 			Typeface titleTypeface = Typeface.createFromAsset(getContext()
 					.getAssets(), "fonts/RobotoSlab-Light.ttf");
 			Typeface authorDateArticleTypeface = Typeface.createFromAsset(
@@ -90,7 +90,7 @@ public class ArticleView extends LinearLayout {
 			Typeface descriptionTypeface = titleTypeface;
 			Typeface articleTextTypeface = authorDateArticleTypeface;
 
-			// Customize font size
+			// customize font size
 			float density = getResources().getDisplayMetrics().density;
 			FontSize fontSize = Preferences.getArticleFontSize(getContext());
 			switch (fontSize) {
@@ -149,24 +149,24 @@ public class ArticleView extends LinearLayout {
 				break;
 			}
 
-			// Update title
+			// update title
 			mTitleTextView.setTypeface(titleTypeface);
 			mTitleTextView.setText(mArticle.getTitle());
 
-			// Update author
+			// update author
 			mAuthorTextView.setTypeface(authorDateArticleTypeface);
 			mAuthorTextView.setText(mArticle.getAuthor());
 
-			// Update date
+			// update date
 			mDateTextView.setTypeface(authorDateArticleTypeface);
 			mDateTextView
 					.setText(Util.toPrettyDate(mArticle.getPublishedDate()));
 
-			// Update description
+			// update description
 			mDescriptionTextView.setTypeface(descriptionTypeface);
 			mDescriptionTextView.setText(mArticle.getDescription());
 
-			// Update article
+			// update article
 			mArticleTextView.setTypeface(articleTextTypeface);
 			mArticleTextView.setText(Html.fromHtml(mArticle.getArticleText()));
 		}

@@ -7,7 +7,7 @@ package com.luxiliu.soccernewsaustralia.feed;
  * 
  */
 public final class FeedConfig {
-	// Make FeedConfig class as a static class
+	// make FeedConfig class as a static class
 	private FeedConfig() {
 	}
 

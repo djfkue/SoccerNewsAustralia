@@ -22,29 +22,29 @@ public class BrowserActivity extends SNAActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		// Get the URL
+		// get the URL
 		Intent intent = getIntent();
 		mUrl = intent.getDataString();
 
-		// Setup action bar
+		// setup action bar
 		getSupportActionBar().setDisplayOptions(
 				ActionBar.DISPLAY_USE_LOGO | ActionBar.DISPLAY_SHOW_HOME
 						| ActionBar.DISPLAY_HOME_AS_UP
 						| ActionBar.DISPLAY_SHOW_TITLE);
 
-		// Load the web page
+		// load the web page
 		WebView webView = new WebView(this);
 		webView.setHorizontalScrollBarEnabled(false);
 		webView.setVerticalScrollBarEnabled(false);
 		webView.loadUrl(mUrl);
 
-		// Set the main content view
+		// set the main content view
 		setContentView(webView);
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Back to last activity if "Home" menu is clicked
+		// back to last activity if "Home" menu is clicked
 		if (item.getItemId() == android.R.id.home) {
 			onBackPressed();
 			return true;

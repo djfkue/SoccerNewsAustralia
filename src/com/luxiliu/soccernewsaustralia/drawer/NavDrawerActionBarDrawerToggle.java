@@ -21,7 +21,7 @@ public class NavDrawerActionBarDrawerToggle extends ActionBarDrawerToggle {
 				R.string.abc_action_bar_up_description,
 				R.string.abc_action_bar_up_description);
 
-		// Enable drawer indicator, so the toggle drawer could be seen
+		// enable drawer indicator, so the toggle drawer could be seen
 		setDrawerIndicatorEnabled(true);
 	}
 }

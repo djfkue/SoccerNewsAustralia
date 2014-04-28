@@ -35,47 +35,47 @@ public class StartActivity extends SNAActivity {
 		setContentView(R.layout.start_activity);
 
 		if (savedInstanceState == null) {
-			// First time init, set initial content
+			// first time init, set initial content
 			initContent();
 		}
 	}
 
 	private void initContent() {
 		if (ConnectionManager.instance().isConnected(this)) {
-			// Network is OK
-			// Start HomeActivity
+			// network is OK
+			// start HomeActivity
 			Intent intent = new Intent();
 			intent.setClass(this, HomeActivity.class);
 			startActivity(intent);
 			finish();
 		} else {
-			// No network connection
-			// Show a dialog and confirm to close application
+			// no network connection
+			// show a dialog and confirm to close application
 			showNoNetworkDialogFragment();
 		}
 	}
 
 	private void showNoNetworkDialogFragment() {
 		if (mNoNetworkDialogFragment == null) {
-			// Create a no-network-dialog-fragment if not created yet
+			// create a no-network-dialog-fragment if not created yet
 			mNoNetworkDialogFragment = new NoNetworkDialogFragment();
 		}
 
 		if (!mNoNetworkDialogFragment.isVisible()) {
 			try {
-				// Find a existing fragment
+				// find a existing fragment
 				FragmentManager fragmentManager = getSupportFragmentManager();
 				FragmentTransaction fragmentTransaction = fragmentManager
 						.beginTransaction();
 				Fragment fragment = fragmentManager
 						.findFragmentByTag(NO_NETWORK_DIALOG_FRAGMENT);
 
-				// Remove the found fragment
+				// remove the found fragment
 				if (fragment != null) {
 					fragmentTransaction.remove(fragment);
 				}
 
-				// Add and show the dialog
+				// add and show the dialog
 				fragmentTransaction.addToBackStack(null);
 				mNoNetworkDialogFragment.show(fragmentTransaction,
 						NO_NETWORK_DIALOG_FRAGMENT);
@@ -89,7 +89,7 @@ public class StartActivity extends SNAActivity {
 	public static class NoNetworkDialogFragment extends DialogFragment {
 
 		private void finishHostActivity() {
-			// Finish the activity
+			// finish the activity
 			FragmentActivity fragmentActivity = getActivity();
 			if (fragmentActivity != null) {
 				fragmentActivity.finish();
@@ -98,7 +98,7 @@ public class StartActivity extends SNAActivity {
 
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
-			// Create the dialog
+			// create the dialog
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 			builder.setPositiveButton(android.R.string.ok, null);
 			builder.setTitle(R.string.no_network_connection);
@@ -110,7 +110,7 @@ public class StartActivity extends SNAActivity {
 		public void onDismiss(DialogInterface dialog) {
 			super.onDismiss(dialog);
 
-			// Finish the activity when the dialog dismissed
+			// finish the activity when the dialog dismissed
 			finishHostActivity();
 		}
 	}

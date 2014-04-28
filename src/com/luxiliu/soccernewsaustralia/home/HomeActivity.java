@@ -40,20 +40,20 @@ public class HomeActivity extends SNAActivity {
 	}
 
 	private void setupView() {
-		// Setup "Home" menu
+		// setup "Home" menu
 		getSupportActionBar().setHomeButtonEnabled(true);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-		// Setup drawer layout
+		// setup drawer layout
 		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer);
 
-		// Setup drawer toggle
+		// setup drawer toggle
 		mDrawerToggle = new NavDrawerActionBarDrawerToggle(this, mDrawerLayout) {
 			@Override
 			public void onDrawerClosed(View drawerView) {
 				super.onDrawerClosed(drawerView);
 
-				// Restore title to fragment title when drawer toggle closed
+				// restore title to fragment title when drawer toggle closed
 				setTitle(HomeFragment.getHomeFragment(mPager.getCurrentItem())
 						.getTitle(HomeActivity.this));
 			}
@@ -62,17 +62,17 @@ public class HomeActivity extends SNAActivity {
 			public void onDrawerOpened(View drawerView) {
 				super.onDrawerOpened(drawerView);
 
-				// Set title as application name when drawer toggle opened
+				// set title as application name when drawer toggle opened
 				setTitle(R.string.app_name);
 			}
 		};
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-		// Setup drawer fragment
+		// setup drawer fragment
 		mNavDrawerFragment = (NavDrawerFragment) getSupportFragmentManager()
 				.findFragmentById(R.id.nav_drawer_fragment);
 
-		// Setup ViewPager and PagerAdapter.
+		// setup ViewPager and PagerAdapter.
 		mPager = (ViewPager) findViewById(R.id.pager);
 		mPager.setPageTransformer(true, new DepthPageTransformer());
 
@@ -84,7 +84,7 @@ public class HomeActivity extends SNAActivity {
 			public void onPageSelected(int position) {
 				invalidateOptionsMenu();
 
-				// Get home fragment
+				// set home fragment
 				HomeFragment homeFragment = HomeFragment
 						.getHomeFragment(position);
 
@@ -94,7 +94,7 @@ public class HomeActivity extends SNAActivity {
 	}
 
 	private void setupContent() {
-		// Get current home fragment
+		// get current home fragment
 		HomeFragment homeFragment = HomeFragment.getHomeFragment(mPager
 				.getCurrentItem());
 
@@ -114,7 +114,7 @@ public class HomeActivity extends SNAActivity {
 	protected void onNewIntent(Intent intent) {
 		super.onNewIntent(intent);
 
-		// Get the home fragment for the clicked drawer entry
+		// get the home fragment for the clicked drawer entry
 		int homeFragmentId = intent.getIntExtra(Intent.EXTRA_UID, -1);
 		HomeFragment homeFragment = HomeFragment
 				.getHomeFragment(homeFragmentId);
@@ -125,7 +125,7 @@ public class HomeActivity extends SNAActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		if (item.getItemId() == android.R.id.home) {
-			// Menu item "Home" is used for navigation drawer
+			// menu item "Home" is used for navigation drawer
 			if (mDrawerLayout.isDrawerVisible(mNavDrawerFragment.getView())) {
 				mDrawerLayout.closeDrawer(mNavDrawerFragment.getView());
 			} else {
@@ -149,13 +149,13 @@ public class HomeActivity extends SNAActivity {
 	}
 
 	private void updateViewOnFragmentChange(HomeFragment homeFragment) {
-		// Set title
+		// set title
 		setTitle(homeFragment.getTitle(this));
 
-		// Update view pager
+		// update view pager
 		mPager.setCurrentItem(homeFragment.getInternalId(), true);
 
-		// Update drawer fragment
+		// update drawer fragment
 		mNavDrawerFragment.onHomeFragmentActivated(homeFragment);
 	}
 

@@ -34,37 +34,37 @@ public class ArticleActivity extends SNAActivity {
 	}
 
 	private void setupView() {
-		// Setup "Home" menu
+		// setup "Home" menu
 		getSupportActionBar().setHomeButtonEnabled(true);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-		// Set title
+		// set title
 		setTitle(mNews.getCategory());
 	}
 
 	private void setupContent() {
-		// Setup fragment
+		// setup fragment
 		setupFragment();
 	}
 
 	private void setupFragment() {
-		// Initialize fragment manager and transaction
+		// initialize fragment manager and transaction
 		FragmentManager fragmentManager = getSupportFragmentManager();
 		FragmentTransaction fragmentTransaction = fragmentManager
 				.beginTransaction();
 
-		// Find an existing article fragment
+		// find an existing article fragment
 		mArticleFragment = (Fragment) fragmentManager
 				.findFragmentByTag(ARTICLE_FRAGMENT);
 
 		if (mArticleFragment == null) {
-			// Create a new fragment if not found and set argument to it
+			// create a new fragment if not found and set argument to it
 			mArticleFragment = new ArticleFragment();
 			mArticleFragment.setArguments(getIntent().getExtras());
 		}
 
 		if (!mArticleFragment.isAdded()) {
-			// Add fragment is not added yet
+			// add fragment is not added yet
 			fragmentTransaction.add(R.id.article_fragment, mArticleFragment,
 					ARTICLE_FRAGMENT).commit();
 		}
