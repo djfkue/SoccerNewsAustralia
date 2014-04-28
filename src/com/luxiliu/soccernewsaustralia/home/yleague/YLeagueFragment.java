@@ -6,6 +6,12 @@ import com.luxiliu.soccernewsaustralia.R;
 import com.luxiliu.soccernewsaustralia.feed.FeedConfig;
 import com.luxiliu.soccernewsaustralia.home.HomeFragment;
 
+/**
+ * The YLeagueFragment provides Y League content display
+ * 
+ * @author Luxi Liu (luxi.liu@gmail.com
+ * 
+ */
 public class YLeagueFragment extends HomeFragment {
 
 	public YLeagueFragment() {
@@ -31,5 +37,4 @@ public class YLeagueFragment extends HomeFragment {
 	public String getTitle(Context context) {
 		return context.getString(R.string.yleague_title);
 	}
-
 }
