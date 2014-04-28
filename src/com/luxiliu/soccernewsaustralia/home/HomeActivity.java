@@ -36,7 +36,11 @@ public class HomeActivity extends SNAActivity {
 
 		setupView();
 
-		setupContent();
+		if (savedInstanceState == null) {
+			setupContent();
+		} else {
+			// no need to restore content as onPageSelected will be called
+		}
 	}
 
 	private void setupView() {
@@ -84,21 +88,21 @@ public class HomeActivity extends SNAActivity {
 			public void onPageSelected(int position) {
 				invalidateOptionsMenu();
 
-				// set home fragment
-				HomeFragment homeFragment = HomeFragment
-						.getHomeFragment(position);
+				// set new home fragment
+				updateViewOnFragmentChange(HomeFragment
+						.getHomeFragment(position));
 
-				updateViewOnFragmentChange(homeFragment);
+				// set title as application name if drawer is open
+				if (mDrawerLayout.isDrawerOpen(mNavDrawerFragment.getView())) {
+					setTitle(R.string.app_name);
+				}
 			}
 		});
 	}
 
 	private void setupContent() {
-		// get current home fragment
-		HomeFragment homeFragment = HomeFragment.getHomeFragment(mPager
-				.getCurrentItem());
-
-		updateViewOnFragmentChange(homeFragment);
+		// setup initial home fragment
+		updateViewOnFragmentChange(HomeFragment.getHomeFragment(0));
 	}
 
 	@Override
@@ -136,16 +140,6 @@ public class HomeActivity extends SNAActivity {
 		}
 
 		return super.onOptionsItemSelected(item);
-	}
-
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-
-		// Save mHomePage instance
-		//outState.putInt(Intent.EXTRA_UID,
-		//		HomeFragment.getHomeFragment(mPager.getCurrentItem())
-		//				.getInternalId());
 	}
 
 	private void updateViewOnFragmentChange(HomeFragment homeFragment) {
