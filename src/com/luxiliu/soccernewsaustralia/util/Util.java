@@ -5,8 +5,11 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
-import android.content.res.Configuration;
-import android.support.v4.app.Fragment;
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager.NameNotFoundException;
+
+import com.luxiliu.soccernewsaustralia.R;
 
 /**
  * The Util class provides utility methods
@@ -15,16 +18,32 @@ import android.support.v4.app.Fragment;
  * 
  */
 public final class Util {
-	// Make Util class as a static class
+	// make Util class as a static class
 	private Util() {
 	}
 
-	public static boolean isPortrait(Fragment fragment) {
-		if (fragment != null) {
-			return (fragment.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT);
-		} else {
-			return false;
+	public static String getApplicationVersion(Context context) {
+		String version = new String();
+
+		try {
+			// get package info
+			PackageInfo packageInfo = context.getPackageManager()
+					.getPackageInfo(context.getPackageName(), 0);
+
+			// get version name and code
+			String versionName = packageInfo.versionName;
+			int versionCode = packageInfo.versionCode;
+			Object[] objects = new Object[2];
+			objects[0] = versionName;
+			objects[1] = Integer.valueOf(versionCode);
+
+			// format to readable version string
+			version = context.getString(R.string.release, objects);
+		} catch (NameNotFoundException e) {
+			e.printStackTrace();
 		}
+
+		return version;
 	}
 
 	public static String toPrettyDate(Date date) {
@@ -33,7 +52,7 @@ public final class Util {
 		long value = 0;
 		String ret;
 
-		// Default date string
+		// default date string
 		SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd MMM yyyy, HH:mm",
 				Locale.getDefault());
 		ret = sdf.format(date);

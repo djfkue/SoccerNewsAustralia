@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 /**
- * The Preferences class is to provide preferences of applications
+ * The Preferences class provides preferences settings of this application
  * 
  * @author Luxi Liu (luxi.liu@gmail.com)
  * 
@@ -17,8 +17,8 @@ public class Preferences {
 	private static final int ARTICLE_TEXT_SIZE_NORMAL = 1;
 	private static final int ARTICLE_TEXT_SIZE_LARGE = 2;
 
+	// make Preferencs as a static class
 	private Preferences() {
-
 	}
 
 	public static enum FontSize {
@@ -26,11 +26,11 @@ public class Preferences {
 	}
 
 	public static FontSize getArticleFontSize(Context context) {
-		// Get all the available font size values
+		// get all the available font size values
 		String[] fontSizeValues = context.getResources().getStringArray(
 				R.array.article_text_size_values);
 
-		// Get font size from preference
+		// get font size from preference
 		String prefsFile = context.getPackageName() + "_preferences";
 		SharedPreferences preferences = context.getSharedPreferences(prefsFile,
 				Context.MODE_PRIVATE);
@@ -38,7 +38,7 @@ public class Preferences {
 				context.getString(R.string.article_text_size_preference_key),
 				fontSizeValues[DEFAULT_ARTICLE_TEXT_SIZE_INDEX]);
 
-		// Find corresponding font size
+		// find corresponding font size
 		int index = 0;
 		for (; index < fontSizeValues.length; index++) {
 			if (value.equals(fontSizeValues[index])) {
@@ -65,6 +65,7 @@ public class Preferences {
 		String[] fontSizeValues = context.getResources().getStringArray(
 				R.array.article_text_size_values);
 
+		// find corresponding font size index
 		int index = 0;
 		for (; index < fontSizeValues.length; index++) {
 			if (value.equals(fontSizeValues[index])) {

@@ -2,10 +2,9 @@ package com.luxiliu.soccernewsaustralia.preference;
 
 import com.luxiliu.soccernewsaustralia.R;
 import com.luxiliu.soccernewsaustralia.activity.BrowserActivity;
+import com.luxiliu.soccernewsaustralia.util.Util;
 
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.ListPreference;
@@ -16,7 +15,7 @@ import android.preference.Preference.OnPreferenceClickListener;
 import android.view.MenuItem;
 
 /**
- * The SettingsFragment provides a fragment of settings
+ * The SettingsFragment is the fragment of preferences settings
  * 
  * @author Luxi Liu (luxi.liu@gmail.com)
  * 
@@ -25,16 +24,15 @@ public class SettingsFragment extends PreferenceFragment {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 
-		// Enable "Home" menu
+		// enable "Home" menu
 		setHasOptionsMenu(true);
 
-		// Add preferences
+		// add preferences
 		addPreferencesFromResource(R.xml.settings);
 
-		// Setup preferences
+		// setup preferences
 		setupGeneralPreferences();
 		setupAboutPreferences();
 	}
@@ -44,8 +42,10 @@ public class SettingsFragment extends PreferenceFragment {
 	}
 
 	private void setupArticleTextSizePreference() {
-		// Get the preference
+		// get the preference
 		ListPreference preference = (ListPreference) findPreference(getString(R.string.article_text_size_preference_key));
+
+		// set preference summary and listener
 		preference.setSummary(Preferences.getArticleFontSize(
 				preference.getContext()).toString());
 		preference
@@ -70,7 +70,7 @@ public class SettingsFragment extends PreferenceFragment {
 	}
 
 	private void setupOpenSourcePreference() {
-		// Get the preference
+		// get the preference and setup listener
 		findPreference(getString(R.string.open_source_licenses_preference_key))
 				.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 
@@ -87,7 +87,7 @@ public class SettingsFragment extends PreferenceFragment {
 	}
 
 	private void setupTermsOfServicePreference() {
-		// Get the preference
+		// get the preference and setup listener
 		findPreference(getString(R.string.terms_of_service_preference_key))
 				.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 
@@ -103,7 +103,7 @@ public class SettingsFragment extends PreferenceFragment {
 	}
 
 	private void setupGoalPrivacyPolicyPreference() {
-		// Get the preference
+		// get the preference and setup listener
 		findPreference(getString(R.string.goal_privacy_policy_preference_key))
 				.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 
@@ -119,7 +119,7 @@ public class SettingsFragment extends PreferenceFragment {
 	}
 
 	private void setupFfaPrivacyPolicyPreference() {
-		// Get the preference
+		// get the preference and setup listener
 		findPreference(getString(R.string.ffa_privacy_policy_preference_key))
 				.setOnPreferenceClickListener(new OnPreferenceClickListener() {
 
@@ -135,28 +135,15 @@ public class SettingsFragment extends PreferenceFragment {
 	}
 
 	private void setupAboutAppPreference() {
-		// Find the preference
+		// get the preference
 		Preference preference = findPreference(getResources().getString(
 				R.string.version_preference_key));
 
-		try {
-			// Set application name as title
-			preference.setTitle(R.string.app_name);
+		// set application name as title
+		preference.setTitle(R.string.app_name);
 
-			// Set version information as summary
-			PackageInfo packageInfo = getActivity().getPackageManager()
-					.getPackageInfo(getActivity().getPackageName(), 0);
-			String versionName = packageInfo.versionName;
-			int versionCode = packageInfo.versionCode;
-			Object[] objects = new Object[2];
-			objects[0] = versionName;
-			objects[1] = Integer.valueOf(versionCode);
-			String version = getString(R.string.release, objects);
-			preference.setSummary(version);
-		} catch (NameNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		// set version information as summary
+		preference.setSummary(Util.getApplicationVersion(getActivity()));
 	}
 
 	@Override

@@ -12,9 +12,9 @@ import android.net.NetworkInfo;
  * 
  */
 public class ConnectionManager {
+	// make ConnectionManager as a singleton class
 	private static final ConnectionManager mInstance = new ConnectionManager();
 
-	// Make ConnectionManager as a static class
 	private ConnectionManager() {
 	}
 

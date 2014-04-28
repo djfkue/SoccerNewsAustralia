@@ -31,9 +31,9 @@
     <string name="open_source_licenses_url" translatable="false">file:///android_asset/html/licences.html</string>
     <string name="terms_of_service" translatable="false">Terms of Service</string>
     <string name="terms_of_service_url" translatable="false">http://www.goal.com/en-au/legal/terms-conditions?ICID=OP</string>
-    <string name="goal_privacy_policy" translatable="false">Privacy Policy - GOAL</string>
+    <string name="goal_privacy_policy" translatable="false">GOAL Privacy Policy</string>
     <string name="goal_privacy_policy_url" translatable="false">http://www.goal.com/en-au/legal/privacy-policy?ICID=OP</string>
-    <string name="ffa_privacy_policy" translatable="false">Privacy Policy - FFA</string>
+    <string name="ffa_privacy_policy" translatable="false">FFA Privacy Policy</string>
     <string name="ffa_privacy_policy_url" translatable="false">http://www.footballaustralia.com.au/privacy</string>
     <string name="usage_policy" translatable="false">Usage Policy</string>
     <string name="usage_policy_description" translatable="false">Soccer News Australia is for personal and non-commercial use only.</string>
