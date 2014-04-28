@@ -8,7 +8,7 @@ import android.view.LayoutInflater;
 import android.widget.RelativeLayout;
 
 /**
- * The LoadMoreView provides a view to display the loading more state
+ * The LoadMoreView provides a view for loading more state
  * 
  * @author Luxi Liu (luxi.liu@gmail.com)
  * 
@@ -34,7 +34,7 @@ public class LoadMoreView extends RelativeLayout {
 	}
 
 	private void initView() {
-		// Inflate the main view
+		// inflate the main view
 		LayoutInflater inflater = (LayoutInflater) getContext()
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		inflater.inflate(R.layout.loading_view, this, true);

@@ -12,7 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 /**
- * The LoadingView provides a view to display the state of content download
+ * The LoadingView provides a view for loading content
  * 
  * @author Luxi Liu (luxi.liu@gmail.com)
  * 
@@ -45,31 +45,31 @@ public class LoadingView extends RelativeLayout {
 	}
 
 	private void initView() {
-		// Inflate the main view
+		// inflate the main view
 		LayoutInflater inflater = (LayoutInflater) getContext()
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		inflater.inflate(R.layout.loading_view, this, true);
 
-		// Get progress bar
+		// get progress bar
 		mProgressBar = (ProgressBar) findViewById(R.id.progress_bar);
 
-		// Get result layout
+		// get result layout
 		mLoadResultLayout = (RelativeLayout) findViewById(R.id.load_result_layout);
 
-		// Get image view
+		// get image view
 		mImageView = (ImageView) findViewById(R.id.image);
 
-		// Get message view
+		// get message view
 		mMessageTextView = (TextView) findViewById(R.id.message);
 
-		// Get retry text view
+		// get retry text view
 		mRetryTextView = (TextView) findViewById(R.id.retry);
 		mRetryTextView.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				if (mRetryListener != null) {
-					// "Retry" is clicked
+					// "retry" is clicked
 					mRetryListener.onClick(v);
 				}
 			}
@@ -77,38 +77,38 @@ public class LoadingView extends RelativeLayout {
 	}
 
 	public void setDownloading() {
-		// Show the view
+		// show the view
 		setVisibility(View.VISIBLE);
 
-		// Show the progress bar
+		// show the progress bar
 		mProgressBar.setVisibility(View.VISIBLE);
 
-		// Hide load result layout
+		// hide load result layout
 		mLoadResultLayout.setVisibility(View.GONE);
 	}
 
 	public void setDownloadComplete() {
-		// Hide the view
+		// hide the view
 		setVisibility(View.INVISIBLE);
 
-		// Hide the progress bar
+		// hide the progress bar
 		mProgressBar.setVisibility(View.GONE);
 
-		// Hide the load result layout
+		// hide the load result layout
 		mLoadResultLayout.setVisibility(View.GONE);
 	}
 
 	public void setDownloadFailNoNetwork(boolean retry) {
-		// Show the view
+		// show the view
 		setVisibility(View.VISIBLE);
 
-		// Hide the progress bar
+		// hide the progress bar
 		mProgressBar.setVisibility(View.GONE);
 
-		// Show the load result layout
+		// show the load result layout
 		mLoadResultLayout.setVisibility(View.VISIBLE);
 
-		// Show the image and message
+		// show the image and message
 		mImageView.setImageDrawable(getResources().getDrawable(
 				R.drawable.ic_empty_download));
 		mMessageTextView.setText(getResources().getString(
@@ -122,16 +122,16 @@ public class LoadingView extends RelativeLayout {
 	}
 
 	public void setDownloadFailNoContent() {
-		// Show the view
+		// show the view
 		setVisibility(View.VISIBLE);
 
-		// Hide the progress bar
+		// hide the progress bar
 		mProgressBar.setVisibility(View.GONE);
 
-		// Show the load result layout
+		// show the load result layout
 		mLoadResultLayout.setVisibility(View.VISIBLE);
 
-		// Show the image and message
+		// show the image and message
 		mImageView.setImageDrawable(getResources().getDrawable(
 				R.drawable.ic_empty_news));
 		mMessageTextView.setText(getResources().getString(
