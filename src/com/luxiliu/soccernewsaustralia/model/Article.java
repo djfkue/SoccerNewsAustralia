@@ -10,7 +10,8 @@ import org.dom4j.Element;
 import org.dom4j.Node;
 
 /**
- * The Article class represents the <article> element in the feed content
+ * The Article class represents the <article> element in the goal.com article
+ * feed content.
  * 
  * @author Luxi Liu (luxi.liu@gmail.com)
  * 
@@ -42,25 +43,25 @@ public class Article {
 
 	public Article(Document document) {
 		if (document != null) {
-			// Get root element from the document
+			// get root element from the XML document
 			Element rootElement = document.getRootElement();
 
-			// Get article element
+			// get <article> element
 			Element element = (Element) rootElement
 					.selectSingleNode(NODE_ARTICLE);
 
-			// Element must not be null, and its name must be "article"
+			// element must not be null, and its name should be "article"
 			if (element != null && element.getName().equals(ELEMENT_NAME)) {
-				// Attribute "id"
+				// attribute "id"
 				mId = element.attributeValue(ATTRIBUTE_ID_NAME);
 
-				// title
+				// <title>
 				mTitle = element.elementTextTrim(TAG_TITLE);
 
-				// description
+				// <description>
 				mDescription = element.elementTextTrim(TAG_DESCRIPTION);
 
-				// publishedDate
+				// <publishedDate>
 				try {
 					String dateStr = element
 							.elementTextTrim(TAG_PUBLISHED_DATE);
@@ -73,33 +74,33 @@ public class Article {
 					e.printStackTrace();
 				}
 
-				// author
+				// <author>
 				mAuthor = element.elementTextTrim(TAG_AUTHOR);
 
-				// articleText
+				// <articleText>
 				mArticleText = element.elementTextTrim(TAG_ARTICLE_TEXT);
 
-				// images/image
+				// <images>/<image>
 				Node imageNode = element.selectSingleNode(NODE_IMAGES_IMAGE);
 				if (imageNode != null) {
 					mImageUrl = imageNode.getText();
 				}
 
-				// images/thumbnail
+				// <images>/<thumbnail>
 				Node thumbnailNode = element
 						.selectSingleNode(NODE_IMAGES_THUMBNAIL);
 				if (thumbnailNode != null) {
 					mThumbnailUrl = thumbnailNode.getText();
 				}
 
-				// urls/mobileSite
+				// <urls>/<mobileSite>
 				Node mobileSiteNode = element
 						.selectSingleNode(NODE_URLS_MOBILE_SITE);
 				if (mobileSiteNode != null) {
 					mMobileSiteUrl = mobileSiteNode.getText();
 				}
 
-				// urls/websiteLink
+				// <urls>/<websiteLink>
 				Node websiteLinkNode = element
 						.selectSingleNode(NODE_URLS_WEBSITE_LINK);
 				if (websiteLinkNode != null) {

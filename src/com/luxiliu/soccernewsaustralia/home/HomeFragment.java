@@ -33,7 +33,7 @@ import com.luxiliu.soccernewsaustralia.home.aleague.ALeagueFragment;
 import com.luxiliu.soccernewsaustralia.home.socceroos.SocceroosFragment;
 import com.luxiliu.soccernewsaustralia.home.wleague.WLeagueFragment;
 import com.luxiliu.soccernewsaustralia.home.yleague.YLeagueFragment;
-import com.luxiliu.soccernewsaustralia.model.Content;
+import com.luxiliu.soccernewsaustralia.model.Feed;
 import com.luxiliu.soccernewsaustralia.model.News;
 import com.luxiliu.soccernewsaustralia.model.Page;
 import com.luxiliu.soccernewsaustralia.net.ConnectionManager;
@@ -89,9 +89,9 @@ public abstract class HomeFragment extends Fragment implements
 			switch (msg.what) {
 			case FeedManager.REQUEST_DOWNLOAD_FEED_COMPLETE:
 				// Feed download succeed
-				Content content = (Content) msg.getData().getSerializable(
+				Feed feed = (Feed) msg.getData().getSerializable(
 						FeedManager.KEY_FEED_CONTENTS);
-				onRequestDownloadComplete(content);
+				onRequestDownloadComplete(feed);
 				break;
 
 			case FeedManager.REQUEST_DOWNLOAD_FEED_FAIL:
@@ -226,17 +226,17 @@ public abstract class HomeFragment extends Fragment implements
 		}
 	}
 
-	private void onRequestDownloadComplete(Content content) {
+	private void onRequestDownloadComplete(Feed feed) {
 		if (mState == State.INITIALIZE_DOWNLOADING) {
 			// Initialize complete
-			onInitializeDownloadComplete(content);
+			onInitializeDownloadComplete(feed);
 		} else if (mState == State.PULL_TO_REFRESH_DOWNLOADING) {
 			// Pull to refresh download complete
-			onPullToRefreshDownloadComplete(content);
+			onPullToRefreshDownloadComplete(feed);
 		} else if (mState == State.LOAD_MORE_DOWNLOADING) {
 			// Load more download complete
 			onLoadMoreDownloadComplete(mPageList,
-					new Page(content.getDocument()));
+					new Page(feed.getDocument()));
 		}
 	}
 
@@ -263,13 +263,13 @@ public abstract class HomeFragment extends Fragment implements
 		mLoadingView.setDownloading();
 	}
 
-	private void onInitializeDownloadComplete(Content content) {
+	private void onInitializeDownloadComplete(Feed feed) {
 		mState = State.INITIALIZE_DOWNLOAD_COMPLETE;
 		Log.d(LOG_TAG, mState.toString());
 
 		// Clear page list, and add the new page
 		mPageList.clear();
-		mPageList.add(new Page(content.getDocument()));
+		mPageList.add(new Page(feed.getDocument()));
 
 		// Update view
 		mPullToRefreshLayout.setEnabled(true);
@@ -312,14 +312,14 @@ public abstract class HomeFragment extends Fragment implements
 		mLoadingView.setVisibility(View.INVISIBLE);
 	}
 
-	private void onPullToRefreshDownloadComplete(Content content) {
+	private void onPullToRefreshDownloadComplete(Feed feed) {
 		mState = State.PULL_TO_REFRESH_DOWNLOAD_COMPLETE;
 		Log.d(LOG_TAG, mState.toString());
 
 		// Pull to refresh does not keep previous page
 		// Clear page list and add the new page
 		mPageList.clear();
-		mPageList.add(new Page(content.getDocument()));
+		mPageList.add(new Page(feed.getDocument()));
 
 		// Update view
 		mPullToRefreshLayout.setEnabled(true);

@@ -9,10 +9,10 @@ import java.util.Locale;
 import org.dom4j.Element;
 import org.dom4j.Node;
 
-import com.luxiliu.soccernewsaustralia.model.Page.Type;
+import com.luxiliu.soccernewsaustralia.model.Feed.Type;
 
 /**
- * The News class represents <item> element in the feed content
+ * The News class represents <item> element in the goal.com feed and FFA feed
  * 
  * @author Luxi Liu (luxi.liu@gmail.com)
  * 
@@ -67,24 +67,25 @@ public class News implements Serializable {
 	}
 
 	private void parseGoalFeedNews(Element element) {
-		// Element must not be null;
-		// Element name must be "item"
-		// Element attribute "type" must not be null
-		// Element attribute "type" must be "news"
+		// element must not be null;
+		// element name must be "item"
+		// element attribute "type" must not be null
+		// element attribute "type" must be "news"
 		if (element != null
 				&& element.getName().equals(GOAL_FEED_ELEMENT_NAME)
 				&& element.attributeValue(GOAL_FEED_ATTRIBUTE_TYPE_NAME) != null
 				&& element.attributeValue(GOAL_FEED_ATTRIBUTE_TYPE_NAME)
 						.equals(GOAL_FEED_ATTRIBUTE_TYPE_VALUE)) {
 
-			// Attribute "id"
+			// attribute "id"
 			mId = element.attributeValue(GOAL_FEED_ATTRIBUTE_ID_NAME);
 
-			// publishedDate
+			// <publishedDate>
 			try {
 				String dateStr = element
 						.elementTextTrim(GOAL_FEED_TAG_PUBLISHED_DATE);
 				if (dateStr != null) {
+					// 2014-04-27 05:07:26 +0100
 					mPublishedDate = new SimpleDateFormat(
 							"yyyy-MM-dd HH:mm:ss Z", Locale.getDefault())
 							.parse(dateStr);
@@ -93,41 +94,41 @@ public class News implements Serializable {
 				e.printStackTrace();
 			}
 
-			// title
+			// <title>
 			mTitle = element.elementTextTrim(GOAL_FEED_TAG_TITLE);
 
-			// description
+			// <description>
 			mDescription = element.elementTextTrim(GOAL_FEED_TAG_DESCRIPTION);
 
-			// images/image
+			// <images>/<image>
 			Node imageNode = element
 					.selectSingleNode(GOAL_FEED_NODE_IMAGES_IMAGE);
 			if (imageNode != null) {
 				mImageUrl = imageNode.getText();
 			}
 
-			// images/thumbnail
+			// <images>/<thumbnail>
 			Node thumbnailNode = element
 					.selectSingleNode(GOAL_FEED_NODE_IMAGES_THUMBNAIL);
 			if (thumbnailNode != null) {
 				mThumbnailUrl = thumbnailNode.getText();
 			}
 
-			// urls/feedLink
+			// <urls>/<feedLink>
 			Node feedLinkNode = element
 					.selectSingleNode(GOAL_FEED_NODE_URLS_FEED_LINK);
 			if (feedLinkNode != null) {
 				mFeedLinkUrl = feedLinkNode.getText();
 			}
 
-			// urls/webviewLink
+			// <urls>/<webviewLink>
 			Node webviewLinkNode = element
 					.selectSingleNode(GOAL_FEED_NODE_URLS_WEBVIEW_LINK);
 			if (webviewLinkNode != null) {
 				mWebviewLinkUrl = webviewLinkNode.getText();
 			}
 
-			// urls/websiteLink
+			// <urls>/<websiteLink>
 			Node websiteLinkNode = element
 					.selectSingleNode(GOAL_FEED_NODE_URLS_WEBSITE_LINK);
 			if (websiteLinkNode != null) {
@@ -137,17 +138,19 @@ public class News implements Serializable {
 	}
 
 	private void parseFfaFeedNews(Element element) {
+		// element must not be null;
+		// element name must be "item"
 		if (element != null && element.getName().equals(FFA_FEED_ELEMENT_NAME)) {
-			// title
+			// <title>
 			mTitle = element.elementTextTrim(FFA_FEED_TAG_TITLE);
 
-			// link
+			// <link>
 			mWebsiteLinkUrl = element.elementText(FFA_FEED_TAG_LINK);
 
-			// description
+			// <description>
 			mDescription = element.elementText(FFA_FEED_TAG_DESCRIPTION);
 
-			// pubDate
+			// <pubDate>
 			try {
 				String dateStr = element.elementTextTrim(FFA_FEED_TAG_PUB_DATE);
 				if (dateStr != null) {

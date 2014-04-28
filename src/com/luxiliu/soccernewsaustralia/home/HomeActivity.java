@@ -143,9 +143,9 @@ public class HomeActivity extends SNAActivity {
 		super.onSaveInstanceState(outState);
 
 		// Save mHomePage instance
-		outState.putInt(Intent.EXTRA_UID,
-				HomeFragment.getHomeFragment(mPager.getCurrentItem())
-						.getInternalId());
+		//outState.putInt(Intent.EXTRA_UID,
+		//		HomeFragment.getHomeFragment(mPager.getCurrentItem())
+		//				.getInternalId());
 	}
 
 	private void updateViewOnFragmentChange(HomeFragment homeFragment) {

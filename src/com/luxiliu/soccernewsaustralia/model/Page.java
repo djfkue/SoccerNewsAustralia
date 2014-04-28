@@ -6,17 +6,16 @@ import java.util.List;
 import org.dom4j.Document;
 import org.dom4j.Element;
 
+import com.luxiliu.soccernewsaustralia.model.Feed.Type;
+
 /**
- * The Page class represents the <resultsList> element in the feed content
+ * The Page class represents the news list content in the goal.com feed and FFA
+ * feed
  * 
  * @author Luxi Liu (luxi.liu@gmail.com)
  * 
  */
 public class Page {
-	public enum Type {
-		GoalFeed, FfaFeed, InvalidFeed
-	}
-
 	private static final String GOAL_FEED_ROOT_ELEMENT_NAME = "data";
 	private static final String GOAL_FEED_NODE_ITEM = "results/resultsList/item";
 	private static final String GOAL_FEED_NODE_PAGINATION = "results/resultsList/pagination";
@@ -38,13 +37,15 @@ public class Page {
 		mNewsList = new ArrayList<News>();
 
 		if (document != null) {
-			// Get root element from document
+			// get root element from document
 			Element rootElement = document.getRootElement();
 
 			if (rootElement.getName().equals(GOAL_FEED_ROOT_ELEMENT_NAME)) {
+				// parse goal feed content
 				mType = Type.GoalFeed;
 				parseGoalFeedPage(rootElement);
 			} else if (rootElement.getName().equals(FFA_FEED_ROOT_ELEMENT_NAME)) {
+				// parse FFA feed content
 				mType = Type.FfaFeed;
 				parseFfaFeedPage(rootElement);
 			}
@@ -52,18 +53,18 @@ public class Page {
 	}
 
 	private void parseGoalFeedPage(Element rootElement) {
-		// Get all the item nodes
+		// get all the item nodes
 		@SuppressWarnings("unchecked")
 		List<Element> itemElementList = (List<Element>) rootElement
 				.selectNodes(GOAL_FEED_NODE_ITEM);
 
-		// Create News object and add into list
+		// create News object and add into list
 		for (Element itemElement : itemElementList) {
 			News news = new News(itemElement, mType);
 			mNewsList.add(news);
 		}
 
-		// Get pagination
+		// get pagination
 		Element paginationElement = (Element) rootElement
 				.selectSingleNode(GOAL_FEED_NODE_PAGINATION);
 		mCurrentPage = Integer.valueOf(paginationElement
@@ -75,17 +76,18 @@ public class Page {
 	}
 
 	private void parseFfaFeedPage(Element rootElement) {
-		// Get all the item nodes
+		// get all the item nodes
 		@SuppressWarnings("unchecked")
 		List<Element> itemElementList = (List<Element>) rootElement
 				.selectNodes(FFA_FEED_NODE_ITEM);
 
-		// Create News object and add into list
+		// create News object and add into list
 		for (Element itemElement : itemElementList) {
 			News news = new News(itemElement, mType);
 			mNewsList.add(news);
 		}
 
+		// FFA feed has only one page
 		mCurrentPage = 0;
 		mHasPreviousPage = false;
 		mHasNextPage = false;

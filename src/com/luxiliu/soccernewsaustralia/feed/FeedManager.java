@@ -13,7 +13,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
-import com.luxiliu.soccernewsaustralia.model.Content;
+import com.luxiliu.soccernewsaustralia.model.Feed;
 
 /**
  * The FeedManager class provides methods to download feed content from provider
@@ -42,7 +42,7 @@ public final class FeedManager {
 	}
 
 	private static class DownloadTask extends
-			AsyncTask<String, Integer, Content> {
+			AsyncTask<String, Integer, Feed> {
 		private static final int CONNECTION_TIMEOUT = 5000;
 		private static final int READ_TIMEOUT = 5000;
 		private Handler mHandler;
@@ -52,12 +52,12 @@ public final class FeedManager {
 		}
 
 		@Override
-		protected Content doInBackground(String... urls) {
+		protected Feed doInBackground(String... urls) {
 			// These error may cause page null
 			// No network connection; Cannot reach feed host, connection
 			// timeout, invalid content, and etc.
 
-			Content content = null;
+			Feed feed = null;
 			URL url = null;
 
 			try {
@@ -76,8 +76,8 @@ public final class FeedManager {
 						// Get input stream from connection
 						inputStream = connection.getInputStream();
 
-						// Transform into Content instance
-						content = new Content(new SAXReader().read(inputStream));
+						// Transform into Feed instance
+						feed = new Feed(new SAXReader().read(inputStream));
 					} catch (Exception e) {
 						e.printStackTrace();
 					} finally {
@@ -93,16 +93,16 @@ public final class FeedManager {
 				e.printStackTrace();
 			}
 
-			return content;
+			return feed;
 		}
 
 		@Override
-		protected void onPostExecute(Content content) {
+		protected void onPostExecute(Feed feed) {
 			Message message = mHandler.obtainMessage();
 
-			if (content != null) {
+			if (feed != null) {
 				Bundle bundle = new Bundle();
-				bundle.putSerializable(KEY_FEED_CONTENTS, content);
+				bundle.putSerializable(KEY_FEED_CONTENTS, feed);
 				message.setData(bundle);
 				message.what = FeedManager.REQUEST_DOWNLOAD_FEED_COMPLETE;
 			} else {

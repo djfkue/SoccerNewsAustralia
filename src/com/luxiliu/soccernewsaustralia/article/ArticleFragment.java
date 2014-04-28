@@ -20,7 +20,7 @@ import android.view.ViewGroup;
 import com.luxiliu.soccernewsaustralia.R;
 import com.luxiliu.soccernewsaustralia.feed.FeedManager;
 import com.luxiliu.soccernewsaustralia.model.Article;
-import com.luxiliu.soccernewsaustralia.model.Content;
+import com.luxiliu.soccernewsaustralia.model.Feed;
 import com.luxiliu.soccernewsaustralia.model.News;
 import com.luxiliu.soccernewsaustralia.net.ConnectionManager;
 import com.luxiliu.soccernewsaustralia.widget.LoadingView;
@@ -58,9 +58,9 @@ public class ArticleFragment extends Fragment {
 
 			switch (msg.what) {
 			case FeedManager.REQUEST_DOWNLOAD_FEED_COMPLETE:
-				Content content = (Content) msg.getData().getSerializable(
+				Feed feed = (Feed) msg.getData().getSerializable(
 						FeedManager.KEY_FEED_CONTENTS);
-				onRequestDownloadComplete(content);
+				onRequestDownloadComplete(feed);
 				break;
 
 			case FeedManager.REQUEST_DOWNLOAD_FEED_FAIL:
@@ -192,10 +192,10 @@ public class ArticleFragment extends Fragment {
 		return super.onOptionsItemSelected(item);
 	}
 
-	private void onRequestDownloadComplete(Content content) {
+	private void onRequestDownloadComplete(Feed feed) {
 		if (mState == State.INITIALIZE_DOWNLOADING) {
 			// Initialize complete
-			onInitializeDownloadComplete(content);
+			onInitializeDownloadComplete(feed);
 		}
 	}
 
@@ -214,11 +214,11 @@ public class ArticleFragment extends Fragment {
 		mArticleView.setVisibility(View.INVISIBLE);
 	}
 
-	private void onInitializeDownloadComplete(Content content) {
+	private void onInitializeDownloadComplete(Feed feed) {
 		mState = State.INITIALIZE_DOWNLOAD_COMPLETE;
 		Log.d(LOG_TAG, mState.toString());
 
-		mArticle = new Article(content.getDocument());
+		mArticle = new Article(feed.getDocument());
 		mLoadingView.setDownloadComplete();
 		
 		showArticle(mArticle);
