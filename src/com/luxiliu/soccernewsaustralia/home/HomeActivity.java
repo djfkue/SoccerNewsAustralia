@@ -39,7 +39,7 @@ public class HomeActivity extends SNAActivity {
 		if (savedInstanceState == null) {
 			setupContent();
 		} else {
-			// no need to restore content as onPageSelected will be called
+			restoreContent(savedInstanceState);
 		}
 	}
 
@@ -89,20 +89,24 @@ public class HomeActivity extends SNAActivity {
 				invalidateOptionsMenu();
 
 				// set new home fragment
-				updateViewOnFragmentChange(HomeFragment
-						.getHomeFragment(position));
-
-				// set title as application name if drawer is open
-				if (mDrawerLayout.isDrawerOpen(mNavDrawerFragment.getView())) {
-					setTitle(R.string.app_name);
-				}
+				updateViewOnFragmentChange(
+						HomeFragment.getHomeFragment(position), null);
 			}
 		});
 	}
 
 	private void setupContent() {
 		// setup initial home fragment
-		updateViewOnFragmentChange(HomeFragment.getHomeFragment(0));
+		updateViewOnFragmentChange(HomeFragment.getHomeFragment(0), null);
+	}
+
+	private void restoreContent(Bundle savedInstanceState) {
+		int homeFragmentId = savedInstanceState.getInt(Intent.EXTRA_UID);
+		String savedTitle = savedInstanceState.getString(Intent.EXTRA_TITLE);
+
+		// restore previous fragment
+		updateViewOnFragmentChange(
+				HomeFragment.getHomeFragment(homeFragmentId), savedTitle);
 	}
 
 	@Override
@@ -123,7 +127,7 @@ public class HomeActivity extends SNAActivity {
 		HomeFragment homeFragment = HomeFragment
 				.getHomeFragment(homeFragmentId);
 
-		updateViewOnFragmentChange(homeFragment);
+		updateViewOnFragmentChange(homeFragment, null);
 	}
 
 	@Override
@@ -142,9 +146,22 @@ public class HomeActivity extends SNAActivity {
 		return super.onOptionsItemSelected(item);
 	}
 
-	private void updateViewOnFragmentChange(HomeFragment homeFragment) {
-		// set title
-		setTitle(homeFragment.getTitle(this));
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+
+		outState.putInt(Intent.EXTRA_UID, mPager.getCurrentItem());
+		outState.putString(Intent.EXTRA_TITLE, getTitle().toString());
+	}
+
+	private void updateViewOnFragmentChange(HomeFragment homeFragment,
+			String savedTitle) {
+		// update title
+		if (savedTitle != null) {
+			setTitle(savedTitle);
+		} else {
+			setTitle(homeFragment.getTitle(this));
+		}
 
 		// update view pager
 		mPager.setCurrentItem(homeFragment.getInternalId(), true);
