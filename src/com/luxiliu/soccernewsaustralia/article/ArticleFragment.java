@@ -2,6 +2,9 @@ package com.luxiliu.soccernewsaustralia.article;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -17,6 +20,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ScrollView;
+
 import com.luxiliu.soccernewsaustralia.R;
 import com.luxiliu.soccernewsaustralia.feed.FeedManager;
 import com.luxiliu.soccernewsaustralia.model.Article;
@@ -24,6 +29,7 @@ import com.luxiliu.soccernewsaustralia.model.Feed;
 import com.luxiliu.soccernewsaustralia.model.News;
 import com.luxiliu.soccernewsaustralia.net.ConnectionManager;
 import com.luxiliu.soccernewsaustralia.widget.LoadingView;
+import com.luxiliu.soccernewsaustralia.widget.NotifyingScrollView;
 
 /**
  * The ArticleFragment provides a fragment to display feed content article
@@ -49,6 +55,18 @@ public class ArticleFragment extends Fragment {
 
 	private LoadingView mLoadingView;
 	private ArticleView mArticleView;
+
+    private Drawable mActionBarBackgroundDrawable;
+    private NotifyingScrollView.OnScrollChangedListener mOnScrollChangedListener = new NotifyingScrollView.OnScrollChangedListener() {
+        public void onScrollChanged(ScrollView who, int l, int t, int oldl, int oldt) {
+            final int headerHeight = mArticleView.findViewById(R.id.image).getHeight() - getActivity().getActionBar().getHeight();
+            final float ratio = (float) Math.min(Math.max(t, 0), headerHeight) / headerHeight;
+            final int newAlpha = (int) (ratio * 255);
+            mActionBarBackgroundDrawable.setAlpha(newAlpha);
+
+            mArticleView.findViewById(R.id.image).setTranslationY(  t / 2 );
+        }
+    };
 
 	private Handler mHandler = new Handler(Looper.getMainLooper()) {
 
@@ -107,6 +125,13 @@ public class ArticleFragment extends Fragment {
 
 		// get article view
 		mArticleView = (ArticleView) view.findViewById(R.id.article);
+
+        mActionBarBackgroundDrawable = new ColorDrawable(Color.argb(0xff, 0x66, 0x99, 0x00));
+        mActionBarBackgroundDrawable.setAlpha(0);
+        getActivity().getActionBar().setBackgroundDrawable(mActionBarBackgroundDrawable);
+
+        NotifyingScrollView notifyingScrollView = (NotifyingScrollView)mArticleView.findViewById(R.id.scroll_view);
+        notifyingScrollView.setOnScrollChangedListener(mOnScrollChangedListener);
 
 		return view;
 	}

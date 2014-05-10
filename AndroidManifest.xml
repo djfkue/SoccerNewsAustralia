@@ -38,7 +38,7 @@
         <activity
             android:name="com.luxiliu.soccernewsaustralia.article.ArticleActivity"
             android:launchMode="singleTask"
-            android:theme="@style/AppTheme" >
+            android:theme="@style/OverLayAppTheme" >
         </activity>
         <activity
             android:name="com.luxiliu.soccernewsaustralia.preference.SettingsActivity"

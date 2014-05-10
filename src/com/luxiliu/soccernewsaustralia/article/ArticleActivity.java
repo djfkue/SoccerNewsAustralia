@@ -1,10 +1,14 @@
 package com.luxiliu.soccernewsaustralia.article;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.WindowManager;
+
 import com.luxiliu.soccernewsaustralia.R;
 import com.luxiliu.soccernewsaustralia.activity.SNAActivity;
 import com.luxiliu.soccernewsaustralia.model.News;

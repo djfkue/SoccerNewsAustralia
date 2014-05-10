@@ -2,6 +2,10 @@
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar"></style>
 
+    <style name="OverLayAppTheme" parent="AppTheme">
+        <item name="android:windowActionBarOverlay">true</item>
+    </style>
+
     <style name="AppPullToRefreshTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="ptrHeaderStyle">@style/Widget.Custom.PtrHeader</item>
     </style>
